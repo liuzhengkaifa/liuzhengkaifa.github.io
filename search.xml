@@ -1,6 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>ant 使用分享</title>
+    <url>/2021/11/11/ant-%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB/</url>
+    <content><![CDATA[<h1 id="一、概述、功能"><a href="#一、概述、功能" class="headerlink" title="一、概述、功能"></a>一、概述、功能</h1><ol>
+<li>Ant是Java的生成工具，是Apache的核心项目，并且是Ant是跨平台的</li>
+<li>Ant的主要目的就是把你想做的事情自动化，不用你手动一步一步做，因为里面内置了javac、java、创建目录、复制文件等功能，所以可以直接点击Ant文件，即可编译生成你的项目</li>
+<li>可以实现件夹、文件新增、复制、删除，压缩等一系列操作；可以编译java文件，打jar包，实现项目的编译部署工作；通过ftp，可以与服务器建立连接，传文件，执行远程服务器脚本操作</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="二、安装使用"><a href="#二、安装使用" class="headerlink" title="二、安装使用"></a>二、安装使用</h1><h2 id="1-Windows环境"><a href="#1-Windows环境" class="headerlink" title="1. Windows环境"></a>1. Windows环境</h2><p>1：下载ant包：<a href="http://ant.apache.org/bindownload.cgi">http://ant.apache.org/bindownload.cgi</a></p>
+<p>2：提前配置java环境变量，配置好JAVA_HOME为jdk主目录；</p>
+<p>3：新建环境变量ANT_HOME：值为ANT的主目录；</p>
+<p>4：在path中配置%ANT_HOME%/bin；</p>
+<p>5：配置完成之后，打开命令行，输入ant，当出现“Buildfile: build.xml does not exist! Build failed”时说明配置完成；</p>
+<h2 id="2-Linux环境"><a href="#2-Linux环境" class="headerlink" title="2. Linux环境"></a>2. Linux环境</h2><p>1：下载ant包：<a href="http://ant.apache.org/bindownload.cgi">http://ant.apache.org/bindownload.cgi</a>  例如apache-ant-1.10.4-bin.tar.gz</p>
+<p>2：复制到Linux /usr目录下 解压、改变权限</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tar -zxvf  apac-ant-1.10.4-bin.tar.gz</span><br><span class="line">chmod 777  apache-ant-1.10.4</span><br></pre></td></tr></table></figure>
+
+<p>3：修改系统环境变量</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vi /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>4：在文件最后两行加上</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#set Ant enviroment</span><br><span class="line">export ANT_HOME=/usr/apache-ant-1.9.2</span><br><span class="line">export PATH=$PATH:$ANT_HOME/bin</span><br></pre></td></tr></table></figure>
+
+<p>5：使环境变量生效</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>6：测试ant是否生效：</p>
+<p>​     输入ant -version 即可，出现版本号，证明安装成功</p>
+<h1 id="三、入门使用"><a href="#三、入门使用" class="headerlink" title="三、入门使用"></a>三、入门使用</h1><h3 id="1-执行"><a href="#1-执行" class="headerlink" title="1. 执行"></a>1. 执行</h3><p>ant的默认生成文件为build.xml</p>
+<p>Win+R 运行cmd 命令行输入ant后，ant会在当前目录搜索是否有build.xml,如果有则执行；也可以自定义xml文件，执行 ant -f test.xml 执行当前目录下 test.xml文件</p>
+<h3 id="2-执行文件架构"><a href="#2-执行文件架构" class="headerlink" title="2.执行文件架构"></a>2.执行文件架构</h3><p>Ant可执行文件格式是xml,整体结构为</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;project default=&quot;targetname&quot;&gt;  </span><br><span class="line">    &lt;target name=&quot;name&quot;&gt;  </span><br><span class="line">    &lt;/target&gt;  </span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+
+<p>project 是执行文件的根元素，表示一个项目</p>
+<p>target是project的子元素，表示一个任务；一个project中可以定义多个target元素，表示多个任务；</p>
+<p>default 属性 表示这个项目默认执行的任务是那个，对应target 的name属性</p>
+<p>直接输入 ant targetname; 则会执行具体的target任务，从而忽略default设置的target，target 的name属性不能重复，是target任务的唯一属性</p>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> &lt;!-- 删除D:\project\targeet下的classes目录，完成后输出All Done! --&gt;</span><br><span class="line">&lt;project default=&quot;deploy&quot;&gt;</span><br><span class="line">    &lt;!-- 定义路径 --&gt;</span><br><span class="line">    &lt;property name=&quot;path&quot; location=&quot;D:\project&quot;/&gt;</span><br><span class="line">    &lt;property name=&quot;dir.path&quot; location=&quot;$&#123;path&#125;/target/classes&quot; /&gt;</span><br><span class="line">	&lt;target name=&quot;clean&quot; &gt;</span><br><span class="line">		&lt;delete dir=&quot;$&#123;dir.path&#125;&quot;/&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">	&lt;target name=&quot;deploy&quot; depends=&quot;clean&quot;&gt;</span><br><span class="line">		&lt;echo message=&quot;All Done !&quot; /&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="四、详细属性介绍"><a href="#四、详细属性介绍" class="headerlink" title="四、详细属性介绍"></a>四、详细属性介绍</h1><h2 id="一、Xml元素详解"><a href="#一、Xml元素详解" class="headerlink" title="一、Xml元素详解"></a>一、Xml元素详解</h2><h4 id="1-project元素"><a href="#1-project元素" class="headerlink" title="1. project元素"></a>1. project元素</h4><p>Ant生成文件的根元素，一般形式如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;project default=&quot;    &quot;[ basedir=&quot;.&quot; ] [name=&quot;projectname&quot;]&gt;</span><br></pre></td></tr></table></figure>
+
+<p>default的值是默认执行的target名；<br>basedir是指定基准目录，一般都是basedir=”.”；<br>name是指工程名字。</p>
+<h4 id="2-target元素"><a href="#2-target元素" class="headerlink" title="2. target元素"></a>2. target元素</h4><p>是project元素的子元素，在project元素中能够有多个target；一般形式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;target name=&quot; &quot;  [ depends=&quot;A&quot;]  [ if =&quot;prop1&quot;] [ unless=&quot;prop2&quot;]&gt;</span><br><span class="line">&lt;/target&gt;</span><br></pre></td></tr></table></figure>
+
+<p>name表示target的名称；<br>depends中填写其他target名称(可以有多个名称，用逗号分割)，表示只有targetA完成之后才能够做此target，如果执行此target，则会先执行A；<br>if的值表示一个属性名，只有设置了该属性名，才能执行此target；<br>unless的值表示一个属性名，只有没有设置该属性名，才能执行此target。</p>
+<h4 id="3-property元素"><a href="#3-property元素" class="headerlink" title="3. property元素"></a>3. property元素</h4><p>project的子元素，用于定义属性，一般形如：<br><code>&lt;property name=&quot;pname&quot; value=&quot;pvalue&quot;/&gt;</code><br>如果要使用此property，则需要${pname}，类似于表达式语言；<br>&lt;property file=”a.properties”/&gt;通过此属性文件导入属性；<br>如果单纯想使用$，则通过$$表示。</p>
+<h2 id="二、Task详解"><a href="#二、Task详解" class="headerlink" title="二、Task详解"></a>二、Task详解</h2><p>在Ant中task是target的子元素，即一个target中可以有多个task；Task可以分以下三类</p>
+<p>（1）核心Task</p>
+<p>（2）可选Task</p>
+<p>（3）自定义task</p>
+<h5 id="1-echo"><a href="#1-echo" class="headerlink" title="1:echo"></a>1:echo</h5><p>用于单纯输出，例如</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;echo&gt;hello word&lt;/echo&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-zip"><a href="#2-zip" class="headerlink" title="2: zip"></a><strong>2</strong>: zip</h5><p>压缩文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;zip destfile=&quot;目标文件.zip&quot;&gt;</span><br><span class="line">   &lt;zipfileset dir=&quot;要压缩的文件内容&quot; prefix=&quot;citsb2b&quot;&gt;   &lt;/zipfileset&gt; --将要压缩的文件存放到citsb2b下</span><br><span class="line">&lt;/zip&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-scp"><a href="#3-scp" class="headerlink" title="3: scp"></a>3: scp</h5><p>示例代码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;scp todir=&quot;$&#123;weblogicUser&#125;:$&#123;weblogicPwd&#125;@$&#123;weblogicSvr&#125;:$&#123;weblogicPath&#125;&quot; trust=&quot;true&quot;&gt;</span><br><span class="line"> &lt;fileset dir=&quot;$&#123;outputDir&#125;&quot;&gt;</span><br><span class="line"> &lt;!-- 上传全量包--&gt;</span><br><span class="line"> &lt;include name=&quot;**/*$&#123;DSTAMP&#125;_$&#123;TSTAMP&#125;*&quot; /&gt;</span><br><span class="line"> &lt;exclude name=&quot;**/*$&#123;DSTAMP&#125;_$&#123;TSTAMP&#125;_Patch*&quot; /&gt;</span><br><span class="line"> &lt;/fileset&gt;</span><br><span class="line">&lt;/scp&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-sshexec"><a href="#4-sshexec" class="headerlink" title="4: sshexec"></a>4: sshexec</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;sshexec host=&quot;$&#123;weblogicSvr&#125;&quot; username=&quot;$&#123;weblogicUser&#125;&quot; password=&quot;$&#123;weblogicPwd&#125;&quot; command=&quot;cd $&#123;weblogicPath&#125;;cd ..; sh restart.sh $&#123;citsonline_outputName&#125; $&#123;citsb2b_outputName&#125;&quot; trust=&quot;true&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-javac"><a href="#5-javac" class="headerlink" title="5: javac"></a>5: javac</h5><p> 用来编译java文件，一般形式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;javac srcdir=&quot;src&quot; destdir=&quot;class&quot; [classpath=&quot; &quot;]/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>srcdir是编译此文件夹下或子文件夹下的全部java文件;<br>destdir是编译后的class文件放置路径；<br>classpath指定第三方类库；</p>
+<h5 id="6-java"><a href="#6-java" class="headerlink" title="6: java"></a>6: java</h5><p>运行java类，一般形式如下： </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Java classname=&quot; &quot; fork=&quot;yes&quot;&gt;</span><br><span class="line">    【&lt;arg line=&quot;param1   param2   param3&quot;/&gt;】</span><br><span class="line">&lt;/java&gt;</span><br></pre></td></tr></table></figure>
+
+<p>classname用于指定运行的类名称；<br>fork=”yes”表示另起一个JVM来执行java命令，而不是中断ANT命令，因此fork必须为yes；</p>
+<h5 id="7-jar"><a href="#7-jar" class="headerlink" title="7: jar"></a>7: jar</h5><p>将文件目录或者文件达成jar包，一般形式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;jar basedir=&quot;citsonlineBase/classes&quot;   destfile=&quot;citsonlineBase.jar&quot; /&gt;</span><br><span class="line">或者</span><br><span class="line">&lt;jar destfile=&quot;main.jar&quot; basedir=&quot; &quot;&gt;</span><br><span class="line">    &lt;manifest&gt;</span><br><span class="line">        &lt;attribute name=&quot;Main-Class&quot; value=&quot;classname&quot;/&gt;  &lt;!--指定主类--&gt;</span><br><span class="line">    &lt;/manifest&gt;</span><br><span class="line">&lt;/jar&gt;</span><br></pre></td></tr></table></figure>
+
+<p>destfiie的值为jar包的名称，一般为<code>$&#123;dest&#125;/main.jar</code>；<br>basedir的值是需要打成jar包的目录，一般为${classes}；<br>manifest表示设置META-INF； </p>
+<h5 id="8-mkdir"><a href="#8-mkdir" class="headerlink" title="8: mkdir"></a>8: mkdir</h5><p>创建目录，可以多层创建，比如a\b\c，则可以连续创建，一般形式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;mkdir dir=&quot;a\b&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="9-delete"><a href="#9-delete" class="headerlink" title="9: delete"></a>9: delete</h5><p>删除目录，一般形式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;delete dir=&quot;a\b&quot;/&gt; 可以删除a目录下的b目录；</span><br><span class="line">&lt;delete file=&quot;1.txt&quot;/&gt;可以删除文件；</span><br></pre></td></tr></table></figure>
+
+<h5 id="10-tstamp"><a href="#10-tstamp" class="headerlink" title="10: tstamp"></a>10: tstamp</h5><p>时间戳，一般形式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;tstamp /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接下来可以使用${DSTAMP}进行调用当前时间；</p>
+<h5 id="11-copy"><a href="#11-copy" class="headerlink" title="11: copy"></a>11: copy</h5><p> 复制文件，一般形式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;copy file=&quot;file1&quot; tofile=&quot;file2&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>file是源文件；<br>tofile是目标文件；</p>
+<h5 id="12-move"><a href="#12-move" class="headerlink" title="12: move"></a>12: move</h5><p> 移动文件，一般形式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;move file=&quot;file1&quot; tofile=&quot;file2&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>file是源文件；<br>tofile是目标文件；</p>
+<h5 id="13-replace"><a href="#13-replace" class="headerlink" title="13: replace"></a>13: replace</h5><p>用于替换字符串，类似于String的replace操作，一般形式如下：</p>
+<p>file表示要执行替换的文件；<br>token表示被替换的字符串；<br>value表示替换的字符串。</p>
+<h1 id="五、示例代码"><a href="#五、示例代码" class="headerlink" title="五、示例代码"></a>五、示例代码</h1><h2 id="一、示例一：deploy-clean-windows-xml"><a href="#一、示例一：deploy-clean-windows-xml" class="headerlink" title="一、示例一：deploy_clean_windows.xml"></a>一、示例一：deploy_clean_windows.xml</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!-- 将服务器目录下文件删除，将重新生成的编译文件以指定格式传到服务器指定目录下 --&gt;</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project name=&quot;citsonlinePJ&quot; default=&quot;deploy&quot;&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 配置信息 Start--&gt;</span><br><span class="line">	&lt;property name=&quot;projectHome&quot;  value=&quot;D:\project\citsb2b\workspace&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;outputDir&quot;    value=&quot;D:\project\citsb2b\tools\wls1036_dev\user_projects\domains\base_domain\applications&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;citsonline_appHome&quot;  value=&quot;$&#123;outputDir&#125;\citsonline&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;citsb2b_appHome&quot;  value=&quot;$&#123;outputDir&#125;\citsb2b&quot; /&gt;</span><br><span class="line">	&lt;!-- 配置信息 End --&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;target name=&quot;clean&quot;&gt;</span><br><span class="line">		&lt;echo message=&quot;clean citsonline and citsb2b directory start !&quot; /&gt;</span><br><span class="line">		&lt;delete dir=&quot;$&#123;citsonline_appHome&#125;&quot; includeemptydirs=&quot;yes&quot; /&gt;</span><br><span class="line">		&lt;delete dir=&quot;$&#123;citsb2b_appHome&#125;&quot; includeemptydirs=&quot;yes&quot; /&gt;</span><br><span class="line">		&lt;echo message=&quot;clean citsonline and citsb2b directory end !&quot; /&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">	</span><br><span class="line">    &lt;target name=&quot;citsb2b_build&quot; depends=&quot;clean&quot;&gt;</span><br><span class="line">    	&lt;echo message=&quot;build citsb2b project start !&quot; /&gt;</span><br><span class="line">        &lt;copy todir=&quot;$&#123;citsb2b_appHome&#125;&quot;&gt;</span><br><span class="line">            &lt;fileset dir=&quot;$&#123;projectHome&#125;/citsb2b/EarContent&quot; /&gt;</span><br><span class="line">        &lt;/copy&gt;</span><br><span class="line">        </span><br><span class="line">        &lt;copy todir=&quot;$&#123;citsb2b_appHome&#125;/citsb2bWeb/WEB-INF/lib&quot;&gt;</span><br><span class="line">            &lt;fileset dir=&quot;$&#123;projectHome&#125;/citsb2b/EarContent/APP-INF/lib&quot;&gt;</span><br><span class="line">                &lt;include name=&quot;spring-*.jar&quot; /&gt;</span><br><span class="line">                &lt;include name=&quot;standard.jar&quot; /&gt;</span><br><span class="line">                &lt;include name=&quot;jstl.jar&quot; /&gt;</span><br><span class="line">            &lt;/fileset&gt;</span><br><span class="line">        &lt;/copy&gt;</span><br><span class="line"></span><br><span class="line">        &lt;copy todir=&quot;$&#123;citsb2b_appHome&#125;/citsb2bWeb/WEB-INF/classes&quot;&gt;</span><br><span class="line">            &lt;fileset dir=&quot;$&#123;projectHome&#125;/citsb2bWeb/classes&quot; /&gt;</span><br><span class="line">        &lt;/copy&gt;</span><br><span class="line"></span><br><span class="line">        &lt;copy todir=&quot;$&#123;citsb2b_appHome&#125;/citsb2bWeb&quot;&gt;</span><br><span class="line">            &lt;fileset dir=&quot;$&#123;projectHome&#125;/citsb2bWeb/WebContent&quot; /&gt;</span><br><span class="line">        &lt;/copy&gt;</span><br><span class="line">    	&lt;echo message=&quot;build citsb2b project end !&quot; /&gt;</span><br><span class="line">    &lt;/target&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;target name=&quot;citsonline_build&quot; depends=&quot;citsb2b_build&quot;&gt;</span><br><span class="line">		&lt;echo message=&quot;build citsonline project start !&quot; /&gt;</span><br><span class="line">		&lt;jar basedir=&quot;$&#123;projectHome&#125;/citsonlineBase/classes&quot;     destfile=&quot;$&#123;citsonline_appHome&#125;/lib/citsonlineBase.jar&quot; /&gt;</span><br><span class="line">		&lt;jar basedir=&quot;$&#123;projectHome&#125;/citsonlineBuzLogic/classes&quot; destfile=&quot;$&#123;citsonline_appHome&#125;/lib/citsonlineBuzLogic.jar&quot; /&gt;</span><br><span class="line">		&lt;jar basedir=&quot;$&#123;projectHome&#125;/citsonlineCommon/classes&quot;   destfile=&quot;$&#123;citsonline_appHome&#125;/lib/citsonlineCommon.jar&quot; /&gt;</span><br><span class="line">		&lt;jar basedir=&quot;$&#123;projectHome&#125;/simplemapping/classes&quot;      destfile=&quot;$&#123;citsonline_appHome&#125;/lib/simplemapping.jar&quot; /&gt;</span><br><span class="line"></span><br><span class="line">		&lt;copy todir=&quot;$&#123;citsonline_appHome&#125;&quot;&gt;</span><br><span class="line">			&lt;fileset dir=&quot;$&#123;projectHome&#125;/citsonline/EarContent&quot; /&gt;</span><br><span class="line">		&lt;/copy&gt;</span><br><span class="line">		</span><br><span class="line">		&lt;copy todir=&quot;$&#123;citsonline_appHome&#125;/citsonlineEJB&quot;&gt;</span><br><span class="line">			&lt;fileset dir=&quot;$&#123;projectHome&#125;/citsonlineEJB/classes&quot; /&gt;</span><br><span class="line">		&lt;/copy&gt;</span><br><span class="line"></span><br><span class="line">		&lt;copy todir=&quot;$&#123;citsonline_appHome&#125;/citsonlineWeb/WEB-INF/classes&quot;&gt;</span><br><span class="line">			&lt;fileset dir=&quot;$&#123;projectHome&#125;/citsonlineWeb/classes&quot; /&gt;</span><br><span class="line">		&lt;/copy&gt;</span><br><span class="line"></span><br><span class="line">		&lt;copy todir=&quot;$&#123;citsonline_appHome&#125;/citsonlineWeb&quot;&gt;</span><br><span class="line">			&lt;fileset dir=&quot;$&#123;projectHome&#125;/citsonlineWeb/WebRoot&quot; /&gt;</span><br><span class="line">		&lt;/copy&gt;</span><br><span class="line"></span><br><span class="line">		&lt;copy todir=&quot;$&#123;citsonline_appHome&#125;/citsonlineWeb&quot;&gt;</span><br><span class="line">			&lt;fileset dir=&quot;$&#123;projectHome&#125;/citsonlineWeb/WebRoot&quot; /&gt;</span><br><span class="line">		&lt;/copy&gt;</span><br><span class="line">		&lt;echo message=&quot;build citsonline project end !&quot; /&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;target name=&quot;deploy&quot; depends=&quot;citsonline_build&quot;&gt;</span><br><span class="line">		&lt;echo message=&quot;All Done !&quot; /&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、示例二-build-zip-upload-full-xml"><a href="#二、示例二-build-zip-upload-full-xml" class="headerlink" title="二、示例二: build_zip_upload_full.xml"></a>二、示例二: build_zip_upload_full.xml</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!--将项目编译处的文件以压缩包方式通过ftp上传到服务器，并执行服务器脚本来重启项目--&gt;</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project name=&quot;citsonlinePJ&quot; default=&quot;deploy&quot;&gt;</span><br><span class="line"></span><br><span class="line">	&lt;tstamp&gt;</span><br><span class="line">		&lt;format property=&quot;now&quot; pattern=&quot;yyyy-MM-dd HH:mm&quot; /&gt;</span><br><span class="line">	&lt;/tstamp&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;property file=&quot;./servermsg.properties&quot; /&gt;</span><br><span class="line">	&lt;!--服务器连接 只需改前缀 例如改为90服务器只需把20改为90即可。目前支持20、24、90服务器--&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;property name=&quot;weblogicSvr&quot;  value=&quot;$&#123;ip&#125;&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;weblogicUser&quot; value=&quot;$&#123;username&#125;&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;weblogicPwd&quot;  value=&quot;$&#123;pwd&#125;&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;weblogicPath&quot; value=&quot;$&#123;path&#125;&quot; /&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;property name=&quot;projectHome&quot;  value=&quot;D:\project\citsb2b\workspace&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;outputDir&quot;    value=&quot;$&#123;projectHome&#125;/[output]/$&#123;weblogicSvr&#125;&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;citsonline_outputName&quot;   value=&quot;citsonline_release16_$&#123;DSTAMP&#125;_$&#123;TSTAMP&#125;.zip&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;citsonline_outputFile&quot;   value=&quot;$&#123;projectHome&#125;/[output]/$&#123;weblogicSvr&#125;/$&#123;citsonline_outputName&#125;&quot; /&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;property name=&quot;citsb2b_outputName&quot;   value=&quot;citsb2b_release_$&#123;DSTAMP&#125;_$&#123;TSTAMP&#125;.zip&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;citsb2b_outputFile&quot;   value=&quot;$&#123;projectHome&#125;/[output]/$&#123;weblogicSvr&#125;/$&#123;citsb2b_outputName&#125;&quot; /&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;!--编译 citsb2b项目--&gt;</span><br><span class="line">	&lt;target name=&quot;citsb2b_bild&quot;&gt;</span><br><span class="line">		</span><br><span class="line">		&lt;zip destfile=&quot;$&#123;citsb2b_outputFile&#125;&quot;&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;projectHome&#125;/citsb2b/EarContent&quot; prefix=&quot;citsb2b&quot;&gt;&lt;/zipfileset&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;projectHome&#125;/citsb2b/EarContent/APP-INF/lib&quot; prefix=&quot;citsb2b/citsb2bWeb/WEB-INF/lib&quot;&gt;</span><br><span class="line">				&lt;include name=&quot;spring-*.jar&quot; /&gt;</span><br><span class="line">				&lt;include name=&quot;standard.jar&quot; /&gt;</span><br><span class="line">				&lt;include name=&quot;jstl.jar&quot; /&gt;</span><br><span class="line">			&lt;/zipfileset&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;projectHome&#125;/citsb2bWeb/classes&quot; prefix=&quot;citsb2b/citsb2bWeb/WEB-INF/classes&quot;&gt;&lt;/zipfileset&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;projectHome&#125;/citsb2bWeb/WebContent&quot; prefix=&quot;citsb2b/citsb2bWeb&quot;&gt;&lt;/zipfileset&gt;</span><br><span class="line">		&lt;/zip&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;!--编译 citsonline项目--&gt;</span><br><span class="line">	&lt;target name=&quot;build&quot; depends=&quot;citsb2b_bild&quot;&gt;</span><br><span class="line">		&lt;jar basedir=&quot;$&#123;projectHome&#125;/citsonlineBase/classes&quot;     destfile=&quot;$&#123;outputDir&#125;/tmp/lib/citsonlineBase.jar&quot; /&gt;</span><br><span class="line">		&lt;jar basedir=&quot;$&#123;projectHome&#125;/citsonlineBuzLogic/classes&quot; destfile=&quot;$&#123;outputDir&#125;/tmp/lib/citsonlineBuzLogic.jar&quot; /&gt;</span><br><span class="line">		&lt;jar basedir=&quot;$&#123;projectHome&#125;/citsonlineCommon/classes&quot;   destfile=&quot;$&#123;outputDir&#125;/tmp/lib/citsonlineCommon.jar&quot; /&gt;</span><br><span class="line">		&lt;jar basedir=&quot;$&#123;projectHome&#125;/simplemapping/classes&quot;      destfile=&quot;$&#123;outputDir&#125;/tmp/lib/simplemapping.jar&quot; /&gt;</span><br><span class="line">		</span><br><span class="line">		&lt;zip destfile=&quot;$&#123;citsonline_outputFile&#125;&quot;&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;projectHome&#125;/citsonline/EarContent&quot; prefix=&quot;citsonline&quot;&gt;&lt;/zipfileset&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;projectHome&#125;/citsonlineEJB/classes&quot; prefix=&quot;citsonline/citsonlineEJB&quot; &gt;&lt;/zipfileset&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;projectHome&#125;/citsonlineWeb/classes&quot; prefix=&quot;citsonline/citsonlineWeb/WEB-INF/classes&quot;&gt;&lt;/zipfileset&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;projectHome&#125;/citsonlineWeb/WebRoot&quot; prefix=&quot;citsonline/citsonlineWeb&quot;&gt;&lt;/zipfileset&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;outputDir&#125;/tmp/lib&quot; prefix=&quot;citsonline/lib&quot;&gt;&lt;/zipfileset&gt;</span><br><span class="line">		&lt;/zip&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!--打增量包 --&gt;</span><br><span class="line">	&lt;target name=&quot;patch&quot; depends=&quot;build&quot;&gt;</span><br><span class="line">		&lt;!--citsb2b --&gt;</span><br><span class="line">		&lt;java fork=&quot;true&quot; classname=&quot;com.cits.online.common.BuildPatch&quot;&gt;</span><br><span class="line">			&lt;classpath path=&quot;$&#123;projectHome&#125;/citsonlineBase/classes&quot;&gt;&lt;/classpath&gt;</span><br><span class="line">			&lt;classpath path=&quot;$&#123;projectHome&#125;/citsonline/build/lib/ant.jar&quot;&gt;&lt;/classpath&gt;</span><br><span class="line">			</span><br><span class="line">			&lt;arg value=&quot;$&#123;outputDir&#125;&quot; /&gt;</span><br><span class="line">			&lt;arg value=&quot;$&#123;citsb2b_outputName&#125;&quot; /&gt;</span><br><span class="line">		&lt;/java&gt;</span><br><span class="line">		</span><br><span class="line">		&lt;!--citsonline --&gt;</span><br><span class="line">		&lt;java fork=&quot;true&quot; classname=&quot;com.cits.online.common.BuildPatch&quot;&gt;</span><br><span class="line">			&lt;classpath path=&quot;$&#123;projectHome&#125;/citsonlineBase/classes&quot;&gt;&lt;/classpath&gt;</span><br><span class="line">			&lt;classpath path=&quot;$&#123;projectHome&#125;/citsonline/build/lib/ant.jar&quot;&gt;&lt;/classpath&gt;</span><br><span class="line"></span><br><span class="line">			&lt;arg value=&quot;$&#123;outputDir&#125;&quot; /&gt;</span><br><span class="line">			&lt;arg value=&quot;$&#123;citsonline_outputName&#125;&quot; /&gt;</span><br><span class="line">		&lt;/java&gt;</span><br><span class="line">		</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;!--同步到服务器 --&gt;</span><br><span class="line">	&lt;target name=&quot;ftp&quot; depends=&quot;patch&quot;&gt;</span><br><span class="line">		&lt;echo message=&quot;FTP Transferring weblogicSvr, Upload to Weblogic start...&quot; /&gt;</span><br><span class="line">		&lt;scp todir=&quot;$&#123;weblogicUser&#125;:$&#123;weblogicPwd&#125;@$&#123;weblogicSvr&#125;:$&#123;weblogicPath&#125;&quot; trust=&quot;true&quot;&gt;</span><br><span class="line">			&lt;fileset dir=&quot;$&#123;outputDir&#125;&quot;&gt;</span><br><span class="line">				&lt;!-- 上传全量包--&gt;</span><br><span class="line">				&lt;include name=&quot;**/*$&#123;DSTAMP&#125;_$&#123;TSTAMP&#125;*&quot; /&gt;</span><br><span class="line">				&lt;exclude name=&quot;**/*$&#123;DSTAMP&#125;_$&#123;TSTAMP&#125;_Patch*&quot; /&gt;</span><br><span class="line">			&lt;/fileset&gt;</span><br><span class="line">		&lt;/scp&gt;</span><br><span class="line">		&lt;echo message=&quot;FTP Transfer weblogicSvr Done!&quot; /&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	&lt;target name=&quot;clean&quot; depends=&quot;ftp&quot;&gt;</span><br><span class="line">		&lt;delete dir=&quot;$&#123;outputDir&#125;&quot; verbose=&quot;true&quot; includeemptydirs=&quot;true&quot; &gt;</span><br><span class="line">			&lt;exclude name=&quot;**/*[Base]*&quot; /&gt;</span><br><span class="line">			&lt;exclude name=&quot;**/*$&#123;DSTAMP&#125;_$&#123;TSTAMP&#125;*&quot; /&gt;</span><br><span class="line">		&lt;/delete&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;target name=&quot;run&quot; depends=&quot;ftp&quot;&gt;</span><br><span class="line">		&lt;echo message=&quot;start run restart script... !&quot; /&gt;</span><br><span class="line">		&lt;echo message=&quot; restart.sh $&#123;citsonline_outputName&#125; $&#123;citsb2b_outputName&#125;&quot; /&gt;</span><br><span class="line">		&lt;sshexec host=&quot;$&#123;weblogicSvr&#125;&quot; username=&quot;$&#123;weblogicUser&#125;&quot; password=&quot;$&#123;weblogicPwd&#125;&quot; command=&quot;cd $&#123;weblogicPath&#125;;cd ..; sh restart.sh $&#123;citsonline_outputName&#125; $&#123;citsb2b_outputName&#125;&quot; trust=&quot;true&quot;/&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;target name=&quot;deploy&quot; depends=&quot;run&quot;&gt;</span><br><span class="line">		&lt;echo message=&quot;All Done !&quot; /&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>java</tag>
+        <tag>效率</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>WordPress傻瓜式构建个人动态博客</title>
     <url>/2021/11/10/WordPress%E5%82%BB%E7%93%9C%E5%BC%8F%E6%9E%84%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8A%A8%E6%80%81%E5%8D%9A%E5%AE%A2/</url>
     <content><![CDATA[<blockquote>
@@ -60,45 +188,6 @@
       </categories>
       <tags>
         <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo搭配typora在文档中插入图片上传到github</title>
-    <url>/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/</url>
-    <content><![CDATA[<p>由于hexo本地图片路径和上传到github服务器上的路径不同，使用typora设置相对路径也会有问题，为了解决文章在本地插入图片和在服务器预览效果一致，跟随一下步骤即可完美解决</p>
-<h2 id="一、hexo配置文件修改"><a href="#一、hexo配置文件修改" class="headerlink" title="一、hexo配置文件修改"></a>一、hexo配置文件修改</h2><ol>
-<li>在博客根目录下的_config.yml文件中，找到<strong>post_asset_folder</strong>字段，属性值设为<strong>true</strong></li>
-</ol>
-<span id="more"></span>
-
-<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111000301442.png" alt="image-20211111000301442"></p>
-<ol start="2">
-<li><p>当设置完<strong>post_asset_folder</strong>字段值后，使用hexo new “博客名称” 时，会生成一个博客名称文件夹和博客名称.md文件</p>
-<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111000824606.png" alt="image-20211111000824606"></p>
-<ol start="3">
-<li>在文章使用中的资源可以放到对应的文件夹里，可以方便区分，这样也有一个问题，插入一张图片放一张，然后在编辑器上去引相对路径，不是很麻烦吗，答案是结合typora设置一下即可完美解决</li>
-</ol>
-<h2 id="二、设置Typora"><a href="#二、设置Typora" class="headerlink" title="二、设置Typora"></a>二、设置Typora</h2><ol>
-<li>typora 点击格式&gt;&gt;图像&gt;&gt;全局图像设置</li>
-</ol>
-<img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111001152225.png" alt="image-20211111001152225" style="zoom:80%;">
-
-<ol start="2">
-<li>在偏好设置处修改复制到指定路径</li>
-</ol>
-</li>
-</ol>
-<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111001342435.png" alt="image-20211111001342435"></p>
-<ol start="3">
-<li>操作完成后，粘贴在文档的图片都会自动复制到跟文件同名的文件夹中去，也不用单独去存放图片和写相对路径了，是不是很nice</li>
-</ol>
-<h2 id="三、装插件"><a href="#三、装插件" class="headerlink" title="三、装插件"></a>三、装插件</h2><p>操作到当前步骤还未结束，</p>
-<p>需要到博客的根目录下执行 npm install <a href="https://link.jianshu.com/?t=https://github.com/CodeFalling/hexo-asset-image">https://github.com/CodeFalling/hexo-asset-image</a> –save 命令来进行插件的安装。</p>
-<p>以便在服务器上访问图片和本地预览访问的图片都能够正常显示</p>
-<p>至此，图片问题解决，可以图文写作不是很棒嘛~</p>
-]]></content>
-      <tags>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -229,39 +318,6 @@
       <tags>
         <tag>git</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>实用工具软件分享</title>
-    <url>/2021/11/10/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7%E8%BD%AF%E4%BB%B6%E5%88%86%E4%BA%AB/</url>
-    <content><![CDATA[<p>本人平时喜欢收集一些好用的软件，正好最近在研究个人博客，就想通过这篇个人博客向大家分享下自己的一些工具，同时也方便为自己做个记录</p>
-<h1 id="工具介绍"><a href="#工具介绍" class="headerlink" title="工具介绍"></a>工具介绍</h1><h2 id="一、通用工具"><a href="#一、通用工具" class="headerlink" title="一、通用工具"></a>一、通用工具</h2><h3 id="1-截屏工具"><a href="#1-截屏工具" class="headerlink" title="1.截屏工具"></a>1.截屏工具</h3><ol>
-<li>Snipaste</li>
-</ol>
-<p>snipaste是我最常用的截屏工具，相比其他截屏我最喜欢它的悬浮截屏，</p>
-<p>按下F1快捷键截屏后按下F3就可以将截下的图在屏幕上置顶随意拖动缩放，对于像我这样靠着C+V大法的底层码农来copy代码是再方便不过了。</p>
-<span id="more"></span>
-
-<ol start="2">
-<li>fscapture_33lc</li>
-</ol>
-<p>这款软件用于截图也很强大，不仅实现了各种窗口截屏和任意区域截屏，还继承了录屏的功能。最主要的是文件体积小、免安装，随点随用，录制的屏幕视频清晰度很高，建议大家都有一套，指不定什么时候要录个屏到处去装软件，视频不清晰不说要注册就很麻烦，最主要还有logo,这还能忍？</p>
-<h3 id="2-下载工具"><a href="#2-下载工具" class="headerlink" title="2.下载工具"></a>2.下载工具</h3><ol>
-<li>IDM</li>
-</ol>
-<p>IDM可以说是一款及其良心的下载软件了</p>
-<h2 id="二、开发工具"><a href="#二、开发工具" class="headerlink" title="二、开发工具"></a>二、开发工具</h2>]]></content>
-      <categories>
-        <category>工具使用</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>shell编写心得</title>
-    <url>/2021/11/11/shell%E7%BC%96%E5%86%99%E5%BF%83%E5%BE%97/</url>
-    <content><![CDATA[<p>暂无~~~~</p>
-]]></content>
   </entry>
   <entry>
     <title>linux常用命令使用记录</title>
@@ -1353,6 +1409,181 @@
       </tags>
   </entry>
   <entry>
+    <title>hexo搭配typora在文档中插入图片上传到github</title>
+    <url>/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/</url>
+    <content><![CDATA[<p>由于hexo本地图片路径和上传到github服务器上的路径不同，使用typora设置相对路径也会有问题，为了解决文章在本地插入图片和在服务器预览效果一致，跟随一下步骤即可完美解决</p>
+<h2 id="一、hexo配置文件修改"><a href="#一、hexo配置文件修改" class="headerlink" title="一、hexo配置文件修改"></a>一、hexo配置文件修改</h2><ol>
+<li>在博客根目录下的_config.yml文件中，找到<strong>post_asset_folder</strong>字段，属性值设为<strong>true</strong></li>
+</ol>
+<span id="more"></span>
+
+<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111000301442.png" alt="image-20211111000301442"></p>
+<ol start="2">
+<li><p>当设置完<strong>post_asset_folder</strong>字段值后，使用hexo new “博客名称” 时，会生成一个博客名称文件夹和博客名称.md文件</p>
+<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111000824606.png" alt="image-20211111000824606"></p>
+<ol start="3">
+<li>在文章使用中的资源可以放到对应的文件夹里，可以方便区分，这样也有一个问题，插入一张图片放一张，然后在编辑器上去引相对路径，不是很麻烦吗，答案是结合typora设置一下即可完美解决</li>
+</ol>
+<h2 id="二、设置Typora"><a href="#二、设置Typora" class="headerlink" title="二、设置Typora"></a>二、设置Typora</h2><ol>
+<li>typora 点击格式&gt;&gt;图像&gt;&gt;全局图像设置</li>
+</ol>
+<img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111001152225.png" alt="image-20211111001152225" style="zoom:80%;">
+
+<ol start="2">
+<li>在偏好设置处修改复制到指定路径</li>
+</ol>
+</li>
+</ol>
+<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111001342435.png" alt="image-20211111001342435"></p>
+<ol start="3">
+<li>操作完成后，粘贴在文档的图片都会自动复制到跟文件同名的文件夹中去，也不用单独去存放图片和写相对路径了，是不是很nice</li>
+</ol>
+<h2 id="三、装插件"><a href="#三、装插件" class="headerlink" title="三、装插件"></a>三、装插件</h2><p>操作到当前步骤还未结束，</p>
+<p>需要到博客的根目录下执行 npm install <a href="https://link.jianshu.com/?t=https://github.com/CodeFalling/hexo-asset-image">https://github.com/CodeFalling/hexo-asset-image</a> –save 命令来进行插件的安装。</p>
+<p>以便在服务器上访问图片和本地预览访问的图片都能够正常显示</p>
+<p>至此，图片问题解决，可以图文写作不是很棒嘛~</p>
+]]></content>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>shell编写心得</title>
+    <url>/2021/11/11/shell%E7%BC%96%E5%86%99%E5%BF%83%E5%BE%97/</url>
+    <content><![CDATA[<p>暂无~~~~</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>实用工具软件分享</title>
+    <url>/2021/11/10/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7%E8%BD%AF%E4%BB%B6%E5%88%86%E4%BA%AB/</url>
+    <content><![CDATA[<p>本人平时喜欢收集一些好用的软件，正好最近在研究个人博客，就想通过这篇个人博客向大家分享下自己的一些工具，同时也方便为自己做个记录</p>
+<h1 id="工具介绍"><a href="#工具介绍" class="headerlink" title="工具介绍"></a>工具介绍</h1><h2 id="一、通用工具"><a href="#一、通用工具" class="headerlink" title="一、通用工具"></a>一、通用工具</h2><h3 id="1-截屏工具"><a href="#1-截屏工具" class="headerlink" title="1.截屏工具"></a>1.截屏工具</h3><ol>
+<li>Snipaste</li>
+</ol>
+<p>snipaste是我最常用的截屏工具，相比其他截屏我最喜欢它的悬浮截屏，</p>
+<p>按下F1快捷键截屏后按下F3就可以将截下的图在屏幕上置顶随意拖动缩放，对于像我这样靠着C+V大法的底层码农来copy代码是再方便不过了。</p>
+<span id="more"></span>
+
+<ol start="2">
+<li>fscapture_33lc</li>
+</ol>
+<p>这款软件用于截图也很强大，不仅实现了各种窗口截屏和任意区域截屏，还继承了录屏的功能。最主要的是文件体积小、免安装，随点随用，录制的屏幕视频清晰度很高，建议大家都有一套，指不定什么时候要录个屏到处去装软件，视频不清晰不说要注册就很麻烦，最主要还有logo,这还能忍？</p>
+<h3 id="2-下载工具"><a href="#2-下载工具" class="headerlink" title="2.下载工具"></a>2.下载工具</h3><ol>
+<li>IDM</li>
+</ol>
+<p>IDM可以说是一款及其良心的下载软件了</p>
+<h2 id="二、开发工具"><a href="#二、开发工具" class="headerlink" title="二、开发工具"></a>二、开发工具</h2>]]></content>
+      <categories>
+        <category>工具使用</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>更换电脑后转移hexo博客</title>
+    <url>/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<p>刚僚机hexo的时候就在考虑换电脑怎么转移博客，偶然机会看到了好朋友的博客，感觉很有帮助，然后也在这边做个记录，冲冲博客数量吧，哈哈哈哈~</p>
+<p>毕竟只是有限，只能做个搬运工<a href="https://small-brilliant.github.io/2021/03/12/%E6%8D%A2%E7%94%B5%E8%84%91%E4%BA%86%E6%88%91%E7%9A%84Bolg%E6%80%8E%E4%B9%88%E5%8A%9E/">好朋友的博客</a>；博客搞得相当好，有兴趣可以收藏哈哈哈哈~</p>
+<h1 id="一、思路"><a href="#一、思路" class="headerlink" title="一、思路"></a>一、思路</h1><p>备份的大致思路就是</p>
+<ol>
+<li>在原有静态文件的GIt仓库新建一个分支，克隆到本地，然后本地在这个分支的管控下删除所有内容后提交，这样就相当于有了一个干净的分支</li>
+<li>把博客的文件目录复制过来，然后再删除复制过来的版本信息，提交后push到远程分支</li>
+<li>新电脑安装node.js，hexo后拉下该分支，使用该分支开发</li>
+</ol>
+<h1 id="二、具体步骤"><a href="#二、具体步骤" class="headerlink" title="二、具体步骤"></a>二、具体步骤</h1><h2 id="1、建立一个新的分支hexoSrc"><a href="#1、建立一个新的分支hexoSrc" class="headerlink" title="1、建立一个新的分支hexoSrc"></a>1、建立一个新的分支hexoSrc</h2><h4 id="（一）GitHub进入到hexo项目里"><a href="#（一）GitHub进入到hexo项目里" class="headerlink" title="（一）GitHub进入到hexo项目里"></a>（一）GitHub进入到hexo项目里</h4><p><img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112221829134.png" alt="image-20211112221829134"></p>
+<h4 id="（二）新建-分支"><a href="#（二）新建-分支" class="headerlink" title="（二）新建 分支"></a>（二）新建 分支</h4><p>点击master按钮，在弹出的框内输入新的分支名称，例如我的起名<strong>hexoSrc</strong></p>
+<img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112222236357.png" alt="image-20211112222236357" style="zoom: 67%;">
+
+<h2 id="2、将原有的博客内容push到新分支上"><a href="#2、将原有的博客内容push到新分支上" class="headerlink" title="2、将原有的博客内容push到新分支上"></a>2、将原有的博客内容push到新分支上</h2><h4 id="（一）在任意目录下打开Git-Bash命令窗口，克隆新分支内容"><a href="#（一）在任意目录下打开Git-Bash命令窗口，克隆新分支内容" class="headerlink" title="（一）在任意目录下打开Git Bash命令窗口，克隆新分支内容"></a>（一）在任意目录下打开Git Bash命令窗口，克隆新分支内容</h4><p><img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112222828591.png" alt="image-20211112222828591"></p>
+<p><img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112223130553.png" alt="image-20211112223130553"></p>
+<h4 id="（二）查看当前分支"><a href="#（二）查看当前分支" class="headerlink" title="（二）查看当前分支"></a>（二）查看当前分支</h4><ol>
+<li>第一次新拉下来分支是<code>master</code>，这是我们需要切换到我们创建的新分支上去</li>
+</ol>
+<p><img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112223510668.png" alt="image-20211112223510668"></p>
+<ol start="2">
+<li>执行git <code>checkout -b</code> &lt;新分支名称&gt; &lt;远程分支&gt; 切换到新分支</li>
+</ol>
+<p><img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112225520915.png" alt="image-20211112225520915"></p>
+<ol start="3">
+<li>删除除去.git目录外所有信息，并提交</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git add -A</span><br><span class="line">git commit -m &quot;删除该分支内容，准备放源文件&quot;</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>上传源文件。将我们之前写博客的文件夹里面的所有文件复制过来，<strong>除了</strong><code>.deploy_git</code>。<strong>如果你有自定义的主题的话</strong>，一定要删除主题文件中的<code>.git</code>文件夹，因为<code>git</code>不能嵌套上传。然后在这个文件夹打开<code>git bash</code>。输入下面命令，就上传了。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit –m &quot;上传博客源文件&quot;</span><br><span class="line">git push </span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112230449539.png" alt="image-20211112230449539"></p>
+<h2 id="3、新电脑环境使用新分支继续博客编写"><a href="#3、新电脑环境使用新分支继续博客编写" class="headerlink" title="3、新电脑环境使用新分支继续博客编写"></a>3、新电脑环境使用新分支继续博客编写</h2><ol>
+<li>安装<code>git</code>和<code>node.js</code></li>
+<li>设置<code>git</code>全局邮箱和用户名</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;yourgithubname&quot;</span><br><span class="line">git config --global user.email &quot;yourgithubemail&quot;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>安装<code>hexo</code>但是不需要初始化。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">TEXT</span><br><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>然后进入克隆到的文件夹。安装环境</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install</span><br><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>验证</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>然后就可以开始写你的新博客了。每次写完都要把源文件上传一下。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit –m &quot;xxxx&quot;</span><br><span class="line">git push </span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>如果是在已经编辑过的电脑上，已经有clone文件夹了，那么，每次只要和远端同步一下就行了。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git pull --rebase</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>通过共享实现电脑间文件传递</title>
+    <url>/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/</url>
+    <content><![CDATA[<p><strong>背景：在办公时，你要发给小明一个很大的文件，u盘存放不下，且传输速度慢，怎么解决</strong></p>
+<p><strong>一、在你一个本地空间新建一个文件夹FileReceive</strong></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/a8b1afbf5bbc430bb3b4132767d35975.png" alt="img"></p>
+<span id="more"></span> 
+
+<p><strong>二、右键属性，点击共享</strong></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/be1e6ae5c2c84f1bb3c19ddb4f1d4e5f.png" alt="img"></p>
+<p> <strong>三、选择共享账号为everyone,这之后会有一个窗口提示共享已完成，点击右下角的“完成”按钮</strong></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/928ca4e2ef13437e9c5ff9df90a4354e.png" alt="img"></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/e36c11e7ffcb41c0bad8c815f78ca397.png" alt="img"></p>
+<p> <strong>四、虽然现在共享给了Everyone，但是组和用户那里却没有Everyone，需要另行添加。点击箭头所指处的“编辑”。</strong></p>
+<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1b9e8951ac1c4a6bbf8423b51bf8e5a9.png" alt="img"></p>
+<p> <strong>五、在“FileReceive的权限”窗口中点击箭头所指处的“添加”。</strong></p>
+<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/db762c242f92479fb1d54b29811ec9d3.png" alt="img"></p>
+<p> <strong>六、在“选择组和用户”窗口中点击“高级”。</strong> </p>
+<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/6eb3ea6e500e4c34a5819aa5b3ee1e86.png" alt="img"></p>
+<p>  <strong>七、点击“立即查找”，在搜索结果中找到Everyone，双击添加，然后点击确定。</strong></p>
+<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/404e1f88728941e58813c17682d28bc6.png" alt="img"></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/7ca724ffe1054cddaa33d96830dc79ca.png" alt="img"></p>
+<p>  <strong>八、勾选Everyone的所有权限，如下图所示，然后点击“应用”，“确定”。</strong> </p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/d1e03223471b4548ac96e8e7929576e6.png" alt="img"></p>
+<p>  <strong>九、使用win+r快捷键调出运行窗口，输入\+IP地址，连接至电脑B的共享。</strong> </p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1bbc15b8aa784bfe8fb8a3faad79768f.png" alt="img"></p>
+]]></content>
+      <tags>
+        <tag>技巧</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>本地搭建hexo博客并上传github</title>
     <url>/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/</url>
     <content><![CDATA[<p>一、下载安装Nodejs</p>
@@ -1453,165 +1684,6 @@
 ]]></content>
       <tags>
         <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ant 使用分享</title>
-    <url>/2021/11/11/ant-%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB/</url>
-    <content><![CDATA[<h1 id="一、概述、功能"><a href="#一、概述、功能" class="headerlink" title="一、概述、功能"></a>一、概述、功能</h1><ol>
-<li>Ant是Java的生成工具，是Apache的核心项目，并且是Ant是跨平台的</li>
-<li>Ant的主要目的就是把你想做的事情自动化，不用你手动一步一步做，因为里面内置了javac、java、创建目录、复制文件等功能，所以可以直接点击Ant文件，即可编译生成你的项目</li>
-<li>可以实现件夹、文件新增、复制、删除，压缩等一系列操作；可以编译java文件，打jar包，实现项目的编译部署工作；通过ftp，可以与服务器建立连接，传文件，执行远程服务器脚本操作</li>
-</ol>
-<span id="more"></span>
-
-<h1 id="二、安装使用"><a href="#二、安装使用" class="headerlink" title="二、安装使用"></a>二、安装使用</h1><h2 id="1-Windows环境"><a href="#1-Windows环境" class="headerlink" title="1. Windows环境"></a>1. Windows环境</h2><p>1：下载ant包：<a href="http://ant.apache.org/bindownload.cgi">http://ant.apache.org/bindownload.cgi</a></p>
-<p>2：提前配置java环境变量，配置好JAVA_HOME为jdk主目录；</p>
-<p>3：新建环境变量ANT_HOME：值为ANT的主目录；</p>
-<p>4：在path中配置%ANT_HOME%/bin；</p>
-<p>5：配置完成之后，打开命令行，输入ant，当出现“Buildfile: build.xml does not exist! Build failed”时说明配置完成；</p>
-<h2 id="2-Linux环境"><a href="#2-Linux环境" class="headerlink" title="2. Linux环境"></a>2. Linux环境</h2><p>1：下载ant包：<a href="http://ant.apache.org/bindownload.cgi">http://ant.apache.org/bindownload.cgi</a>  例如apache-ant-1.10.4-bin.tar.gz</p>
-<p>2：复制到Linux /usr目录下 解压、改变权限</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tar -zxvf  apac-ant-1.10.4-bin.tar.gz</span><br><span class="line">chmod 777  apache-ant-1.10.4</span><br></pre></td></tr></table></figure>
-
-<p>3：修改系统环境变量</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vi /etc/profile</span><br></pre></td></tr></table></figure>
-
-<p>4：在文件最后两行加上</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#set Ant enviroment</span><br><span class="line">export ANT_HOME=/usr/apache-ant-1.9.2</span><br><span class="line">export PATH=$PATH:$ANT_HOME/bin</span><br></pre></td></tr></table></figure>
-
-<p>5：使环境变量生效</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
-
-<p>6：测试ant是否生效：</p>
-<p>​     输入ant -version 即可，出现版本号，证明安装成功</p>
-<h1 id="三、入门使用"><a href="#三、入门使用" class="headerlink" title="三、入门使用"></a>三、入门使用</h1><h3 id="1-执行"><a href="#1-执行" class="headerlink" title="1. 执行"></a>1. 执行</h3><p>ant的默认生成文件为build.xml</p>
-<p>Win+R 运行cmd 命令行输入ant后，ant会在当前目录搜索是否有build.xml,如果有则执行；也可以自定义xml文件，执行 ant -f test.xml 执行当前目录下 test.xml文件</p>
-<h3 id="2-执行文件架构"><a href="#2-执行文件架构" class="headerlink" title="2.执行文件架构"></a>2.执行文件架构</h3><p>Ant可执行文件格式是xml,整体结构为</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;project default=&quot;targetname&quot;&gt;  </span><br><span class="line">    &lt;target name=&quot;name&quot;&gt;  </span><br><span class="line">    &lt;/target&gt;  </span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
-
-<p>project 是执行文件的根元素，表示一个项目</p>
-<p>target是project的子元素，表示一个任务；一个project中可以定义多个target元素，表示多个任务；</p>
-<p>default 属性 表示这个项目默认执行的任务是那个，对应target 的name属性</p>
-<p>直接输入 ant targetname; 则会执行具体的target任务，从而忽略default设置的target，target 的name属性不能重复，是target任务的唯一属性</p>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> &lt;!-- 删除D:\project\targeet下的classes目录，完成后输出All Done! --&gt;</span><br><span class="line">&lt;project default=&quot;deploy&quot;&gt;</span><br><span class="line">    &lt;!-- 定义路径 --&gt;</span><br><span class="line">    &lt;property name=&quot;path&quot; location=&quot;D:\project&quot;/&gt;</span><br><span class="line">    &lt;property name=&quot;dir.path&quot; location=&quot;$&#123;path&#125;/target/classes&quot; /&gt;</span><br><span class="line">	&lt;target name=&quot;clean&quot; &gt;</span><br><span class="line">		&lt;delete dir=&quot;$&#123;dir.path&#125;&quot;/&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">	&lt;target name=&quot;deploy&quot; depends=&quot;clean&quot;&gt;</span><br><span class="line">		&lt;echo message=&quot;All Done !&quot; /&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
-
-<h1 id="四、详细属性介绍"><a href="#四、详细属性介绍" class="headerlink" title="四、详细属性介绍"></a>四、详细属性介绍</h1><h2 id="一、Xml元素详解"><a href="#一、Xml元素详解" class="headerlink" title="一、Xml元素详解"></a>一、Xml元素详解</h2><h4 id="1-project元素"><a href="#1-project元素" class="headerlink" title="1. project元素"></a>1. project元素</h4><p>Ant生成文件的根元素，一般形式如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;project default=&quot;    &quot;[ basedir=&quot;.&quot; ] [name=&quot;projectname&quot;]&gt;</span><br></pre></td></tr></table></figure>
-
-<p>default的值是默认执行的target名；<br>basedir是指定基准目录，一般都是basedir=”.”；<br>name是指工程名字。</p>
-<h4 id="2-target元素"><a href="#2-target元素" class="headerlink" title="2. target元素"></a>2. target元素</h4><p>是project元素的子元素，在project元素中能够有多个target；一般形式如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;target name=&quot; &quot;  [ depends=&quot;A&quot;]  [ if =&quot;prop1&quot;] [ unless=&quot;prop2&quot;]&gt;</span><br><span class="line">&lt;/target&gt;</span><br></pre></td></tr></table></figure>
-
-<p>name表示target的名称；<br>depends中填写其他target名称(可以有多个名称，用逗号分割)，表示只有targetA完成之后才能够做此target，如果执行此target，则会先执行A；<br>if的值表示一个属性名，只有设置了该属性名，才能执行此target；<br>unless的值表示一个属性名，只有没有设置该属性名，才能执行此target。</p>
-<h4 id="3-property元素"><a href="#3-property元素" class="headerlink" title="3. property元素"></a>3. property元素</h4><p>project的子元素，用于定义属性，一般形如：<br><code>&lt;property name=&quot;pname&quot; value=&quot;pvalue&quot;/&gt;</code><br>如果要使用此property，则需要${pname}，类似于表达式语言；<br>&lt;property file=”a.properties”/&gt;通过此属性文件导入属性；<br>如果单纯想使用$，则通过$$表示。</p>
-<h2 id="二、Task详解"><a href="#二、Task详解" class="headerlink" title="二、Task详解"></a>二、Task详解</h2><p>在Ant中task是target的子元素，即一个target中可以有多个task；Task可以分以下三类</p>
-<p>（1）核心Task</p>
-<p>（2）可选Task</p>
-<p>（3）自定义task</p>
-<h5 id="1-echo"><a href="#1-echo" class="headerlink" title="1:echo"></a>1:echo</h5><p>用于单纯输出，例如</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;echo&gt;hello word&lt;/echo&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-zip"><a href="#2-zip" class="headerlink" title="2: zip"></a><strong>2</strong>: zip</h5><p>压缩文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;zip destfile=&quot;目标文件.zip&quot;&gt;</span><br><span class="line">   &lt;zipfileset dir=&quot;要压缩的文件内容&quot; prefix=&quot;citsb2b&quot;&gt;   &lt;/zipfileset&gt; --将要压缩的文件存放到citsb2b下</span><br><span class="line">&lt;/zip&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="3-scp"><a href="#3-scp" class="headerlink" title="3: scp"></a>3: scp</h5><p>示例代码</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;scp todir=&quot;$&#123;weblogicUser&#125;:$&#123;weblogicPwd&#125;@$&#123;weblogicSvr&#125;:$&#123;weblogicPath&#125;&quot; trust=&quot;true&quot;&gt;</span><br><span class="line"> &lt;fileset dir=&quot;$&#123;outputDir&#125;&quot;&gt;</span><br><span class="line"> &lt;!-- 上传全量包--&gt;</span><br><span class="line"> &lt;include name=&quot;**/*$&#123;DSTAMP&#125;_$&#123;TSTAMP&#125;*&quot; /&gt;</span><br><span class="line"> &lt;exclude name=&quot;**/*$&#123;DSTAMP&#125;_$&#123;TSTAMP&#125;_Patch*&quot; /&gt;</span><br><span class="line"> &lt;/fileset&gt;</span><br><span class="line">&lt;/scp&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="4-sshexec"><a href="#4-sshexec" class="headerlink" title="4: sshexec"></a>4: sshexec</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;sshexec host=&quot;$&#123;weblogicSvr&#125;&quot; username=&quot;$&#123;weblogicUser&#125;&quot; password=&quot;$&#123;weblogicPwd&#125;&quot; command=&quot;cd $&#123;weblogicPath&#125;;cd ..; sh restart.sh $&#123;citsonline_outputName&#125; $&#123;citsb2b_outputName&#125;&quot; trust=&quot;true&quot;/&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="5-javac"><a href="#5-javac" class="headerlink" title="5: javac"></a>5: javac</h5><p> 用来编译java文件，一般形式如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;javac srcdir=&quot;src&quot; destdir=&quot;class&quot; [classpath=&quot; &quot;]/&gt;</span><br></pre></td></tr></table></figure>
-
-<p>srcdir是编译此文件夹下或子文件夹下的全部java文件;<br>destdir是编译后的class文件放置路径；<br>classpath指定第三方类库；</p>
-<h5 id="6-java"><a href="#6-java" class="headerlink" title="6: java"></a>6: java</h5><p>运行java类，一般形式如下： </p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Java classname=&quot; &quot; fork=&quot;yes&quot;&gt;</span><br><span class="line">    【&lt;arg line=&quot;param1   param2   param3&quot;/&gt;】</span><br><span class="line">&lt;/java&gt;</span><br></pre></td></tr></table></figure>
-
-<p>classname用于指定运行的类名称；<br>fork=”yes”表示另起一个JVM来执行java命令，而不是中断ANT命令，因此fork必须为yes；</p>
-<h5 id="7-jar"><a href="#7-jar" class="headerlink" title="7: jar"></a>7: jar</h5><p>将文件目录或者文件达成jar包，一般形式如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;jar basedir=&quot;citsonlineBase/classes&quot;   destfile=&quot;citsonlineBase.jar&quot; /&gt;</span><br><span class="line">或者</span><br><span class="line">&lt;jar destfile=&quot;main.jar&quot; basedir=&quot; &quot;&gt;</span><br><span class="line">    &lt;manifest&gt;</span><br><span class="line">        &lt;attribute name=&quot;Main-Class&quot; value=&quot;classname&quot;/&gt;  &lt;!--指定主类--&gt;</span><br><span class="line">    &lt;/manifest&gt;</span><br><span class="line">&lt;/jar&gt;</span><br></pre></td></tr></table></figure>
-
-<p>destfiie的值为jar包的名称，一般为<code>$&#123;dest&#125;/main.jar</code>；<br>basedir的值是需要打成jar包的目录，一般为${classes}；<br>manifest表示设置META-INF； </p>
-<h5 id="8-mkdir"><a href="#8-mkdir" class="headerlink" title="8: mkdir"></a>8: mkdir</h5><p>创建目录，可以多层创建，比如a\b\c，则可以连续创建，一般形式如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;mkdir dir=&quot;a\b&quot;/&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="9-delete"><a href="#9-delete" class="headerlink" title="9: delete"></a>9: delete</h5><p>删除目录，一般形式如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;delete dir=&quot;a\b&quot;/&gt; 可以删除a目录下的b目录；</span><br><span class="line">&lt;delete file=&quot;1.txt&quot;/&gt;可以删除文件；</span><br></pre></td></tr></table></figure>
-
-<h5 id="10-tstamp"><a href="#10-tstamp" class="headerlink" title="10: tstamp"></a>10: tstamp</h5><p>时间戳，一般形式如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;tstamp /&gt;</span><br></pre></td></tr></table></figure>
-
-<p>接下来可以使用${DSTAMP}进行调用当前时间；</p>
-<h5 id="11-copy"><a href="#11-copy" class="headerlink" title="11: copy"></a>11: copy</h5><p> 复制文件，一般形式如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;copy file=&quot;file1&quot; tofile=&quot;file2&quot;/&gt;</span><br></pre></td></tr></table></figure>
-
-<p>file是源文件；<br>tofile是目标文件；</p>
-<h5 id="12-move"><a href="#12-move" class="headerlink" title="12: move"></a>12: move</h5><p> 移动文件，一般形式如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;move file=&quot;file1&quot; tofile=&quot;file2&quot;/&gt;</span><br></pre></td></tr></table></figure>
-
-<p>file是源文件；<br>tofile是目标文件；</p>
-<h5 id="13-replace"><a href="#13-replace" class="headerlink" title="13: replace"></a>13: replace</h5><p>用于替换字符串，类似于String的replace操作，一般形式如下：</p>
-<p>file表示要执行替换的文件；<br>token表示被替换的字符串；<br>value表示替换的字符串。</p>
-<h1 id="五、示例代码"><a href="#五、示例代码" class="headerlink" title="五、示例代码"></a>五、示例代码</h1><h2 id="一、示例一：deploy-clean-windows-xml"><a href="#一、示例一：deploy-clean-windows-xml" class="headerlink" title="一、示例一：deploy_clean_windows.xml"></a>一、示例一：deploy_clean_windows.xml</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!-- 将服务器目录下文件删除，将重新生成的编译文件以指定格式传到服务器指定目录下 --&gt;</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project name=&quot;citsonlinePJ&quot; default=&quot;deploy&quot;&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 配置信息 Start--&gt;</span><br><span class="line">	&lt;property name=&quot;projectHome&quot;  value=&quot;D:\project\citsb2b\workspace&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;outputDir&quot;    value=&quot;D:\project\citsb2b\tools\wls1036_dev\user_projects\domains\base_domain\applications&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;citsonline_appHome&quot;  value=&quot;$&#123;outputDir&#125;\citsonline&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;citsb2b_appHome&quot;  value=&quot;$&#123;outputDir&#125;\citsb2b&quot; /&gt;</span><br><span class="line">	&lt;!-- 配置信息 End --&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;target name=&quot;clean&quot;&gt;</span><br><span class="line">		&lt;echo message=&quot;clean citsonline and citsb2b directory start !&quot; /&gt;</span><br><span class="line">		&lt;delete dir=&quot;$&#123;citsonline_appHome&#125;&quot; includeemptydirs=&quot;yes&quot; /&gt;</span><br><span class="line">		&lt;delete dir=&quot;$&#123;citsb2b_appHome&#125;&quot; includeemptydirs=&quot;yes&quot; /&gt;</span><br><span class="line">		&lt;echo message=&quot;clean citsonline and citsb2b directory end !&quot; /&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">	</span><br><span class="line">    &lt;target name=&quot;citsb2b_build&quot; depends=&quot;clean&quot;&gt;</span><br><span class="line">    	&lt;echo message=&quot;build citsb2b project start !&quot; /&gt;</span><br><span class="line">        &lt;copy todir=&quot;$&#123;citsb2b_appHome&#125;&quot;&gt;</span><br><span class="line">            &lt;fileset dir=&quot;$&#123;projectHome&#125;/citsb2b/EarContent&quot; /&gt;</span><br><span class="line">        &lt;/copy&gt;</span><br><span class="line">        </span><br><span class="line">        &lt;copy todir=&quot;$&#123;citsb2b_appHome&#125;/citsb2bWeb/WEB-INF/lib&quot;&gt;</span><br><span class="line">            &lt;fileset dir=&quot;$&#123;projectHome&#125;/citsb2b/EarContent/APP-INF/lib&quot;&gt;</span><br><span class="line">                &lt;include name=&quot;spring-*.jar&quot; /&gt;</span><br><span class="line">                &lt;include name=&quot;standard.jar&quot; /&gt;</span><br><span class="line">                &lt;include name=&quot;jstl.jar&quot; /&gt;</span><br><span class="line">            &lt;/fileset&gt;</span><br><span class="line">        &lt;/copy&gt;</span><br><span class="line"></span><br><span class="line">        &lt;copy todir=&quot;$&#123;citsb2b_appHome&#125;/citsb2bWeb/WEB-INF/classes&quot;&gt;</span><br><span class="line">            &lt;fileset dir=&quot;$&#123;projectHome&#125;/citsb2bWeb/classes&quot; /&gt;</span><br><span class="line">        &lt;/copy&gt;</span><br><span class="line"></span><br><span class="line">        &lt;copy todir=&quot;$&#123;citsb2b_appHome&#125;/citsb2bWeb&quot;&gt;</span><br><span class="line">            &lt;fileset dir=&quot;$&#123;projectHome&#125;/citsb2bWeb/WebContent&quot; /&gt;</span><br><span class="line">        &lt;/copy&gt;</span><br><span class="line">    	&lt;echo message=&quot;build citsb2b project end !&quot; /&gt;</span><br><span class="line">    &lt;/target&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;target name=&quot;citsonline_build&quot; depends=&quot;citsb2b_build&quot;&gt;</span><br><span class="line">		&lt;echo message=&quot;build citsonline project start !&quot; /&gt;</span><br><span class="line">		&lt;jar basedir=&quot;$&#123;projectHome&#125;/citsonlineBase/classes&quot;     destfile=&quot;$&#123;citsonline_appHome&#125;/lib/citsonlineBase.jar&quot; /&gt;</span><br><span class="line">		&lt;jar basedir=&quot;$&#123;projectHome&#125;/citsonlineBuzLogic/classes&quot; destfile=&quot;$&#123;citsonline_appHome&#125;/lib/citsonlineBuzLogic.jar&quot; /&gt;</span><br><span class="line">		&lt;jar basedir=&quot;$&#123;projectHome&#125;/citsonlineCommon/classes&quot;   destfile=&quot;$&#123;citsonline_appHome&#125;/lib/citsonlineCommon.jar&quot; /&gt;</span><br><span class="line">		&lt;jar basedir=&quot;$&#123;projectHome&#125;/simplemapping/classes&quot;      destfile=&quot;$&#123;citsonline_appHome&#125;/lib/simplemapping.jar&quot; /&gt;</span><br><span class="line"></span><br><span class="line">		&lt;copy todir=&quot;$&#123;citsonline_appHome&#125;&quot;&gt;</span><br><span class="line">			&lt;fileset dir=&quot;$&#123;projectHome&#125;/citsonline/EarContent&quot; /&gt;</span><br><span class="line">		&lt;/copy&gt;</span><br><span class="line">		</span><br><span class="line">		&lt;copy todir=&quot;$&#123;citsonline_appHome&#125;/citsonlineEJB&quot;&gt;</span><br><span class="line">			&lt;fileset dir=&quot;$&#123;projectHome&#125;/citsonlineEJB/classes&quot; /&gt;</span><br><span class="line">		&lt;/copy&gt;</span><br><span class="line"></span><br><span class="line">		&lt;copy todir=&quot;$&#123;citsonline_appHome&#125;/citsonlineWeb/WEB-INF/classes&quot;&gt;</span><br><span class="line">			&lt;fileset dir=&quot;$&#123;projectHome&#125;/citsonlineWeb/classes&quot; /&gt;</span><br><span class="line">		&lt;/copy&gt;</span><br><span class="line"></span><br><span class="line">		&lt;copy todir=&quot;$&#123;citsonline_appHome&#125;/citsonlineWeb&quot;&gt;</span><br><span class="line">			&lt;fileset dir=&quot;$&#123;projectHome&#125;/citsonlineWeb/WebRoot&quot; /&gt;</span><br><span class="line">		&lt;/copy&gt;</span><br><span class="line"></span><br><span class="line">		&lt;copy todir=&quot;$&#123;citsonline_appHome&#125;/citsonlineWeb&quot;&gt;</span><br><span class="line">			&lt;fileset dir=&quot;$&#123;projectHome&#125;/citsonlineWeb/WebRoot&quot; /&gt;</span><br><span class="line">		&lt;/copy&gt;</span><br><span class="line">		&lt;echo message=&quot;build citsonline project end !&quot; /&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;target name=&quot;deploy&quot; depends=&quot;citsonline_build&quot;&gt;</span><br><span class="line">		&lt;echo message=&quot;All Done !&quot; /&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="二、示例二-build-zip-upload-full-xml"><a href="#二、示例二-build-zip-upload-full-xml" class="headerlink" title="二、示例二: build_zip_upload_full.xml"></a>二、示例二: build_zip_upload_full.xml</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!--将项目编译处的文件以压缩包方式通过ftp上传到服务器，并执行服务器脚本来重启项目--&gt;</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project name=&quot;citsonlinePJ&quot; default=&quot;deploy&quot;&gt;</span><br><span class="line"></span><br><span class="line">	&lt;tstamp&gt;</span><br><span class="line">		&lt;format property=&quot;now&quot; pattern=&quot;yyyy-MM-dd HH:mm&quot; /&gt;</span><br><span class="line">	&lt;/tstamp&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;property file=&quot;./servermsg.properties&quot; /&gt;</span><br><span class="line">	&lt;!--服务器连接 只需改前缀 例如改为90服务器只需把20改为90即可。目前支持20、24、90服务器--&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;property name=&quot;weblogicSvr&quot;  value=&quot;$&#123;ip&#125;&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;weblogicUser&quot; value=&quot;$&#123;username&#125;&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;weblogicPwd&quot;  value=&quot;$&#123;pwd&#125;&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;weblogicPath&quot; value=&quot;$&#123;path&#125;&quot; /&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;property name=&quot;projectHome&quot;  value=&quot;D:\project\citsb2b\workspace&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;outputDir&quot;    value=&quot;$&#123;projectHome&#125;/[output]/$&#123;weblogicSvr&#125;&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;citsonline_outputName&quot;   value=&quot;citsonline_release16_$&#123;DSTAMP&#125;_$&#123;TSTAMP&#125;.zip&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;citsonline_outputFile&quot;   value=&quot;$&#123;projectHome&#125;/[output]/$&#123;weblogicSvr&#125;/$&#123;citsonline_outputName&#125;&quot; /&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;property name=&quot;citsb2b_outputName&quot;   value=&quot;citsb2b_release_$&#123;DSTAMP&#125;_$&#123;TSTAMP&#125;.zip&quot; /&gt;</span><br><span class="line">	&lt;property name=&quot;citsb2b_outputFile&quot;   value=&quot;$&#123;projectHome&#125;/[output]/$&#123;weblogicSvr&#125;/$&#123;citsb2b_outputName&#125;&quot; /&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;!--编译 citsb2b项目--&gt;</span><br><span class="line">	&lt;target name=&quot;citsb2b_bild&quot;&gt;</span><br><span class="line">		</span><br><span class="line">		&lt;zip destfile=&quot;$&#123;citsb2b_outputFile&#125;&quot;&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;projectHome&#125;/citsb2b/EarContent&quot; prefix=&quot;citsb2b&quot;&gt;&lt;/zipfileset&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;projectHome&#125;/citsb2b/EarContent/APP-INF/lib&quot; prefix=&quot;citsb2b/citsb2bWeb/WEB-INF/lib&quot;&gt;</span><br><span class="line">				&lt;include name=&quot;spring-*.jar&quot; /&gt;</span><br><span class="line">				&lt;include name=&quot;standard.jar&quot; /&gt;</span><br><span class="line">				&lt;include name=&quot;jstl.jar&quot; /&gt;</span><br><span class="line">			&lt;/zipfileset&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;projectHome&#125;/citsb2bWeb/classes&quot; prefix=&quot;citsb2b/citsb2bWeb/WEB-INF/classes&quot;&gt;&lt;/zipfileset&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;projectHome&#125;/citsb2bWeb/WebContent&quot; prefix=&quot;citsb2b/citsb2bWeb&quot;&gt;&lt;/zipfileset&gt;</span><br><span class="line">		&lt;/zip&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;!--编译 citsonline项目--&gt;</span><br><span class="line">	&lt;target name=&quot;build&quot; depends=&quot;citsb2b_bild&quot;&gt;</span><br><span class="line">		&lt;jar basedir=&quot;$&#123;projectHome&#125;/citsonlineBase/classes&quot;     destfile=&quot;$&#123;outputDir&#125;/tmp/lib/citsonlineBase.jar&quot; /&gt;</span><br><span class="line">		&lt;jar basedir=&quot;$&#123;projectHome&#125;/citsonlineBuzLogic/classes&quot; destfile=&quot;$&#123;outputDir&#125;/tmp/lib/citsonlineBuzLogic.jar&quot; /&gt;</span><br><span class="line">		&lt;jar basedir=&quot;$&#123;projectHome&#125;/citsonlineCommon/classes&quot;   destfile=&quot;$&#123;outputDir&#125;/tmp/lib/citsonlineCommon.jar&quot; /&gt;</span><br><span class="line">		&lt;jar basedir=&quot;$&#123;projectHome&#125;/simplemapping/classes&quot;      destfile=&quot;$&#123;outputDir&#125;/tmp/lib/simplemapping.jar&quot; /&gt;</span><br><span class="line">		</span><br><span class="line">		&lt;zip destfile=&quot;$&#123;citsonline_outputFile&#125;&quot;&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;projectHome&#125;/citsonline/EarContent&quot; prefix=&quot;citsonline&quot;&gt;&lt;/zipfileset&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;projectHome&#125;/citsonlineEJB/classes&quot; prefix=&quot;citsonline/citsonlineEJB&quot; &gt;&lt;/zipfileset&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;projectHome&#125;/citsonlineWeb/classes&quot; prefix=&quot;citsonline/citsonlineWeb/WEB-INF/classes&quot;&gt;&lt;/zipfileset&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;projectHome&#125;/citsonlineWeb/WebRoot&quot; prefix=&quot;citsonline/citsonlineWeb&quot;&gt;&lt;/zipfileset&gt;</span><br><span class="line">			&lt;zipfileset dir=&quot;$&#123;outputDir&#125;/tmp/lib&quot; prefix=&quot;citsonline/lib&quot;&gt;&lt;/zipfileset&gt;</span><br><span class="line">		&lt;/zip&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!--打增量包 --&gt;</span><br><span class="line">	&lt;target name=&quot;patch&quot; depends=&quot;build&quot;&gt;</span><br><span class="line">		&lt;!--citsb2b --&gt;</span><br><span class="line">		&lt;java fork=&quot;true&quot; classname=&quot;com.cits.online.common.BuildPatch&quot;&gt;</span><br><span class="line">			&lt;classpath path=&quot;$&#123;projectHome&#125;/citsonlineBase/classes&quot;&gt;&lt;/classpath&gt;</span><br><span class="line">			&lt;classpath path=&quot;$&#123;projectHome&#125;/citsonline/build/lib/ant.jar&quot;&gt;&lt;/classpath&gt;</span><br><span class="line">			</span><br><span class="line">			&lt;arg value=&quot;$&#123;outputDir&#125;&quot; /&gt;</span><br><span class="line">			&lt;arg value=&quot;$&#123;citsb2b_outputName&#125;&quot; /&gt;</span><br><span class="line">		&lt;/java&gt;</span><br><span class="line">		</span><br><span class="line">		&lt;!--citsonline --&gt;</span><br><span class="line">		&lt;java fork=&quot;true&quot; classname=&quot;com.cits.online.common.BuildPatch&quot;&gt;</span><br><span class="line">			&lt;classpath path=&quot;$&#123;projectHome&#125;/citsonlineBase/classes&quot;&gt;&lt;/classpath&gt;</span><br><span class="line">			&lt;classpath path=&quot;$&#123;projectHome&#125;/citsonline/build/lib/ant.jar&quot;&gt;&lt;/classpath&gt;</span><br><span class="line"></span><br><span class="line">			&lt;arg value=&quot;$&#123;outputDir&#125;&quot; /&gt;</span><br><span class="line">			&lt;arg value=&quot;$&#123;citsonline_outputName&#125;&quot; /&gt;</span><br><span class="line">		&lt;/java&gt;</span><br><span class="line">		</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;!--同步到服务器 --&gt;</span><br><span class="line">	&lt;target name=&quot;ftp&quot; depends=&quot;patch&quot;&gt;</span><br><span class="line">		&lt;echo message=&quot;FTP Transferring weblogicSvr, Upload to Weblogic start...&quot; /&gt;</span><br><span class="line">		&lt;scp todir=&quot;$&#123;weblogicUser&#125;:$&#123;weblogicPwd&#125;@$&#123;weblogicSvr&#125;:$&#123;weblogicPath&#125;&quot; trust=&quot;true&quot;&gt;</span><br><span class="line">			&lt;fileset dir=&quot;$&#123;outputDir&#125;&quot;&gt;</span><br><span class="line">				&lt;!-- 上传全量包--&gt;</span><br><span class="line">				&lt;include name=&quot;**/*$&#123;DSTAMP&#125;_$&#123;TSTAMP&#125;*&quot; /&gt;</span><br><span class="line">				&lt;exclude name=&quot;**/*$&#123;DSTAMP&#125;_$&#123;TSTAMP&#125;_Patch*&quot; /&gt;</span><br><span class="line">			&lt;/fileset&gt;</span><br><span class="line">		&lt;/scp&gt;</span><br><span class="line">		&lt;echo message=&quot;FTP Transfer weblogicSvr Done!&quot; /&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	&lt;target name=&quot;clean&quot; depends=&quot;ftp&quot;&gt;</span><br><span class="line">		&lt;delete dir=&quot;$&#123;outputDir&#125;&quot; verbose=&quot;true&quot; includeemptydirs=&quot;true&quot; &gt;</span><br><span class="line">			&lt;exclude name=&quot;**/*[Base]*&quot; /&gt;</span><br><span class="line">			&lt;exclude name=&quot;**/*$&#123;DSTAMP&#125;_$&#123;TSTAMP&#125;*&quot; /&gt;</span><br><span class="line">		&lt;/delete&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;target name=&quot;run&quot; depends=&quot;ftp&quot;&gt;</span><br><span class="line">		&lt;echo message=&quot;start run restart script... !&quot; /&gt;</span><br><span class="line">		&lt;echo message=&quot; restart.sh $&#123;citsonline_outputName&#125; $&#123;citsb2b_outputName&#125;&quot; /&gt;</span><br><span class="line">		&lt;sshexec host=&quot;$&#123;weblogicSvr&#125;&quot; username=&quot;$&#123;weblogicUser&#125;&quot; password=&quot;$&#123;weblogicPwd&#125;&quot; command=&quot;cd $&#123;weblogicPath&#125;;cd ..; sh restart.sh $&#123;citsonline_outputName&#125; $&#123;citsb2b_outputName&#125;&quot; trust=&quot;true&quot;/&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;target name=&quot;deploy&quot; depends=&quot;run&quot;&gt;</span><br><span class="line">		&lt;echo message=&quot;All Done !&quot; /&gt;</span><br><span class="line">	&lt;/target&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-]]></content>
-      <tags>
-        <tag>java</tag>
-        <tag>效率</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>通过共享实现电脑间文件传递</title>
-    <url>/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/</url>
-    <content><![CDATA[<p><strong>背景：在办公时，你要发给小明一个很大的文件，u盘存放不下，且传输速度慢，怎么解决</strong></p>
-<p><strong>一、在你一个本地空间新建一个文件夹FileReceive</strong></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/a8b1afbf5bbc430bb3b4132767d35975.png" alt="img"></p>
-<span id="more"></span> 
-
-<p><strong>二、右键属性，点击共享</strong></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/be1e6ae5c2c84f1bb3c19ddb4f1d4e5f.png" alt="img"></p>
-<p> <strong>三、选择共享账号为everyone,这之后会有一个窗口提示共享已完成，点击右下角的“完成”按钮</strong></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/928ca4e2ef13437e9c5ff9df90a4354e.png" alt="img"></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/e36c11e7ffcb41c0bad8c815f78ca397.png" alt="img"></p>
-<p> <strong>四、虽然现在共享给了Everyone，但是组和用户那里却没有Everyone，需要另行添加。点击箭头所指处的“编辑”。</strong></p>
-<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1b9e8951ac1c4a6bbf8423b51bf8e5a9.png" alt="img"></p>
-<p> <strong>五、在“FileReceive的权限”窗口中点击箭头所指处的“添加”。</strong></p>
-<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/db762c242f92479fb1d54b29811ec9d3.png" alt="img"></p>
-<p> <strong>六、在“选择组和用户”窗口中点击“高级”。</strong> </p>
-<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/6eb3ea6e500e4c34a5819aa5b3ee1e86.png" alt="img"></p>
-<p>  <strong>七、点击“立即查找”，在搜索结果中找到Everyone，双击添加，然后点击确定。</strong></p>
-<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/404e1f88728941e58813c17682d28bc6.png" alt="img"></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/7ca724ffe1054cddaa33d96830dc79ca.png" alt="img"></p>
-<p>  <strong>八、勾选Everyone的所有权限，如下图所示，然后点击“应用”，“确定”。</strong> </p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/d1e03223471b4548ac96e8e7929576e6.png" alt="img"></p>
-<p>  <strong>九、使用win+r快捷键调出运行窗口，输入\+IP地址，连接至电脑B的共享。</strong> </p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1bbc15b8aa784bfe8fb8a3faad79768f.png" alt="img"></p>
-]]></content>
-      <tags>
-        <tag>技巧</tag>
       </tags>
   </entry>
   <entry>
