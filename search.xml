@@ -63,6 +63,41 @@
       </tags>
   </entry>
   <entry>
+    <title>通过指令快速打开软件</title>
+    <url>/2021/11/11/111/</url>
+    <content><![CDATA[<h3 id="每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢"><a href="#每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢" class="headerlink" title="每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢"></a><strong>每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢</strong></h3><h1 id="一、建立文件夹"><a href="#一、建立文件夹" class="headerlink" title="一、建立文件夹"></a>一、建立文件夹</h1><ol>
+<li><p>首先在任意位置建个文件夹</p>
+<p><img src="/2021/11/11/111/image-20211111175928832.png" alt="image-20211111175928832"></p>
+</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="二、将文件目录配到环境变量中"><a href="#二、将文件目录配到环境变量中" class="headerlink" title="二、将文件目录配到环境变量中"></a>二、将文件目录配到环境变量中</h1><ol>
+<li>点击桌面此电脑 右击 选择属性</li>
+<li>点击高级系统设置，弹出页面点击环境变量</li>
+</ol>
+<p><img src="/2021/11/11/111/image-20211111180102457.png" alt="image-20211111180102457"></p>
+<ol start="3">
+<li>选中Path然后点解编辑</li>
+</ol>
+<p><img src="/2021/11/11/111/image-20211111180233166.png" alt="image-20211111180233166"></p>
+<ol start="4">
+<li>点击新建，将新建的文件夹路径配置进去，然后点击确定完成操作</li>
+</ol>
+<p><img src="/2021/11/11/111/image-20211111180406382.png" alt="image-20211111180406382"></p>
+<h1 id="三、存放快捷方式"><a href="#三、存放快捷方式" class="headerlink" title="三、存放快捷方式"></a>三、存放快捷方式</h1><p><strong>将一些常用的软件快捷方式按照自己习惯命名放到新建的文件夹中</strong></p>
+<img src="/2021/11/11/111/image-20211111180543035.png" alt="image-20211111180543035" style="zoom:67%;">
+
+<p><strong>这样在任意界面都可以通过快捷键Win+R调出左下角运行输入框</strong></p>
+<p><img src="/2021/11/11/111/image-20211111180706062.png" alt="image-20211111180706062"></p>
+<p><strong>输入自己命名的快捷方式（直接输过的敲一个字母就会带出来）回车边立即打开相应软件</strong></p>
+<p>是不是相当nice~~~~</p>
+]]></content>
+      <tags>
+        <tag>技巧</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ant 使用分享</title>
     <url>/2021/11/11/ant-%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB/</url>
     <content><![CDATA[<h1 id="一、概述、功能"><a href="#一、概述、功能" class="headerlink" title="一、概述、功能"></a>一、概述、功能</h1><ol>
@@ -191,15 +226,6 @@
       </tags>
   </entry>
   <entry>
-    <title>bat批处理脚本学习</title>
-    <url>/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[]]></content>
-      <tags>
-        <tag>效率</tag>
-        <tag>bat</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git常用操作</title>
     <url>/2021/11/11/git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>git作为一款分布式版本控制工具，目前已逐渐成为开发团队首选的协作工具，相比SVN其优势不言而喻</p>
@@ -322,6 +348,60 @@
       <tags>
         <tag>git</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>bat批处理脚本学习</title>
+    <url>/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[]]></content>
+      <tags>
+        <tag>效率</tag>
+        <tag>bat</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo搭配typora在文档中插入图片上传到github</title>
+    <url>/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/</url>
+    <content><![CDATA[<p>由于hexo本地图片路径和上传到github服务器上的路径不同，使用typora设置相对路径也会有问题，为了解决文章在本地插入图片和在服务器预览效果一致，跟随一下步骤即可完美解决</p>
+<h2 id="一、hexo配置文件修改"><a href="#一、hexo配置文件修改" class="headerlink" title="一、hexo配置文件修改"></a>一、hexo配置文件修改</h2><ol>
+<li>在博客根目录下的_config.yml文件中，找到<strong>post_asset_folder</strong>字段，属性值设为<strong>true</strong></li>
+</ol>
+<span id="more"></span>
+
+<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111000301442.png" alt="image-20211111000301442"></p>
+<ol start="2">
+<li><p>当设置完<strong>post_asset_folder</strong>字段值后，使用hexo new “博客名称” 时，会生成一个博客名称文件夹和博客名称.md文件</p>
+<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111000824606.png" alt="image-20211111000824606"></p>
+<ol start="3">
+<li>在文章使用中的资源可以放到对应的文件夹里，可以方便区分，这样也有一个问题，插入一张图片放一张，然后在编辑器上去引相对路径，不是很麻烦吗，答案是结合typora设置一下即可完美解决</li>
+</ol>
+<h2 id="二、设置Typora"><a href="#二、设置Typora" class="headerlink" title="二、设置Typora"></a>二、设置Typora</h2><ol>
+<li>typora 点击格式&gt;&gt;图像&gt;&gt;全局图像设置</li>
+</ol>
+<img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111001152225.png" alt="image-20211111001152225" style="zoom:80%;">
+
+<ol start="2">
+<li>在偏好设置处修改复制到指定路径</li>
+</ol>
+</li>
+</ol>
+<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111001342435.png" alt="image-20211111001342435"></p>
+<ol start="3">
+<li>操作完成后，粘贴在文档的图片都会自动复制到跟文件同名的文件夹中去，也不用单独去存放图片和写相对路径了，是不是很nice</li>
+</ol>
+<h2 id="三、装插件"><a href="#三、装插件" class="headerlink" title="三、装插件"></a>三、装插件</h2><p>操作到当前步骤还未结束，</p>
+<p>需要到博客的根目录下执行 npm install <a href="https://link.jianshu.com/?t=https://github.com/CodeFalling/hexo-asset-image">https://github.com/CodeFalling/hexo-asset-image</a> –save 命令来进行插件的安装。</p>
+<p>以便在服务器上访问图片和本地预览访问的图片都能够正常显示</p>
+<p>至此，图片问题解决，可以图文写作不是很棒嘛~</p>
+]]></content>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>shell编写心得</title>
+    <url>/2021/11/11/shell%E7%BC%96%E5%86%99%E5%BF%83%E5%BE%97/</url>
+    <content><![CDATA[<p>暂无~~~~</p>
+]]></content>
   </entry>
   <entry>
     <title>linux常用命令使用记录</title>
@@ -1413,51 +1493,6 @@
       </tags>
   </entry>
   <entry>
-    <title>shell编写心得</title>
-    <url>/2021/11/11/shell%E7%BC%96%E5%86%99%E5%BF%83%E5%BE%97/</url>
-    <content><![CDATA[<p>暂无~~~~</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>hexo搭配typora在文档中插入图片上传到github</title>
-    <url>/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/</url>
-    <content><![CDATA[<p>由于hexo本地图片路径和上传到github服务器上的路径不同，使用typora设置相对路径也会有问题，为了解决文章在本地插入图片和在服务器预览效果一致，跟随一下步骤即可完美解决</p>
-<h2 id="一、hexo配置文件修改"><a href="#一、hexo配置文件修改" class="headerlink" title="一、hexo配置文件修改"></a>一、hexo配置文件修改</h2><ol>
-<li>在博客根目录下的_config.yml文件中，找到<strong>post_asset_folder</strong>字段，属性值设为<strong>true</strong></li>
-</ol>
-<span id="more"></span>
-
-<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111000301442.png" alt="image-20211111000301442"></p>
-<ol start="2">
-<li><p>当设置完<strong>post_asset_folder</strong>字段值后，使用hexo new “博客名称” 时，会生成一个博客名称文件夹和博客名称.md文件</p>
-<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111000824606.png" alt="image-20211111000824606"></p>
-<ol start="3">
-<li>在文章使用中的资源可以放到对应的文件夹里，可以方便区分，这样也有一个问题，插入一张图片放一张，然后在编辑器上去引相对路径，不是很麻烦吗，答案是结合typora设置一下即可完美解决</li>
-</ol>
-<h2 id="二、设置Typora"><a href="#二、设置Typora" class="headerlink" title="二、设置Typora"></a>二、设置Typora</h2><ol>
-<li>typora 点击格式&gt;&gt;图像&gt;&gt;全局图像设置</li>
-</ol>
-<img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111001152225.png" alt="image-20211111001152225" style="zoom:80%;">
-
-<ol start="2">
-<li>在偏好设置处修改复制到指定路径</li>
-</ol>
-</li>
-</ol>
-<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111001342435.png" alt="image-20211111001342435"></p>
-<ol start="3">
-<li>操作完成后，粘贴在文档的图片都会自动复制到跟文件同名的文件夹中去，也不用单独去存放图片和写相对路径了，是不是很nice</li>
-</ol>
-<h2 id="三、装插件"><a href="#三、装插件" class="headerlink" title="三、装插件"></a>三、装插件</h2><p>操作到当前步骤还未结束，</p>
-<p>需要到博客的根目录下执行 npm install <a href="https://link.jianshu.com/?t=https://github.com/CodeFalling/hexo-asset-image">https://github.com/CodeFalling/hexo-asset-image</a> –save 命令来进行插件的安装。</p>
-<p>以便在服务器上访问图片和本地预览访问的图片都能够正常显示</p>
-<p>至此，图片问题解决，可以图文写作不是很棒嘛~</p>
-]]></content>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>实用工具软件分享</title>
     <url>/2021/11/10/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7%E8%BD%AF%E4%BB%B6%E5%88%86%E4%BA%AB/</url>
     <content><![CDATA[<p>本人平时喜欢收集一些好用的软件，正好最近在研究个人博客，就想通过这篇个人博客向大家分享下自己的一些工具，同时也方便为自己做个记录</p>
@@ -1482,6 +1517,84 @@
       </categories>
       <tags>
         <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>编写脚本一键部署发布博文(一)</title>
+    <url>/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87/</url>
+    <content><![CDATA[<p>事情起因是每次修改了博问都要执行 <code>hexo clean</code> <code>hexo g</code> <code>hexo d</code>一套来清楚，重新编译，部署完成一套操作，这对于追求极客效率的开发来说必是要想办法优化的，怎么做编写一个一键部署的脚本呢，考虑到之前还没怎么编写过bat批处理脚本，本次借着时间来尝试一下</p>
+<span id="more"></span>    
+
+<h1 id="一、目标"><a href="#一、目标" class="headerlink" title="一、目标"></a>一、目标</h1><p>1、执行脚本可以确认执行或者关掉窗口不执行，确认执行将依次执行<code>hexo clean</code> 和 <code>hexo g</code>指令</p>
+<p>2、弹出指示询问是否部署到Github上，输入yes将部署，输入no，提示自己选择了不部署，然后关闭窗口即可</p>
+<p>3、在任意界面能够执行脚本，这个之前分享的技巧可以结合，具体请移步通过<a href="https://liuzhengkaifa.github.io/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/#more">指令快速打开软件</a></p>
+<h1 id="二、具体实现"><a href="#二、具体实现" class="headerlink" title="二、具体实现"></a>二、具体实现</h1><h2 id="1、实现一"><a href="#1、实现一" class="headerlink" title="1、实现一"></a>1、实现一</h2><ol>
+<li>先是编写确认，主要是<code>pause</code>指令，作用是会在dos窗口显示 请按任意键继续. . . 如果想反悔不执行了直接关闭dos窗口即可</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">cls</span><br><span class="line">echo **********************************************</span><br><span class="line">echo.</span><br><span class="line">echo     一   键   布   署   发   布      </span><br><span class="line">echo.</span><br><span class="line">echo       安装请按任意键，退出直接关闭窗口</span><br><span class="line">echo.</span><br><span class="line">echo **********************************************</span><br><span class="line">echo.</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>依次执行<code>hexo clean</code> 和 <code>hexo g</code>指令，注意使用到了call指令，放在了hexo指令的前面，主要作用是执行完指令后任然返回到当前窗口，可以继续执行下面指令，不然一些指令本身带退出指令，就会造成下面指令无法执行。具体作用还请各位各自查询之~~~</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">:step1</span><br><span class="line">cd /d d:\blog</span><br><span class="line">echo Please wait</span><br><span class="line">call hexo clean</span><br><span class="line">echo  clean finished...</span><br><span class="line"></span><br><span class="line">:step2</span><br><span class="line">call hexo g</span><br><span class="line">cls</span><br><span class="line">echo  generate finished...</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>询问是否部署到<code>GitHub</code>，这里主要是做了一个输入判断</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">:step3</span><br><span class="line">set /p o=要部署到GitHub上吗? (YES NO):</span><br><span class="line">if /i &quot;%o%&quot;==&quot;yes&quot; goto yes</span><br><span class="line">if /i &quot;%o%&quot;==&quot;no&quot; goto no</span><br><span class="line">goto step3</span><br><span class="line">:yes</span><br><span class="line">call hexo d</span><br><span class="line">echo  deploy to GitHub finished...</span><br><span class="line">pause</span><br><span class="line">:no</span><br><span class="line">echo 你选择了不部署！</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3、实现三"><a href="#3、实现三" class="headerlink" title="3、实现三"></a>3、实现三</h2><p>根据我们之前的技巧，只需要将我们编写的脚本放到加入环境变量的文件夹中即可</p>
+<p><img src="/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87/image-20211113083252420.png" alt="image-20211113083252420"></p>
+<p>然后快捷键<code>WIn+R</code>调出运行框，输入<code>hexocgd.bat</code>确定即可</p>
+<p><img src="/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87/image-20211113083548405.png" alt="image-20211113083548405"></p>
+<h2 id="三、实现效果"><a href="#三、实现效果" class="headerlink" title="三、实现效果"></a>三、实现效果</h2><p><img src="/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87/image-20211113084544330.png" alt="image-20211113084544330"></p>
+<p>选择no,不部署</p>
+<p><img src="/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87/image-20211113092540550.png" alt="image-20211113092540550"></p>
+<p>选择yes,部署</p>
+<p><img src="/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87/image-20211113092614842.png" alt="image-20211113092614842"></p>
+<h1 id="四、脚本获取"><a href="#四、脚本获取" class="headerlink" title="四、脚本获取"></a>四、脚本获取</h1><p><a href="hexocgd.bat">hexocdg.bat脚本获取</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">cls</span><br><span class="line">echo **********************************************</span><br><span class="line">echo.</span><br><span class="line">echo     一   键   布   署   发   布      </span><br><span class="line">echo.</span><br><span class="line">echo       安装请按任意键，退出直接关闭窗口</span><br><span class="line">echo.</span><br><span class="line">echo **********************************************</span><br><span class="line">echo.</span><br><span class="line">pause</span><br><span class="line"></span><br><span class="line">:step1</span><br><span class="line">cd /d d:\blog</span><br><span class="line">echo Please wait</span><br><span class="line">call hexo clean</span><br><span class="line">echo  clean finished...</span><br><span class="line"></span><br><span class="line">:step2</span><br><span class="line">call hexo g</span><br><span class="line">echo  generate finished...</span><br><span class="line"></span><br><span class="line">:step3</span><br><span class="line">set /p o=要部署到GitHub上吗? (YES NO):</span><br><span class="line">if /i &quot;%o%&quot;==&quot;yes&quot; goto yes</span><br><span class="line">if /i &quot;%o%&quot;==&quot;no&quot; goto no</span><br><span class="line">goto step3</span><br><span class="line">:yes</span><br><span class="line">call hexo d</span><br><span class="line">echo  deploy to GitHub finished...</span><br><span class="line">pause</span><br><span class="line">:no</span><br><span class="line">echo 你选择了不部署！</span><br><span class="line">pause</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>效率</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>通过共享实现电脑间文件传递</title>
+    <url>/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/</url>
+    <content><![CDATA[<p><strong>背景：在办公时，你要发给小明一个很大的文件，u盘存放不下，且传输速度慢，怎么解决</strong></p>
+<p><strong>一、在你一个本地空间新建一个文件夹FileReceive</strong></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/a8b1afbf5bbc430bb3b4132767d35975.png" alt="img"></p>
+<span id="more"></span> 
+
+<p><strong>二、右键属性，点击共享</strong></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/be1e6ae5c2c84f1bb3c19ddb4f1d4e5f.png" alt="img"></p>
+<p> <strong>三、选择共享账号为everyone,这之后会有一个窗口提示共享已完成，点击右下角的“完成”按钮</strong></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/928ca4e2ef13437e9c5ff9df90a4354e.png" alt="img"></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/e36c11e7ffcb41c0bad8c815f78ca397.png" alt="img"></p>
+<p> <strong>四、虽然现在共享给了Everyone，但是组和用户那里却没有Everyone，需要另行添加。点击箭头所指处的“编辑”。</strong></p>
+<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1b9e8951ac1c4a6bbf8423b51bf8e5a9.png" alt="img"></p>
+<p> <strong>五、在“FileReceive的权限”窗口中点击箭头所指处的“添加”。</strong></p>
+<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/db762c242f92479fb1d54b29811ec9d3.png" alt="img"></p>
+<p> <strong>六、在“选择组和用户”窗口中点击“高级”。</strong> </p>
+<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/6eb3ea6e500e4c34a5819aa5b3ee1e86.png" alt="img"></p>
+<p>  <strong>七、点击“立即查找”，在搜索结果中找到Everyone，双击添加，然后点击确定。</strong></p>
+<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/404e1f88728941e58813c17682d28bc6.png" alt="img"></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/7ca724ffe1054cddaa33d96830dc79ca.png" alt="img"></p>
+<p>  <strong>八、勾选Everyone的所有权限，如下图所示，然后点击“应用”，“确定”。</strong> </p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/d1e03223471b4548ac96e8e7929576e6.png" alt="img"></p>
+<p>  <strong>九、使用win+r快捷键调出运行窗口，输入\+IP地址，连接至电脑B的共享。</strong> </p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1bbc15b8aa784bfe8fb8a3faad79768f.png" alt="img"></p>
+]]></content>
+      <tags>
+        <tag>技巧</tag>
       </tags>
   </entry>
   <entry>
@@ -1556,6 +1669,41 @@
 ]]></content>
       <tags>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>通过指令快速打开软件</title>
+    <url>/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/</url>
+    <content><![CDATA[<h3 id="每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢"><a href="#每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢" class="headerlink" title="每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢"></a><strong>每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢</strong></h3><h1 id="一、建立文件夹"><a href="#一、建立文件夹" class="headerlink" title="一、建立文件夹"></a>一、建立文件夹</h1><ol>
+<li><p>首先在任意位置建个文件夹</p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111175928832.png" alt="image-20211111175928832"></p>
+</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="二、将文件目录配到环境变量中"><a href="#二、将文件目录配到环境变量中" class="headerlink" title="二、将文件目录配到环境变量中"></a>二、将文件目录配到环境变量中</h1><ol>
+<li>点击桌面此电脑 右击 选择属性</li>
+<li>点击高级系统设置，弹出页面点击环境变量</li>
+</ol>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180102457.png" alt="image-20211111180102457"></p>
+<ol start="3">
+<li>选中Path然后点解编辑</li>
+</ol>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180233166.png" alt="image-20211111180233166"></p>
+<ol start="4">
+<li>点击新建，将新建的文件夹路径配置进去，然后点击确定完成操作</li>
+</ol>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180406382.png" alt="image-20211111180406382"></p>
+<h1 id="三、存放快捷方式"><a href="#三、存放快捷方式" class="headerlink" title="三、存放快捷方式"></a>三、存放快捷方式</h1><p><strong>将一些常用的软件快捷方式按照自己习惯命名放到新建的文件夹中</strong></p>
+<img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180543035.png" alt="image-20211111180543035" style="zoom:67%;">
+
+<p><strong>这样在任意界面都可以通过快捷键Win+R调出左下角运行输入框</strong></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180706062.png" alt="image-20211111180706062"></p>
+<p><strong>输入自己命名的快捷方式（直接输过的敲一个字母就会带出来）回车边立即打开相应软件</strong></p>
+<p>是不是相当nice~~~~</p>
+]]></content>
+      <tags>
+        <tag>技巧</tag>
       </tags>
   </entry>
   <entry>
@@ -1659,118 +1807,6 @@
 ]]></content>
       <tags>
         <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>通过共享实现电脑间文件传递</title>
-    <url>/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/</url>
-    <content><![CDATA[<p><strong>背景：在办公时，你要发给小明一个很大的文件，u盘存放不下，且传输速度慢，怎么解决</strong></p>
-<p><strong>一、在你一个本地空间新建一个文件夹FileReceive</strong></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/a8b1afbf5bbc430bb3b4132767d35975.png" alt="img"></p>
-<span id="more"></span> 
-
-<p><strong>二、右键属性，点击共享</strong></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/be1e6ae5c2c84f1bb3c19ddb4f1d4e5f.png" alt="img"></p>
-<p> <strong>三、选择共享账号为everyone,这之后会有一个窗口提示共享已完成，点击右下角的“完成”按钮</strong></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/928ca4e2ef13437e9c5ff9df90a4354e.png" alt="img"></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/e36c11e7ffcb41c0bad8c815f78ca397.png" alt="img"></p>
-<p> <strong>四、虽然现在共享给了Everyone，但是组和用户那里却没有Everyone，需要另行添加。点击箭头所指处的“编辑”。</strong></p>
-<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1b9e8951ac1c4a6bbf8423b51bf8e5a9.png" alt="img"></p>
-<p> <strong>五、在“FileReceive的权限”窗口中点击箭头所指处的“添加”。</strong></p>
-<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/db762c242f92479fb1d54b29811ec9d3.png" alt="img"></p>
-<p> <strong>六、在“选择组和用户”窗口中点击“高级”。</strong> </p>
-<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/6eb3ea6e500e4c34a5819aa5b3ee1e86.png" alt="img"></p>
-<p>  <strong>七、点击“立即查找”，在搜索结果中找到Everyone，双击添加，然后点击确定。</strong></p>
-<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/404e1f88728941e58813c17682d28bc6.png" alt="img"></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/7ca724ffe1054cddaa33d96830dc79ca.png" alt="img"></p>
-<p>  <strong>八、勾选Everyone的所有权限，如下图所示，然后点击“应用”，“确定”。</strong> </p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/d1e03223471b4548ac96e8e7929576e6.png" alt="img"></p>
-<p>  <strong>九、使用win+r快捷键调出运行窗口，输入\+IP地址，连接至电脑B的共享。</strong> </p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1bbc15b8aa784bfe8fb8a3faad79768f.png" alt="img"></p>
-]]></content>
-      <tags>
-        <tag>技巧</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>编写脚本一键部署发布博文</title>
-    <url>/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87/</url>
-    <content><![CDATA[<p>事情起因是每次修改了博问都要执行 <code>hexo clean</code> <code>hexo g</code> <code>hexo d</code>一套来清楚，重新编译，部署完成一套操作，这对于追求极客效率的开发来说必是要想办法优化的，怎么做编写一个一键部署的脚本呢，考虑到之前还没怎么编写过bat批处理脚本，本次借着时间来尝试一下</p>
-<span id="more"></span>    
-
-<h1 id="一、目标"><a href="#一、目标" class="headerlink" title="一、目标"></a>一、目标</h1><p>1、执行脚本可以确认执行或者关掉窗口不执行，确认执行将依次执行<code>hexo clean</code> 和 <code>hexo g</code>指令</p>
-<p>2、弹出指示询问是否部署到Github上，输入yes将部署，输入no，提示自己选择了不部署，然后关闭窗口即可</p>
-<p>3、在任意界面能够执行脚本，这个之前分享的技巧可以结合，具体请移步通过<a href="https://liuzhengkaifa.github.io/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/#more">指令快速打开软件</a></p>
-<h1 id="二、具体实现"><a href="#二、具体实现" class="headerlink" title="二、具体实现"></a>二、具体实现</h1><h2 id="1、实现一"><a href="#1、实现一" class="headerlink" title="1、实现一"></a>1、实现一</h2><ol>
-<li>先是编写确认，主要是<code>pause</code>指令，作用是会在dos窗口显示 请按任意键继续. . . 如果想反悔不执行了直接关闭dos窗口即可</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">cls</span><br><span class="line">echo **********************************************</span><br><span class="line">echo.</span><br><span class="line">echo     一   键   布   署   发   布      </span><br><span class="line">echo.</span><br><span class="line">echo       安装请按任意键，退出直接关闭窗口</span><br><span class="line">echo.</span><br><span class="line">echo **********************************************</span><br><span class="line">echo.</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>依次执行<code>hexo clean</code> 和 <code>hexo g</code>指令，注意使用到了call指令，放在了hexo指令的前面，主要作用是执行完指令后任然返回到当前窗口，可以继续执行下面指令，不然一些指令本身带退出指令，就会造成下面指令无法执行。具体作用还请各位各自查询之~~~</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">:step1</span><br><span class="line">cd /d d:\blog</span><br><span class="line">echo Please wait</span><br><span class="line">call hexo clean</span><br><span class="line">echo  clean finished...</span><br><span class="line"></span><br><span class="line">:step2</span><br><span class="line">call hexo g</span><br><span class="line">cls</span><br><span class="line">echo  generate finished...</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>询问是否部署到<code>GitHub</code>，这里主要是做了一个输入判断</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">:step3</span><br><span class="line">set /p o=要部署到GitHub上吗? (YES NO):</span><br><span class="line">if /i &quot;%o%&quot;==&quot;yes&quot; goto yes</span><br><span class="line">if /i &quot;%o%&quot;==&quot;no&quot; goto no</span><br><span class="line">goto step3</span><br><span class="line">:yes</span><br><span class="line">call hexo d</span><br><span class="line">echo  deploy to GitHub finished...</span><br><span class="line">pause</span><br><span class="line">:no</span><br><span class="line">echo 你选择了不部署！</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="3、实现三"><a href="#3、实现三" class="headerlink" title="3、实现三"></a>3、实现三</h2><p>根据我们之前的技巧，只需要将我们编写的脚本放到加入环境变量的文件夹中即可</p>
-<p><img src="/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87/image-20211113083252420.png" alt="image-20211113083252420"></p>
-<p>然后快捷键<code>WIn+R</code>调出运行框，输入<code>hexocgd.bat</code>确定即可</p>
-<p><img src="/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87/image-20211113083548405.png" alt="image-20211113083548405"></p>
-<h2 id="三、实现效果"><a href="#三、实现效果" class="headerlink" title="三、实现效果"></a>三、实现效果</h2><p><img src="/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87/image-20211113084544330.png" alt="image-20211113084544330"></p>
-<p>选择no,不部署</p>
-<p><img src="/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87/image-20211113092540550.png" alt="image-20211113092540550"></p>
-<p>选择yes,部署</p>
-<p><img src="/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87/image-20211113092614842.png" alt="image-20211113092614842"></p>
-<h1 id="四、脚本获取"><a href="#四、脚本获取" class="headerlink" title="四、脚本获取"></a>四、脚本获取</h1><p><a href="hexocgd.bat">hexocdg.bat脚本获取</a></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">cls</span><br><span class="line">echo **********************************************</span><br><span class="line">echo.</span><br><span class="line">echo     一   键   布   署   发   布      </span><br><span class="line">echo.</span><br><span class="line">echo       安装请按任意键，退出直接关闭窗口</span><br><span class="line">echo.</span><br><span class="line">echo **********************************************</span><br><span class="line">echo.</span><br><span class="line">pause</span><br><span class="line"></span><br><span class="line">:step1</span><br><span class="line">cd /d d:\blog</span><br><span class="line">echo Please wait</span><br><span class="line">call hexo clean</span><br><span class="line">echo  clean finished...</span><br><span class="line"></span><br><span class="line">:step2</span><br><span class="line">call hexo g</span><br><span class="line">echo  generate finished...</span><br><span class="line"></span><br><span class="line">:step3</span><br><span class="line">set /p o=要部署到GitHub上吗? (YES NO):</span><br><span class="line">if /i &quot;%o%&quot;==&quot;yes&quot; goto yes</span><br><span class="line">if /i &quot;%o%&quot;==&quot;no&quot; goto no</span><br><span class="line">goto step3</span><br><span class="line">:yes</span><br><span class="line">call hexo d</span><br><span class="line">echo  deploy to GitHub finished...</span><br><span class="line">pause</span><br><span class="line">:no</span><br><span class="line">echo 你选择了不部署！</span><br><span class="line">pause</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>效率</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>通过指令快速打开软件</title>
-    <url>/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/</url>
-    <content><![CDATA[<h3 id="每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢"><a href="#每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢" class="headerlink" title="每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢"></a><strong>每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢</strong></h3><h1 id="一、建立文件夹"><a href="#一、建立文件夹" class="headerlink" title="一、建立文件夹"></a>一、建立文件夹</h1><ol>
-<li><p>首先在任意位置建个文件夹</p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111175928832.png" alt="image-20211111175928832"></p>
-</li>
-</ol>
-<span id="more"></span>
-
-<h1 id="二、将文件目录配到环境变量中"><a href="#二、将文件目录配到环境变量中" class="headerlink" title="二、将文件目录配到环境变量中"></a>二、将文件目录配到环境变量中</h1><ol>
-<li>点击桌面此电脑 右击 选择属性</li>
-<li>点击高级系统设置，弹出页面点击环境变量</li>
-</ol>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180102457.png" alt="image-20211111180102457"></p>
-<ol start="3">
-<li>选中Path然后点解编辑</li>
-</ol>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180233166.png" alt="image-20211111180233166"></p>
-<ol start="4">
-<li>点击新建，将新建的文件夹路径配置进去，然后点击确定完成操作</li>
-</ol>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180406382.png" alt="image-20211111180406382"></p>
-<h1 id="三、存放快捷方式"><a href="#三、存放快捷方式" class="headerlink" title="三、存放快捷方式"></a>三、存放快捷方式</h1><p><strong>将一些常用的软件快捷方式按照自己习惯命名放到新建的文件夹中</strong></p>
-<img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180543035.png" alt="image-20211111180543035" style="zoom:67%;">
-
-<p><strong>这样在任意界面都可以通过快捷键Win+R调出左下角运行输入框</strong></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180706062.png" alt="image-20211111180706062"></p>
-<p><strong>输入自己命名的快捷方式（直接输过的敲一个字母就会带出来）回车边立即打开相应软件</strong></p>
-<p>是不是相当nice~~~~</p>
-]]></content>
-      <tags>
-        <tag>技巧</tag>
       </tags>
   </entry>
 </search>
