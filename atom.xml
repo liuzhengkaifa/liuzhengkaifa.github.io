@@ -38,9 +38,9 @@
     <link href="http://example.com/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87/"/>
     <id>http://example.com/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87/</id>
     <published>2021-11-12T15:27:56.000Z</published>
-    <updated>2021-11-12T15:32:55.075Z</updated>
+    <updated>2021-11-13T00:15:30.974Z</updated>
     
-    <content type="html"><![CDATA[<p>事情起因是每次修改了博问都要执行 <code>hexo clean</code> <code>hexo g</code> <code>hexo d</code>一套来清楚，重新编译，部署完成一套操作，这对于追求极客效率的开发来说必是要想办法优化的，怎么做编写一个一键部署的脚本呢，考虑到之前还没怎么编写过bat批处理脚本，本次借着时间来尝试一下</p><span id="more"></span>]]></content>
+    <content type="html"><![CDATA[<p>事情起因是每次修改了博问都要执行 <code>hexo clean</code> <code>hexo g</code> <code>hexo d</code>一套来清楚，重新编译，部署完成一套操作，这对于追求极客效率的开发来说必是要想办法优化的，怎么做编写一个一键部署的脚本呢，考虑到之前还没怎么编写过bat批处理脚本，本次借着时间来尝试一下</p><span id="more"></span>    <p>:step1<br>cd /d d:\blog<br>echo Please wait<br>call hexo clean<br>echo  clean finished…</p><p>:step2<br>call hexo g<br>echo  generate finished…</p><p>:step3<br>call hexo d<br>echo  deploy to GitHub finished…</p>]]></content>
     
     
     <summary type="html">&lt;p&gt;事情起因是每次修改了博问都要执行 &lt;code&gt;hexo clean&lt;/code&gt; &lt;code&gt;hexo g&lt;/code&gt; &lt;code&gt;hexo d&lt;/code&gt;一套来清楚，重新编译，部署完成一套操作，这对于追求极客效率的开发来说必是要想办法优化的，怎么做编写一个一键部署的脚本呢，考虑到之前还没怎么编写过bat批处理脚本，本次借着时间来尝试一下&lt;/p&gt;</summary>
