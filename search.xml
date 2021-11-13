@@ -129,6 +129,15 @@
       </tags>
   </entry>
   <entry>
+    <title>bat批处理脚本学习</title>
+    <url>/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[]]></content>
+      <tags>
+        <tag>效率</tag>
+        <tag>bat</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>WordPress傻瓜式构建个人动态博客</title>
     <url>/2021/11/10/WordPress%E5%82%BB%E7%93%9C%E5%BC%8F%E6%9E%84%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8A%A8%E6%80%81%E5%8D%9A%E5%AE%A2/</url>
     <content><![CDATA[<blockquote>
@@ -188,6 +197,45 @@
       </categories>
       <tags>
         <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo搭配typora在文档中插入图片上传到github</title>
+    <url>/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/</url>
+    <content><![CDATA[<p>由于hexo本地图片路径和上传到github服务器上的路径不同，使用typora设置相对路径也会有问题，为了解决文章在本地插入图片和在服务器预览效果一致，跟随一下步骤即可完美解决</p>
+<h2 id="一、hexo配置文件修改"><a href="#一、hexo配置文件修改" class="headerlink" title="一、hexo配置文件修改"></a>一、hexo配置文件修改</h2><ol>
+<li>在博客根目录下的_config.yml文件中，找到<strong>post_asset_folder</strong>字段，属性值设为<strong>true</strong></li>
+</ol>
+<span id="more"></span>
+
+<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111000301442.png" alt="image-20211111000301442"></p>
+<ol start="2">
+<li><p>当设置完<strong>post_asset_folder</strong>字段值后，使用hexo new “博客名称” 时，会生成一个博客名称文件夹和博客名称.md文件</p>
+<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111000824606.png" alt="image-20211111000824606"></p>
+<ol start="3">
+<li>在文章使用中的资源可以放到对应的文件夹里，可以方便区分，这样也有一个问题，插入一张图片放一张，然后在编辑器上去引相对路径，不是很麻烦吗，答案是结合typora设置一下即可完美解决</li>
+</ol>
+<h2 id="二、设置Typora"><a href="#二、设置Typora" class="headerlink" title="二、设置Typora"></a>二、设置Typora</h2><ol>
+<li>typora 点击格式&gt;&gt;图像&gt;&gt;全局图像设置</li>
+</ol>
+<img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111001152225.png" alt="image-20211111001152225" style="zoom:80%;">
+
+<ol start="2">
+<li>在偏好设置处修改复制到指定路径</li>
+</ol>
+</li>
+</ol>
+<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111001342435.png" alt="image-20211111001342435"></p>
+<ol start="3">
+<li>操作完成后，粘贴在文档的图片都会自动复制到跟文件同名的文件夹中去，也不用单独去存放图片和写相对路径了，是不是很nice</li>
+</ol>
+<h2 id="三、装插件"><a href="#三、装插件" class="headerlink" title="三、装插件"></a>三、装插件</h2><p>操作到当前步骤还未结束，</p>
+<p>需要到博客的根目录下执行 npm install <a href="https://link.jianshu.com/?t=https://github.com/CodeFalling/hexo-asset-image">https://github.com/CodeFalling/hexo-asset-image</a> –save 命令来进行插件的安装。</p>
+<p>以便在服务器上访问图片和本地预览访问的图片都能够正常显示</p>
+<p>至此，图片问题解决，可以图文写作不是很棒嘛~</p>
+]]></content>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -312,54 +360,6 @@
 ]]></content>
       <tags>
         <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>bat批处理脚本学习</title>
-    <url>/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[]]></content>
-      <tags>
-        <tag>效率</tag>
-        <tag>bat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo搭配typora在文档中插入图片上传到github</title>
-    <url>/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/</url>
-    <content><![CDATA[<p>由于hexo本地图片路径和上传到github服务器上的路径不同，使用typora设置相对路径也会有问题，为了解决文章在本地插入图片和在服务器预览效果一致，跟随一下步骤即可完美解决</p>
-<h2 id="一、hexo配置文件修改"><a href="#一、hexo配置文件修改" class="headerlink" title="一、hexo配置文件修改"></a>一、hexo配置文件修改</h2><ol>
-<li>在博客根目录下的_config.yml文件中，找到<strong>post_asset_folder</strong>字段，属性值设为<strong>true</strong></li>
-</ol>
-<span id="more"></span>
-
-<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111000301442.png" alt="image-20211111000301442"></p>
-<ol start="2">
-<li><p>当设置完<strong>post_asset_folder</strong>字段值后，使用hexo new “博客名称” 时，会生成一个博客名称文件夹和博客名称.md文件</p>
-<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111000824606.png" alt="image-20211111000824606"></p>
-<ol start="3">
-<li>在文章使用中的资源可以放到对应的文件夹里，可以方便区分，这样也有一个问题，插入一张图片放一张，然后在编辑器上去引相对路径，不是很麻烦吗，答案是结合typora设置一下即可完美解决</li>
-</ol>
-<h2 id="二、设置Typora"><a href="#二、设置Typora" class="headerlink" title="二、设置Typora"></a>二、设置Typora</h2><ol>
-<li>typora 点击格式&gt;&gt;图像&gt;&gt;全局图像设置</li>
-</ol>
-<img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111001152225.png" alt="image-20211111001152225" style="zoom:80%;">
-
-<ol start="2">
-<li>在偏好设置处修改复制到指定路径</li>
-</ol>
-</li>
-</ol>
-<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111001342435.png" alt="image-20211111001342435"></p>
-<ol start="3">
-<li>操作完成后，粘贴在文档的图片都会自动复制到跟文件同名的文件夹中去，也不用单独去存放图片和写相对路径了，是不是很nice</li>
-</ol>
-<h2 id="三、装插件"><a href="#三、装插件" class="headerlink" title="三、装插件"></a>三、装插件</h2><p>操作到当前步骤还未结束，</p>
-<p>需要到博客的根目录下执行 npm install <a href="https://link.jianshu.com/?t=https://github.com/CodeFalling/hexo-asset-image">https://github.com/CodeFalling/hexo-asset-image</a> –save 命令来进行插件的安装。</p>
-<p>以便在服务器上访问图片和本地预览访问的图片都能够正常显示</p>
-<p>至此，图片问题解决，可以图文写作不是很棒嘛~</p>
-]]></content>
-      <tags>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -1679,37 +1679,6 @@
       </tags>
   </entry>
   <entry>
-    <title>通过共享实现电脑间文件传递</title>
-    <url>/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/</url>
-    <content><![CDATA[<p><strong>背景：在办公时，你要发给小明一个很大的文件，u盘存放不下，且传输速度慢，怎么解决</strong></p>
-<p><strong>一、在你一个本地空间新建一个文件夹FileReceive</strong></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/a8b1afbf5bbc430bb3b4132767d35975.png" alt="img"></p>
-<span id="more"></span> 
-
-<p><strong>二、右键属性，点击共享</strong></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/be1e6ae5c2c84f1bb3c19ddb4f1d4e5f.png" alt="img"></p>
-<p> <strong>三、选择共享账号为everyone,这之后会有一个窗口提示共享已完成，点击右下角的“完成”按钮</strong></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/928ca4e2ef13437e9c5ff9df90a4354e.png" alt="img"></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/e36c11e7ffcb41c0bad8c815f78ca397.png" alt="img"></p>
-<p> <strong>四、虽然现在共享给了Everyone，但是组和用户那里却没有Everyone，需要另行添加。点击箭头所指处的“编辑”。</strong></p>
-<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1b9e8951ac1c4a6bbf8423b51bf8e5a9.png" alt="img"></p>
-<p> <strong>五、在“FileReceive的权限”窗口中点击箭头所指处的“添加”。</strong></p>
-<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/db762c242f92479fb1d54b29811ec9d3.png" alt="img"></p>
-<p> <strong>六、在“选择组和用户”窗口中点击“高级”。</strong> </p>
-<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/6eb3ea6e500e4c34a5819aa5b3ee1e86.png" alt="img"></p>
-<p>  <strong>七、点击“立即查找”，在搜索结果中找到Everyone，双击添加，然后点击确定。</strong></p>
-<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/404e1f88728941e58813c17682d28bc6.png" alt="img"></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/7ca724ffe1054cddaa33d96830dc79ca.png" alt="img"></p>
-<p>  <strong>八、勾选Everyone的所有权限，如下图所示，然后点击“应用”，“确定”。</strong> </p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/d1e03223471b4548ac96e8e7929576e6.png" alt="img"></p>
-<p>  <strong>九、使用win+r快捷键调出运行窗口，输入\+IP地址，连接至电脑B的共享。</strong> </p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1bbc15b8aa784bfe8fb8a3faad79768f.png" alt="img"></p>
-]]></content>
-      <tags>
-        <tag>技巧</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>通过指令快速打开软件</title>
     <url>/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/</url>
     <content><![CDATA[<h3 id="每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢"><a href="#每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢" class="headerlink" title="每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢"></a><strong>每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢</strong></h3><h1 id="一、建立文件夹"><a href="#一、建立文件夹" class="headerlink" title="一、建立文件夹"></a>一、建立文件夹</h1><ol>
@@ -1739,6 +1708,37 @@
 <p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180706062.png" alt="image-20211111180706062"></p>
 <p><strong>输入自己命名的快捷方式（直接输过的敲一个字母就会带出来）回车边立即打开相应软件</strong></p>
 <p>是不是相当nice~~~~</p>
+]]></content>
+      <tags>
+        <tag>技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>通过共享实现电脑间文件传递</title>
+    <url>/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/</url>
+    <content><![CDATA[<p><strong>背景：在办公时，你要发给小明一个很大的文件，u盘存放不下，且传输速度慢，怎么解决</strong></p>
+<p><strong>一、在你一个本地空间新建一个文件夹FileReceive</strong></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/a8b1afbf5bbc430bb3b4132767d35975.png" alt="img"></p>
+<span id="more"></span> 
+
+<p><strong>二、右键属性，点击共享</strong></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/be1e6ae5c2c84f1bb3c19ddb4f1d4e5f.png" alt="img"></p>
+<p> <strong>三、选择共享账号为everyone,这之后会有一个窗口提示共享已完成，点击右下角的“完成”按钮</strong></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/928ca4e2ef13437e9c5ff9df90a4354e.png" alt="img"></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/e36c11e7ffcb41c0bad8c815f78ca397.png" alt="img"></p>
+<p> <strong>四、虽然现在共享给了Everyone，但是组和用户那里却没有Everyone，需要另行添加。点击箭头所指处的“编辑”。</strong></p>
+<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1b9e8951ac1c4a6bbf8423b51bf8e5a9.png" alt="img"></p>
+<p> <strong>五、在“FileReceive的权限”窗口中点击箭头所指处的“添加”。</strong></p>
+<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/db762c242f92479fb1d54b29811ec9d3.png" alt="img"></p>
+<p> <strong>六、在“选择组和用户”窗口中点击“高级”。</strong> </p>
+<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/6eb3ea6e500e4c34a5819aa5b3ee1e86.png" alt="img"></p>
+<p>  <strong>七、点击“立即查找”，在搜索结果中找到Everyone，双击添加，然后点击确定。</strong></p>
+<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/404e1f88728941e58813c17682d28bc6.png" alt="img"></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/7ca724ffe1054cddaa33d96830dc79ca.png" alt="img"></p>
+<p>  <strong>八、勾选Everyone的所有权限，如下图所示，然后点击“应用”，“确定”。</strong> </p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/d1e03223471b4548ac96e8e7929576e6.png" alt="img"></p>
+<p>  <strong>九、使用win+r快捷键调出运行窗口，输入\+IP地址，连接至电脑B的共享。</strong> </p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1bbc15b8aa784bfe8fb8a3faad79768f.png" alt="img"></p>
 ]]></content>
       <tags>
         <tag>技巧</tag>
