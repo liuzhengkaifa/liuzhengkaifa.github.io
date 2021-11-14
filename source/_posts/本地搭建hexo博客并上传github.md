@@ -103,12 +103,14 @@ date: 2021-11-09 23:22:43
 <p>  在命令行 hexo d 部署博客时出现错误</p>
 <p>remote: Support for password authentication was removed on August 13, 2021. Please use a personal access token instead.</p>
 <p>原因时：GitHub不再支持密码验证解决方案：SSH免密与Token登录配置，基于方便我采用了ssh免密方式登录，可参考以下步骤</p>
+**cmd命令窗口需要切换到git安装目录的Git\usr\bin目录下，否则会找不到ssh-keygen命令**
+
 <p>1、本地生成公钥</p>
-<pre class="wp-block-preformatted">ssh-keygen -t rsa -b 4096 -C "uestchan@sina.com"</pre>
+<pre class="wp-block-preformatted">ssh-keygen -t rsa -C “835570372@qq.com” </pre>
 <p>接着会提示这个公钥私钥的保存路径-建议直接回车就好（默认目录里)</p>
 <p>接着提示输入私钥密码passphrase - 如果不想使用私钥登录的话，私钥密码为空，直接回车</p>
 
-<p> 2、将公钥配置到github中，用编辑器打开 C:\Users\test.ssh 目录下的 id_rsa.pub</p>
+<p> 2、将公钥配置到github中，用编辑器打开 C:\Users\电脑名\.ssh 目录下的 id_rsa.pub</p>
 
 <p>将内容粘贴到githun配置处</p>
 
