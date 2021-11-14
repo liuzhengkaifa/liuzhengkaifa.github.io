@@ -1,15 +1,7 @@
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="powered-by">
-<i class="fa fa-user-md"></i>
 
-  <span id="busuanzi_container_site_pv">
-    PV:<span id="busuanzi_value_site_pv"></span>次
-  </span>
-
-  <span id="busuanzi_container_site_uv">
-    UV:<span id="busuanzi_value_site_uv"></span>次
-  </span>
-</span>
+  
 {%- if theme.footer.beian.enable %}
   <div class="beian">
     {{- next_url('https://beian.miit.gov.cn', theme.footer.beian.icp + ' ') }}
@@ -54,20 +46,6 @@
   {%- endif %}
 </div>
 
-{%- if theme.footer.powered %}
-  <div class="powered-by">
-    {%- set next_site = 'https://theme-next.org' %}
-    {%- if theme.scheme !== 'Gemini' %}
-      {%- set next_site = 'https://' + theme.scheme | lower + '.theme-next.org' %}
-    {%- endif %}
-    {{- __('footer.powered', next_url('https://hexo.io', 'Hexo', {class: 'theme-link'}) + ' & ' + next_url(next_site, 'NexT.' + theme.scheme, {class: 'theme-link'})) }}
-  </div>
-{%- endif %}
 
-{%- if theme.add_this_id %}
-  <div class="addthis_inline_share_toolbox">
-    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid={{ theme.add_this_id }}" async="async"></script>
-  </div>
-{%- endif %}
 
 {{- next_inject('footer') }}

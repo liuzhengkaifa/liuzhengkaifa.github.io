@@ -1,6 +1,7 @@
 ---
 title: code-Man
 date: 2021-11-10 18:05:14
+type: "about"
 ---
 
 一个小菜鸡

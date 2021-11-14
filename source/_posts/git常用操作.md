@@ -1,10 +1,11 @@
 ---
 title: git常用操作
-date: 2021-11-11 09:35:56
 tags:
-- git
-categroies:
-- git
+  - git
+categories:
+  - 开发辅助
+abbrlink: 33485
+date: 2021-11-11 09:35:56
 ---
 
 ## 一、概述
@@ -97,18 +98,16 @@ A----C----E----G(mster)
 ### 三、分支的基本操作
 
 1. git branch //查看本地的所有分支
-
 2. git branch -r //查看远程所有分支
-
 3. git branch -a //查看本地和远程的所有分支
-
-4. git branch <branchname>   //新建分支
-
-5. git branch -d <branchname> //删除本地分支
-
-6. git branch -d -r <branchname> //删除远程分支，删除后还需推送到服务器
-7. git branch origin:<branchname> //删除后推送至服务器
-8. git branch -m <oldbranch> <newbranch> //重命名本地分支
+4. git branch \<branchname>   //新建分支
+5. git branch -d \<branchname> //删除本地分支
+6. git branch -d -r \<branchname> //删除远程分支，删除后还需推送到服务器
+7. git branch origin:\<branchname> //删除后推送至服务器
+8. git branch -m \<oldbranch> \<newbranch> //重命名本地分支
+9. git checkout \<branchname>//切换分支
+10. git checkout -b \<branchname>//创建并切换分行之
+11. git checkout -b \<branchname> origin:\<remoteBranchName>//创建分支并切换，分支跟远程分支保持一致
 
 ## 四、常用操作
 

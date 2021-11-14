@@ -1,10 +1,11 @@
 ---
 title: 本地搭建hexo博客并上传github
-date: 2021-11-09 23:22:43
 tags:
-- 博客
-categroies:
-- 博客
+  - 博客
+categories:
+  - 博客
+abbrlink: 55835
+date: 2021-11-09 23:22:43
 ---
 
 一、下载安装Nodejs

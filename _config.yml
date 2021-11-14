@@ -110,21 +110,18 @@ deploy:
   repo: git@github.com:liuzhengkaifa/liuzhengkaifa.github.io.git
   branch: master
 
+symbols_count_time:
+  symbols: true 
+  time: true 
+  total_symbols: true 
+  total_time: true 
 
-live2d:
-  enable: true
-  scriptFrom: local
-  pluginRootPath: live2dw/
-  pluginJsPath: lib/
-  pluginModelPath: assets/
-  tagMode: false
-  log: false
-  model:
-    use: live2d-widget-model-<haru>
-  display:
-    position: right
-    width: 150
-    height: 300
-  mobile:
-    show: true
+# hexo-tag-cloud
+tag_cloud:
+    textFont: Trebuchet MS, Helvetica
+    textColor: '#333'
+    textHeight: 25
+    outlineColor: '#E2E1D1'
+    maxSpeed: 0.1 
+
 

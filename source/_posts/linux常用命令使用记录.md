@@ -1,10 +1,11 @@
 ---
 title: linux常用命令使用记录
-date: 2021-11-11 09:35:35
 tags:
-- linux
+  - linux
 categories:
-- 效率
+  - 效率
+abbrlink: 894
+date: 2021-11-11 09:35:35
 ---
 
 # ⽂件查看和处理

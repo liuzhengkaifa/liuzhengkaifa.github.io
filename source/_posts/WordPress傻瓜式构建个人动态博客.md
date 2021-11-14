@@ -1,10 +1,11 @@
 ---
 title: WordPress傻瓜式构建个人动态博客
-date: 2021-11-10 22:25:31
 tags:
-- 博客
+  - 博客
 categories:
-- 博客
+  - 博客
+abbrlink: 34445
+date: 2021-11-10 22:25:31
 ---
 
 > 之前分享了一篇hexo搭建个人博客，详细内容可以访问：[本地搭建hexo博客并上传github](https://liuzhengkaifa.github.io/2021/11/09/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/#more) 那么WordPress博客与hexo有什么区别呢,到底该使用哪个

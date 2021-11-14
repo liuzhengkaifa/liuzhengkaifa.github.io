@@ -1,10 +1,11 @@
 ---
 title: hexo搭配typora在文档中插入图片上传到github
-date: 2021-11-10 23:57:41
 tags:
-- hexo
-categroies:
-- 博客
+  - hexo
+categories:
+  - 博客
+abbrlink: 47057
+date: 2021-11-10 23:57:41
 ---
 
 由于hexo本地图片路径和上传到github服务器上的路径不同，使用typora设置相对路径也会有问题，为了解决文章在本地插入图片和在服务器预览效果一致，跟随一下步骤即可完美解决

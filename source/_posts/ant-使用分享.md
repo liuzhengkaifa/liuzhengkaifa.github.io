@@ -1,9 +1,12 @@
 ---
 title: ant 使用分享
+tags:
+  - java
+  - 效率
+categories:
+  - 脚本
+abbrlink: 54086
 date: 2021-11-11 09:34:39
-tags: ['java', '效率']
-categroies:
-- 脚本
 ---
 
 
