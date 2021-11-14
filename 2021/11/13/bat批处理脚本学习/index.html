@@ -26,12 +26,18 @@
 <meta property="og:site_name" content="程序小牛">
 <meta property="og:description" content="windows实用中，当我们经常需要进行重复的操作时，就可以考虑编写一个批处理脚本来简化重复的动作，批处理（Batch）往往以.bat结尾，其作用嘛：无非就是能够连续执行多条命令">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114191146740.png">
+<meta property="og:image" content="http://example.com/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114201532547.png">
+<meta property="og:image" content="http://example.com/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114193227622.png">
+<meta property="og:image" content="http://example.com/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114202536708.png">
+<meta property="og:image" content="http://example.com/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114195932969.png">
 <meta property="article:published_time" content="2021-11-12T23:01:51.000Z">
-<meta property="article:modified_time" content="2021-11-14T06:42:26.417Z">
+<meta property="article:modified_time" content="2021-11-14T12:27:23.544Z">
 <meta property="article:author" content="coder-Man">
 <meta property="article:tag" content="效率">
 <meta property="article:tag" content="bat">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114191146740.png">
 
 <link rel="canonical" href="http://example.com/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/">
 
@@ -224,7 +230,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021年11月14号 14:42:26" itemprop="dateModified" datetime="2021-11-14T14:42:26+08:00">2021年11月14号</time>
+                <time title="修改时间：2021年11月14号 20:27:23" itemprop="dateModified" datetime="2021-11-14T20:27:23+08:00">2021年11月14号</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -249,14 +255,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>335</span>
+              <span>2.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -275,7 +281,86 @@
 
 <h3 id="（二）bat文件变量的实用"><a href="#（二）bat文件变量的实用" class="headerlink" title="（二）bat文件变量的实用"></a>（二）bat文件变量的实用</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo %num%</span><br><span class="line">echo %name%</span><br></pre></td></tr></table></figure>
 
-<h2 id="2-常用命令"><a href="#2-常用命令" class="headerlink" title="2.常用命令"></a>2.常用命令</h2><h3 id="一、echo"><a href="#一、echo" class="headerlink" title="一、echo"></a>一、echo</h3><h3 id="二、pause"><a href="#二、pause" class="headerlink" title="二、pause"></a>二、pause</h3><h3 id="三、cls"><a href="#三、cls" class="headerlink" title="三、cls"></a>三、cls</h3><h3 id="四、call"><a href="#四、call" class="headerlink" title="四、call"></a>四、call</h3><h3 id="五、REM"><a href="#五、REM" class="headerlink" title="五、REM"></a>五、REM</h3><h3 id="六、-p"><a href="#六、-p" class="headerlink" title="六、/p"></a>六、/p</h3><h3 id="七、if"><a href="#七、if" class="headerlink" title="七、if"></a>七、if</h3><h3 id="八、goto"><a href="#八、goto" class="headerlink" title="八、goto"></a>八、goto</h3><h5 id="DOS批处理中-dp0表示什么意思https-www-jianshu-com-p-5a1a882ead95"><a href="#DOS批处理中-dp0表示什么意思https-www-jianshu-com-p-5a1a882ead95" class="headerlink" title="DOS批处理中%~dp0表示什么意思https://www.jianshu.com/p/5a1a882ead95"></a>DOS批处理中%~dp0表示什么意思<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5a1a882ead95">https://www.jianshu.com/p/5a1a882ead95</a></h5><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/spw55381155/article/details/91413034">https://blog.csdn.net/spw55381155/article/details/91413034</a></p>
+<h2 id="2-常用命令"><a href="#2-常用命令" class="headerlink" title="2.常用命令"></a>2.常用命令</h2><h3 id="1、echo"><a href="#1、echo" class="headerlink" title="1、echo"></a>1、echo</h3><ol>
+<li>ECHO [ON | OFF] 打开回显或关闭回显功能。</li>
+</ol>
+<p>一般bat文件第一行都是@echo off,即关闭回显功能</p>
+<p>echo off 代表这行后面的命令执行时都不再输出显示命令本身，@表示显示其后面的命令，对改行生效，所以搭配起来就是脚本执行不显示命令行本身</p>
+<ol start="2">
+<li>另外echo具备输出和换行的功能；</li>
+</ol>
+<img src="/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114191146740.png" alt="image-20211114191146740" style="zoom: 67%;">
+
+<h3 id="2、pause"><a href="#2、pause" class="headerlink" title="2、pause"></a>2、pause</h3><p>会暂停批处理的执行并在屏幕上显示请按任意键继续…的提示，等待用户按任意键后继续</p>
+<p>一般用来让用户考虑是否继续执行，不执行的话关掉命令窗口即可</p>
+<h3 id="3、cls"><a href="#3、cls" class="headerlink" title="3、cls"></a>3、cls</h3><p>清屏，执行到该命令时之前的输出将会clean</p>
+<h3 id="4、call"><a href="#4、call" class="headerlink" title="4、call"></a>4、call</h3><p>call [要执行的脚本路径+脚本名称] [要传递的参数]</p>
+<p>调用另一个批处理程序，并且不终止父批处理程序</p>
+<p>在执行完另一个脚本后仍然返回到当前的批处理程序继续执行</p>
+<h3 id="5、REM"><a href="#5、REM" class="headerlink" title="5、REM"></a>5、REM</h3><p>语法：Rem Message…</p>
+<p>(小技巧：用::代替rem)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">::下面一行会输出hello</span><br><span class="line">echo hello</span><br></pre></td></tr></table></figure>
+
+<h3 id="6、-p"><a href="#6、-p" class="headerlink" title="6、/p"></a>6、/p</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set /p filename=请输入文件名称</span><br><span class="line">echo %filename%</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114201532547.png" alt="image-20211114201532547"></p>
+<h3 id="7、if"><a href="#7、if" class="headerlink" title="7、if"></a>7、if</h3><p>if 表示将判断是否符合规定的条件，从而决定执行不同的命令。有三种格式:</p>
+<ol>
+<li>语法: if [not] “参数” == “字符串” 待执行的命令</li>
+</ol>
+<p>参数如果等于(not表示不等，下同)指定的字符串，则条件成立，运行命令，否则运行下一句。(注意是两个等号)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line"></span><br><span class="line">if &quot;111&quot;==&quot;222&quot; echo 111==222</span><br><span class="line">echo ================</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>语法: if [not] exist [路径]文件名 待执行的命令</li>
+</ol>
+<p><img src="/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114193227622.png" alt="image-20211114193227622"></p>
+<ol start="3">
+<li>语法: if [not] errorlevel &lt;数字&gt; 待执行的命令</li>
+</ol>
+<p>很多DOS程序在运行结束后会返回一个数字值用来表示程序运行的结果(或者状态)，称为错误码errorlevel或称返回码。</p>
+<p>常见的返回码为0、1。通过if errorlevel命令可以判断程序的返回值，根据不同的返回值来决定执行不同的命令。</p>
+<p>**if-else if-else **</p>
+<p>注意：输出的括号和条件之间要留有空格，如果要换行else ，在if行尾需要加上<code>^</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">set num=1</span><br><span class="line">if %num%==0 (echo 111) else if %num%==2 (echo 222)^</span><br><span class="line">else (echo 333)	</span><br><span class="line">echo %num%</span><br><span class="line">pause</span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line">333</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<h3 id="8、goto"><a href="#8、goto" class="headerlink" title="8、goto"></a>8、goto</h3><p>语法：goto label (label是参数，指定所要转向的批处理程序中的行。)</p>
+<p>指定跳转到标签行，找到标签行后，程序将处理从下一行开始的命令。</p>
+<p>label标签的名字可以随便起，但是最好是有意义的，字母前必须加个冒号“:”来表示这个字母是标签。</p>
+<p>goto命令就是根据这个冒号来寻找下一步跳到到那里。经常与 if 配合使用，根据不同的条件来执行不同的命令组。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line"></span><br><span class="line">GOTO step3</span><br><span class="line">:step2</span><br><span class="line">echo step2</span><br><span class="line"></span><br><span class="line">:step3</span><br><span class="line">echo step3</span><br><span class="line"></span><br><span class="line">:step4</span><br><span class="line">echo step4</span><br><span class="line"></span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<p><img src="/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114202536708.png" alt="image-20211114202536708"></p>
+<h3 id="9、-dp0"><a href="#9、-dp0" class="headerlink" title="9、%~dp0"></a>9、%~dp0</h3><p><code>%~dp0</code>代表脚本当前路径，即：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">echo %~dp0</span><br><span class="line">输出的结果：D:\kuaijie\</span><br><span class="line"></span><br><span class="line">%~dp0 “d”为Drive的缩写，即为驱动器，磁盘、“p”为Path缩写，即为路径，目录</span><br><span class="line"></span><br><span class="line">cd %~dp0 ：进入bat脚本所在目录</span><br><span class="line"></span><br><span class="line">cd %~dp0bin\ ：进入bat脚本所在目录的bin目录</span><br></pre></td></tr></table></figure>
+
+<h3 id="10、脚本间参数传递"><a href="#10、脚本间参数传递" class="headerlink" title="10、脚本间参数传递"></a>10、脚本间参数传递</h3><p>%[1-9]表示参数，参数是指在运行批处理文件时在文件名后加的以空格(或者Tab)分隔的字符串。</p>
+<p>变量可以从%0到%9，%0表示批处理命令本身，其它参数字符串用 %1 到 %9 顺序表示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">例如我执行：</span><br><span class="line">call test.bat c1 2 3 4 5 6 7 8 9 a s</span><br><span class="line"></span><br><span class="line">在test.bat脚本内部，$0=test.bat;$1=c1;$9=9;$19=c19</span><br></pre></td></tr></table></figure>
+
+<h3 id="11、start"><a href="#11、start" class="headerlink" title="11、start"></a>11、start</h3><p>调用外部程序，所有的DOS命令和命令行程序都可由start命令来调用</p>
+<p>例如:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start /d &quot;D:\software&quot; typora.ext &quot;bat.md&quot;</span><br></pre></td></tr></table></figure>
+
+<p>就可以运行d盘software目录下的typora.exe编辑器打开bat.md文件了</p>
+<h3 id="12、choice"><a href="#12、choice" class="headerlink" title="12、choice"></a>12、choice</h3><p>CHOICE [/C choices] [/N] [/CS] [/T timeout /D choice] [/M text]</p>
+<p>描述:<br>    该工具允许用户从选择列表选择一个项目并返回所选项目的索引。</p>
+<p>参数列表:<br>   /C    choices       指定要创建的选项列表。默认列表是 “YN”。</p>
+<p>   /M    text          指定提示之前要显示的消息。如果没有指定，工具只显示提示。</p>
+<p>   /?                  显示此帮助消息。</p>
+<p>示例：</p>
+<p><img src="/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114195932969.png" alt="image-20211114195932969"></p>
+<h3 id="13、exit-命令"><a href="#13、exit-命令" class="headerlink" title="13、exit 命令"></a>13、exit 命令</h3><p>结束程序。即时是被调用的程序，结束后也不会返回原程序</p>
+<h1 id="二、小技巧"><a href="#二、小技巧" class="headerlink" title="二、小技巧"></a>二、小技巧</h1><h3 id="1、实现pause功能，自定义输出内容"><a href="#1、实现pause功能，自定义输出内容" class="headerlink" title="1、实现pause功能，自定义输出内容"></a>1、实现pause功能，自定义输出内容</h3><p>在bat文件最后实用set /p tmp=操作结束，请按回车键退出… 代替 pause</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set /p tmp=操作结束，请按回车键退出...</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、在脚本中添加chcp-65001解决中文乱码"><a href="#2、在脚本中添加chcp-65001解决中文乱码" class="headerlink" title="2、在脚本中添加chcp 65001解决中文乱码"></a>2、在脚本中添加chcp 65001解决中文乱码</h3><p>在脚本中文前方添加<code>chcp 65001</code>，cmd的编码格式就是UTF-8,仅当前脚本执行有效</p>
+<p>或者把bat文件的编码改为ANSI，UTF-8在win10我这儿会中文显示乱码</p>
+<h3 id="3、进入指定盘符"><a href="#3、进入指定盘符" class="headerlink" title="3、进入指定盘符"></a>3、进入指定盘符</h3><p>cmd窗口中我们往往要先输入d:切换到D盘</p>
+<p>然后再cd D:\blog进入D盘下目录，其实我们可以通过cd加参数 /d来直接进入任意盘符下目录</p>
+<p>cd /d d:\blog</p>
+<h1 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h1><p>bat脚本功能很多，这里只列了最最基本的一些使用，在后续实际需求中，我们可以思考用bat脚本如何提高自己的效率……</p>
 
     </div>
 
@@ -360,7 +445,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%AF%AD%E6%B3%95%E4%BA%86%E8%A7%A3"><span class="nav-text">一、语法了解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%8F%98%E9%87%8F"><span class="nav-text">1.变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89bat%E6%96%87%E4%BB%B6%E5%8F%98%E9%87%8F%E7%9A%84%E8%B5%8B%E5%80%BC"><span class="nav-text">（一）bat文件变量的赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89bat%E6%96%87%E4%BB%B6%E5%8F%98%E9%87%8F%E7%9A%84%E5%AE%9E%E7%94%A8"><span class="nav-text">（二）bat文件变量的实用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-text">2.常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81echo"><span class="nav-text">一、echo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81pause"><span class="nav-text">二、pause</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81cls"><span class="nav-text">三、cls</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81call"><span class="nav-text">四、call</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81REM"><span class="nav-text">五、REM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AD%E3%80%81-p"><span class="nav-text">六、&#x2F;p</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%83%E3%80%81if"><span class="nav-text">七、if</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AB%E3%80%81goto"><span class="nav-text">八、goto</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#DOS%E6%89%B9%E5%A4%84%E7%90%86%E4%B8%AD-dp0%E8%A1%A8%E7%A4%BA%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9Dhttps-www-jianshu-com-p-5a1a882ead95"><span class="nav-text">DOS批处理中%~dp0表示什么意思https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;5a1a882ead95</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%AF%AD%E6%B3%95%E4%BA%86%E8%A7%A3"><span class="nav-text">一、语法了解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%8F%98%E9%87%8F"><span class="nav-text">1.变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89bat%E6%96%87%E4%BB%B6%E5%8F%98%E9%87%8F%E7%9A%84%E8%B5%8B%E5%80%BC"><span class="nav-text">（一）bat文件变量的赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89bat%E6%96%87%E4%BB%B6%E5%8F%98%E9%87%8F%E7%9A%84%E5%AE%9E%E7%94%A8"><span class="nav-text">（二）bat文件变量的实用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-text">2.常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81echo"><span class="nav-text">1、echo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81pause"><span class="nav-text">2、pause</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81cls"><span class="nav-text">3、cls</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81call"><span class="nav-text">4、call</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E3%80%81REM"><span class="nav-text">5、REM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6%E3%80%81-p"><span class="nav-text">6、&#x2F;p</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7%E3%80%81if"><span class="nav-text">7、if</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8%E3%80%81goto"><span class="nav-text">8、goto</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9%E3%80%81-dp0"><span class="nav-text">9、%~dp0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10%E3%80%81%E8%84%9A%E6%9C%AC%E9%97%B4%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92"><span class="nav-text">10、脚本间参数传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11%E3%80%81start"><span class="nav-text">11、start</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12%E3%80%81choice"><span class="nav-text">12、choice</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13%E3%80%81exit-%E5%91%BD%E4%BB%A4"><span class="nav-text">13、exit 命令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%B0%8F%E6%8A%80%E5%B7%A7"><span class="nav-text">二、小技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E5%AE%9E%E7%8E%B0pause%E5%8A%9F%E8%83%BD%EF%BC%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BE%93%E5%87%BA%E5%86%85%E5%AE%B9"><span class="nav-text">1、实现pause功能，自定义输出内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%9C%A8%E8%84%9A%E6%9C%AC%E4%B8%AD%E6%B7%BB%E5%8A%A0chcp-65001%E8%A7%A3%E5%86%B3%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81"><span class="nav-text">2、在脚本中添加chcp 65001解决中文乱码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E8%BF%9B%E5%85%A5%E6%8C%87%E5%AE%9A%E7%9B%98%E7%AC%A6"><span class="nav-text">3、进入指定盘符</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%80%BB%E7%BB%93"><span class="nav-text">三、总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -406,7 +491,7 @@
     <div class="widget-wrap">
         <div id="myCanvasContainer" class="widget tagcloud">
             <canvas width="250" height="250" id="resCanvas" style="width=100%">
-                <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bat/" rel="tag">bat</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%88%E7%8E%87/" rel="tag">效率</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag">脚本</a><span class="tag-list-count">1</span></li></ul>
+                <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bat/" rel="tag">bat</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%88%E7%8E%87/" rel="tag">效率</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag">脚本</a><span class="tag-list-count">3</span></li></ul>
             </canvas>
         </div>
     </div>
@@ -444,13 +529,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">43k</span>
+    <span title="站点总字数">46k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">39 分钟</span>
+    <span title="站点阅读时长">41 分钟</span>
 </div>
 
         
