@@ -274,9 +274,9 @@
     <category term="脚本" scheme="http://example.com/categories/%E8%84%9A%E6%9C%AC/"/>
     
     
-    <category term="java" scheme="http://example.com/tags/java/"/>
-    
     <category term="效率" scheme="http://example.com/tags/%E6%95%88%E7%8E%87/"/>
+    
+    <category term="java" scheme="http://example.com/tags/java/"/>
     
   </entry>
   
