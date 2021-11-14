@@ -634,7 +634,7 @@
 <li>git checkout -b &lt;branchname&gt;//创建并切换分行之</li>
 <li>git checkout -b &lt;branchname&gt; origin:&lt;remoteBranchName&gt;//创建分支并切换，分支跟远程分支保持一致</li>
 </ol>
-<h2 id="四、常用操作"><a href="#四、常用操作" class="headerlink" title="四、常用操作"></a>四、常用操作</h2><h3 id="1、基本命令"><a href="#1、基本命令" class="headerlink" title="1、基本命令"></a>1、基本命令</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.git init --初始化git仓库</span><br><span class="line">2.git clone url [dir] --克隆远程仓库到本地 [dir]代表克隆存放到的本地文件夹</span><br><span class="line">3.git config –global user.name [username] --全局提交的用户名</span><br><span class="line">4.git config –global user.email[email] --全局提交的额邮箱</span><br></pre></td></tr></table></figure>
+<h2 id="四、常用操作"><a href="#四、常用操作" class="headerlink" title="四、常用操作"></a>四、常用操作</h2><h3 id="1、基本命令"><a href="#1、基本命令" class="headerlink" title="1、基本命令"></a>1、基本命令</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.git init --初始化git仓库</span><br><span class="line">2.git clone url [dir] --克隆远程仓库到本地 [dir]代表克隆存放到的本地文件夹</span><br><span class="line">3.git config –global user.name [username] --全局提交的用户名</span><br><span class="line">4.git config –global user.email[email] --全局提交的额邮箱</span><br><span class="line">5.git add .  --增加当前文件夹所有文件到暂存区</span><br><span class="line">6.git commit -m &quot;一次新的提交&quot;  --将暂存区内容提交到本地仓库</span><br><span class="line">7.git push origin hexoSrc  --push到远程仓库</span><br></pre></td></tr></table></figure>
 
 <h3 id="2、git-remote"><a href="#2、git-remote" class="headerlink" title="2、git remote"></a>2、git remote</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote --查看已经配置的远程仓库服务器</span><br><span class="line">git remote add [shortname] [url] --为本地仓库添加远程仓库</span><br></pre></td></tr></table></figure>
 
@@ -1911,8 +1911,8 @@
         <category>脚本</category>
       </categories>
       <tags>
-        <tag>效率</tag>
         <tag>java</tag>
+        <tag>效率</tag>
       </tags>
   </entry>
   <entry>
