@@ -118,6 +118,9 @@ A----C----E----G(mster)
 2.git clone url [dir] --克隆远程仓库到本地 [dir]代表克隆存放到的本地文件夹
 3.git config –global user.name [username] --全局提交的用户名
 4.git config –global user.email[email] --全局提交的额邮箱
+5.git add .  --增加当前文件夹所有文件到暂存区
+6.git commit -m "一次新的提交"  --将暂存区内容提交到本地仓库
+7.git push origin hexoSrc  --push到远程仓库
 ```
 
 ### 2、git remote
