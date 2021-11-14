@@ -4,13 +4,13 @@
     <title>实用工具软件分享</title>
     <url>/2021/11/10/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7%E8%BD%AF%E4%BB%B6%E5%88%86%E4%BA%AB/</url>
     <content><![CDATA[<p>本人平时喜欢收集一些好用的软件，正好最近在研究个人博客，就想通过这篇个人博客向大家分享下自己的一些工具，同时也方便为自己做个记录</p>
+<span id="more"></span>
+
 <h1 id="工具介绍"><a href="#工具介绍" class="headerlink" title="工具介绍"></a>工具介绍</h1><h2 id="一、通用工具"><a href="#一、通用工具" class="headerlink" title="一、通用工具"></a>一、通用工具</h2><h3 id="1-截屏、录屏工具"><a href="#1-截屏、录屏工具" class="headerlink" title="1.截屏、录屏工具"></a>1.截屏、录屏工具</h3><ol>
 <li>Snipaste</li>
 </ol>
 <p>snipaste是我最常用的截屏工具，相比其他截屏我更喜欢它的悬浮截屏，</p>
 <p>按下F1快捷键截屏后按下F3就可以将截下的图在屏幕上置顶随意拖动缩放，对于像我这样靠着C+V大法的底层码农来copy代码是再方便不过了。</p>
-<span id="more"></span>
-
 <ol start="2">
 <li>fscapture_33lc</li>
 </ol>
@@ -18,7 +18,7 @@
 <ol start="3">
 <li>Bandicam</li>
 </ol>
-<p>术业有专攻，fscapture虽然很强又免安装，我们有偶尔的录屏需求是首选，如果我们需要经常录制视频或者对视频的画质、格式等有更高要求，装一款Bandicam不失为上选，界面功能齐全，风格nice~</p>
+<p>术业有专攻，<code>fscapture</code>虽然很强又免安装，我们有偶尔的录屏需求是首选，如果我们需要经常录制视频或者对视频的画质、格式等有更高要求，装一款Bandicam不失为上选，界面功能齐全，风格nice~</p>
 <h3 id="2-下载工具"><a href="#2-下载工具" class="headerlink" title="2.下载工具"></a>2.下载工具</h3><ol>
 <li>IDM</li>
 </ol>
@@ -144,7 +144,7 @@
 
 ]]></content>
       <categories>
-        <category>工具使用</category>
+        <category>工具</category>
       </categories>
       <tags>
         <tag>工具</tag>
@@ -254,6 +254,9 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">cls</span><br><span class="line"><span class="built_in">echo</span> **********************************************</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>       hexo  新  增 - 预  览 - 发   布       </span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>       安装请按任意键，退出直接关闭窗口</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> **********************************************</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">pause</span><br><span class="line"></span><br><span class="line">::此处配置编译器路径，自定义调整</span><br><span class="line"><span class="built_in">set</span> idePath=<span class="string">&quot;D:\installsoftware\Typora\Typora&quot;</span></span><br><span class="line">::此处配置编译器名称，搭配上一条调整</span><br><span class="line"><span class="built_in">set</span> ideName=<span class="string">&quot;Typora.exe&quot;</span></span><br><span class="line"></span><br><span class="line">::博客根目录</span><br><span class="line"><span class="built_in">set</span> blogRootPath=<span class="string">&quot;D:\blog&quot;</span></span><br><span class="line">::博文所在目录</span><br><span class="line"><span class="built_in">set</span> blogSrcPath=<span class="string">&quot;%blogRootPath%\source\_posts&quot;</span></span><br><span class="line"></span><br><span class="line">::切换到博客根目录</span><br><span class="line"><span class="built_in">cd</span> /d %blogRootPath%</span><br><span class="line"></span><br><span class="line">:step1</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> C:新建博文并编辑</span><br><span class="line"><span class="built_in">echo</span> R:重新clean并构建</span><br><span class="line"><span class="built_in">echo</span> S:本地预览</span><br><span class="line"><span class="built_in">echo</span> D:部署到GitHub</span><br><span class="line"><span class="built_in">echo</span> E:结束执行</span><br><span class="line"><span class="built_in">echo</span> A:部署到GitHub后开启本地预览</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">set</span> /p o=请选择以下操作?(C R S D E A):</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;c&quot;</span> goto c</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;r&quot;</span> goto r</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;s&quot;</span> goto s</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;d&quot;</span> goto d</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;e&quot;</span> goto e</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;a&quot;</span> goto a</span><br><span class="line"></span><br><span class="line">goto step1</span><br><span class="line">:d</span><br><span class="line">call hexo d	</span><br><span class="line"><span class="built_in">echo</span>  部署到GitHub上完成...</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">:e</span><br><span class="line"><span class="built_in">echo</span> 脚本执行结束！</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">:s</span><br><span class="line">call hexo s</span><br><span class="line"><span class="built_in">echo</span>  本地启动完成...预览地址：http://localhost:4000/</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">:A</span><br><span class="line">call hexo d</span><br><span class="line"><span class="built_in">echo</span> 部署到GitHub上完成...</span><br><span class="line">call hexo s</span><br><span class="line"><span class="built_in">echo</span> 本地启动完成...预览地址：http://localhost:4000/</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">:C</span><br><span class="line">goto step4</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">:R</span><br><span class="line">goto step2</span><br><span class="line"></span><br><span class="line">::clean</span><br><span class="line">:step2</span><br><span class="line"><span class="built_in">echo</span> Please <span class="built_in">wait</span></span><br><span class="line">call hexo clean</span><br><span class="line"><span class="built_in">echo</span> clean清除完成...</span><br><span class="line"></span><br><span class="line">::generate</span><br><span class="line">:step3</span><br><span class="line">call hexo g</span><br><span class="line"><span class="built_in">echo</span> generate 构建完成...</span><br><span class="line">goto step1</span><br><span class="line"></span><br><span class="line">::新建博文并编辑</span><br><span class="line">:step4</span><br><span class="line"><span class="built_in">set</span> /p name=input name:</span><br><span class="line"><span class="built_in">echo</span> name:%name%</span><br><span class="line"><span class="built_in">echo</span> please <span class="built_in">wait</span></span><br><span class="line">call hexo new post %name%</span><br><span class="line">call start /d <span class="string">&quot;%idePath%&quot;</span> %ideName% <span class="string">&quot;%blogSrcPath%\%name%.md&quot;</span></span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
 
 ]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
       <tags>
         <tag>效率</tag>
         <tag>hexo</tag>
@@ -262,9 +265,18 @@
   <entry>
     <title>bat批处理脚本学习</title>
     <url>/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<p>bat 双击一闪而过</p>
-<h5 id="DOS批处理中-dp0表示什么意思https-www-jianshu-com-p-5a1a882ead95"><a href="#DOS批处理中-dp0表示什么意思https-www-jianshu-com-p-5a1a882ead95" class="headerlink" title="DOS批处理中%~dp0表示什么意思https://www.jianshu.com/p/5a1a882ead95"></a>DOS批处理中%~dp0表示什么意思<a href="https://www.jianshu.com/p/5a1a882ead95">https://www.jianshu.com/p/5a1a882ead95</a></h5><p><a href="https://blog.csdn.net/spw55381155/article/details/91413034">https://blog.csdn.net/spw55381155/article/details/91413034</a></p>
+    <content><![CDATA[<p>windows实用中，当我们经常需要进行重复的操作时，就可以考虑编写一个批处理脚本来简化重复的动作，批处理（Batch）往往以<code>.bat</code>结尾，其作用嘛：无非就是能够连续执行多条命令</p>
+<span id="more"></span>
+
+<h1 id="一、语法了解"><a href="#一、语法了解" class="headerlink" title="一、语法了解"></a>一、语法了解</h1><h2 id="1-变量"><a href="#1-变量" class="headerlink" title="1.变量"></a>1.变量</h2><h3 id="（一）bat文件变量的赋值"><a href="#（一）bat文件变量的赋值" class="headerlink" title="（一）bat文件变量的赋值"></a>（一）bat文件变量的赋值</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set num=10</span><br><span class="line">set name=xiaomin</span><br></pre></td></tr></table></figure>
+
+<h3 id="（二）bat文件变量的实用"><a href="#（二）bat文件变量的实用" class="headerlink" title="（二）bat文件变量的实用"></a>（二）bat文件变量的实用</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">echo %num%</span><br><span class="line">echo %name%</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-常用命令"><a href="#2-常用命令" class="headerlink" title="2.常用命令"></a>2.常用命令</h2><h3 id="一、echo"><a href="#一、echo" class="headerlink" title="一、echo"></a>一、echo</h3><h3 id="二、pause"><a href="#二、pause" class="headerlink" title="二、pause"></a>二、pause</h3><h3 id="三、cls"><a href="#三、cls" class="headerlink" title="三、cls"></a>三、cls</h3><h3 id="四、call"><a href="#四、call" class="headerlink" title="四、call"></a>四、call</h3><h3 id="五、REM"><a href="#五、REM" class="headerlink" title="五、REM"></a>五、REM</h3><h3 id="六、-p"><a href="#六、-p" class="headerlink" title="六、/p"></a>六、/p</h3><h3 id="七、if"><a href="#七、if" class="headerlink" title="七、if"></a>七、if</h3><h3 id="八、goto"><a href="#八、goto" class="headerlink" title="八、goto"></a>八、goto</h3><h5 id="DOS批处理中-dp0表示什么意思https-www-jianshu-com-p-5a1a882ead95"><a href="#DOS批处理中-dp0表示什么意思https-www-jianshu-com-p-5a1a882ead95" class="headerlink" title="DOS批处理中%~dp0表示什么意思https://www.jianshu.com/p/5a1a882ead95"></a>DOS批处理中%~dp0表示什么意思<a href="https://www.jianshu.com/p/5a1a882ead95">https://www.jianshu.com/p/5a1a882ead95</a></h5><p><a href="https://blog.csdn.net/spw55381155/article/details/91413034">https://blog.csdn.net/spw55381155/article/details/91413034</a></p>
 ]]></content>
+      <categories>
+        <category>脚本</category>
+      </categories>
       <tags>
         <tag>效率</tag>
         <tag>bat</tag>
@@ -388,6 +400,9 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git pull --rebase</span><br></pre></td></tr></table></figure>
 
 ]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
       <tags>
         <tag>hexo</tag>
       </tags>
@@ -395,13 +410,14 @@
   <entry>
     <title>通过指令快速打开软件</title>
     <url>/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/</url>
-    <content><![CDATA[<h3 id="每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢"><a href="#每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢" class="headerlink" title="每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢"></a><strong>每次桌面打开一堆页面，想要去打开一个新的软件，如何不用返回屏幕也不用摸鼠标快速秒开软件呢</strong></h3><h1 id="一、建立文件夹"><a href="#一、建立文件夹" class="headerlink" title="一、建立文件夹"></a>一、建立文件夹</h1><ol>
+    <content><![CDATA[<p>每次桌面打开一堆页面，再想要去打开一个新的软件，如何不用返回屏幕也不用触碰鼠标快速秒开软件呢，</p>
+<span id="more"></span>
+
+<h1 id="一、建立文件夹"><a href="#一、建立文件夹" class="headerlink" title="一、建立文件夹"></a>一、建立文件夹</h1><ol>
 <li><p>首先在任意位置建个文件夹</p>
 <p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111175928832.png" alt="image-20211111175928832"></p>
 </li>
 </ol>
-<span id="more"></span>
-
 <h1 id="二、将文件目录配到环境变量中"><a href="#二、将文件目录配到环境变量中" class="headerlink" title="二、将文件目录配到环境变量中"></a>二、将文件目录配到环境变量中</h1><ol>
 <li>点击桌面此电脑 右击 选择属性</li>
 <li>点击高级系统设置，弹出页面点击环境变量</li>
@@ -423,6 +439,9 @@
 <p><strong>输入自己命名的快捷方式（直接输过的敲一个字母就会带出来）回车边立即打开相应软件</strong></p>
 <p>是不是相当nice~~~~</p>
 ]]></content>
+      <categories>
+        <category>效率</category>
+      </categories>
       <tags>
         <tag>技巧</tag>
       </tags>
@@ -454,6 +473,9 @@
 <p>  <strong>九、使用win+r快捷键调出运行窗口，输入\+IP地址，连接至电脑B的共享。</strong> </p>
 <p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1bbc15b8aa784bfe8fb8a3faad79768f.png" alt="img"></p>
 ]]></content>
+      <categories>
+        <category>效率</category>
+      </categories>
       <tags>
         <tag>技巧</tag>
       </tags>
@@ -584,6 +606,9 @@
 <p>cid1—-&gt; cid2—-&gt; cid20—-&gt; cid21—-&gt; cid3‘—-&gt; cid4’—-&gt; cid5‘  当前master的提交记录</p>
 <p> 二者对比可知，<strong>rebase没有产生新的节点，使用rebase的git演进路线(提交树)是一直向前的，这样在版本回退时也很容易</strong>，用merge的git路线是跳跃的，如果版本回退你也找不到自己想要的版本，如果在merge时出现了冲突那就麻烦了，当前merge就不能继续进行下去，需要手动修改冲突内容后，add，commit, push. 而rebase 操作的话，会中断rebase,同时会提示去解决冲突。解决冲突后, 再执行 git rebase –continue 继续操作，再push.</p>
 ]]></content>
+      <categories>
+        <category>开发辅助</category>
+      </categories>
       <tags>
         <tag>git</tag>
       </tags>
@@ -1800,6 +1825,9 @@
 
 
 ]]></content>
+      <categories>
+        <category>脚本</category>
+      </categories>
       <tags>
         <tag>java</tag>
         <tag>效率</tag>
@@ -1840,6 +1868,9 @@
 <p>以便在服务器上访问图片和本地预览访问的图片都能够正常显示</p>
 <p>至此，图片问题解决，可以图文写作不是很棒嘛~</p>
 ]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
       <tags>
         <tag>hexo</tag>
       </tags>
@@ -2005,6 +2036,9 @@
 
 <p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-22.png" alt="此图片的alt属性为空；文件名为image-22.png"></p>
 ]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
       <tags>
         <tag>博客</tag>
       </tags>
