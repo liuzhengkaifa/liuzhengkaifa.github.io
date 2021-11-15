@@ -13,6 +13,8 @@ categories:
 
 使用shell脚本在linux服务器上可以帮助我们处理很多工作，想要追求效率，会编写shell脚本是非常有必要的
 
+<!--more-->
+
 # 一、快速开始
 
 1. 创建一个新shell文件
@@ -309,6 +311,8 @@ for ip in ${arr[*]}; do
 done
 ```
 
+
+
 # 三、常用指令
 
 ### 1、echo
@@ -364,3 +368,6 @@ sshpass -p "密码" ssh 有户名@"IP地址" "/home/newStop.sh" #远程脚本
 # 四、总结
 
 目前我也是一边学习使用一边记录，这个文章才是冰山一角，后面在使用到过程中继续不断补充完善~~~
+
+在后续使用中可以参考[Bash学习](https://wangdoc.com/bash/script.html)
+
