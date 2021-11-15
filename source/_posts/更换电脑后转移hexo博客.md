@@ -106,6 +106,7 @@ git push origin hexoSrc
 
 1. 安装`git`和`node.js`
 2. 设置`git`全局邮箱和用户名
+3. 新电脑生成公钥，将公钥配置到Github上
 
 ```
 git config --global user.name "yourgithubname"
@@ -115,13 +116,13 @@ git config --global user.email "yourgithubemail"
 3. 安装`hexo`但是不需要初始化。
 
 ```
-TEXT
 npm install hexo-cli -g
 ```
 
 4. 然后进入克隆到的文件夹。安装环境
 
 ```
+git clone XXX.git
 npm install
 npm install hexo-deployer-git --save
 ```
