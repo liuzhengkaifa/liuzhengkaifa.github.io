@@ -384,8 +384,7 @@
 <h3 id="3-任务"><a href="#3-任务" class="headerlink" title="3.任务"></a>3.任务</h3><p>任务task是一个相对的概念，把线程比作员工的话，任务就是线程要完成的工作，一个文件可以算一个任务，文件中的多个记录也可以算一个任务，多个文件也可以算一个任务</p>
 <h3 id="3-并行、并发"><a href="#3-并行、并发" class="headerlink" title="3. 并行、并发"></a>3. 并行、并发</h3><p>并行：多个任务在同一时间范围内被执行，这些任务往往不是顺序执行的，而是交替执行的</p>
 <p>并发：多个任务在同一时刻被执行</p>
-<h3 id="4-线程上下文切换"><a href="#4-线程上下文切换" class="headerlink" title="4. 线程上下文切换"></a>4. 线程上下文切换</h3><h3 id="5-线程安全"><a href="#5-线程安全" class="headerlink" title="5. 线程安全"></a>5. 线程安全</h3><p><code>&#123;% pdf 1.pdf %&#125;</code></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="4-线程上下文切换"><a href="#4-线程上下文切换" class="headerlink" title="4. 线程上下文切换"></a>4. 线程上下文切换</h3><h3 id="5-线程安全"><a href="#5-线程安全" class="headerlink" title="5. 线程安全"></a>5. 线程安全</h3><div class="pdfobject-container" data-target="1.pdf" data-height="500px"></div>
 
 ]]></content>
       <categories>
