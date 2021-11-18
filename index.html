@@ -313,10 +313,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021年11月17号 14:07:16 / 修改时间：14:18:33" itemprop="dateCreated datePublished" datetime="2021-11-17T14:07:16+08:00">2021年11月17号</time>
+              <time title="创建时间：2021年11月17号 14:07:16" itemprop="dateCreated datePublished" datetime="2021-11-17T14:07:16+08:00">2021年11月17号</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021年11月18号 11:19:58" itemprop="dateModified" datetime="2021-11-18T11:19:58+08:00">2021年11月18号</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -333,7 +339,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.1k</span>
+              <span>1.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -352,22 +358,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="一、相关概念"><a href="#一、相关概念" class="headerlink" title="一、相关概念"></a>一、相关概念</h1><h2 id="1、静态和动态服务"><a href="#1、静态和动态服务" class="headerlink" title="1、静态和动态服务"></a>1、静态和动态服务</h2><h3 id="静态服务"><a href="#静态服务" class="headerlink" title="静态服务"></a>静态服务</h3><p>主要是提供静态资源、不同的用户访问服务得到的资源是一摸一样的</p>
-<h3 id="动态服务"><a href="#动态服务" class="headerlink" title="动态服务"></a>动态服务</h3><p>提供动态服务，不同用户访问得到的资源是不同的，例如后台系统，根据每个用户身份不同，返回的结果权限都是不同的</p>
-<h2 id="2、服务器分类"><a href="#2、服务器分类" class="headerlink" title="2、服务器分类"></a>2、服务器分类</h2><h3 id="Web服务器"><a href="#Web服务器" class="headerlink" title="Web服务器"></a>Web服务器</h3><p>广义上来说，就是响应用户的需求，提供服务，当下所有的服务器软件都可以称之为web服务器软件，现在的web服务器应用层通讯协议主要是http协议，web服务器和http服务器几乎对等</p>
-<h3 id="HTTP服务器（静态服务）"><a href="#HTTP服务器（静态服务）" class="headerlink" title="HTTP服务器（静态服务）"></a>HTTP服务器（静态服务）</h3><p>使用http协议将服务器上的资源传给客户端，侧重于静态资源的支持，可将其视为静态服务器</p>
-<h3 id="应用服务器（动态服务）"><a href="#应用服务器（动态服务）" class="headerlink" title="应用服务器（动态服务）"></a>应用服务器（动态服务）</h3><p>一个特定应用的承载容器，运行时需要特定环境的支持，例如tomcat运行时需要java的支持，也可以称作动态服务器、动态容器等。应用服务器可以降维，当静态服务器使用，但一般不会这么用</p>
-<h2 id="3、一些常见的服务器软件"><a href="#3、一些常见的服务器软件" class="headerlink" title="3、一些常见的服务器软件"></a>3、一些常见的服务器软件</h2><h3 id="1-Http静态服务器软件"><a href="#1-Http静态服务器软件" class="headerlink" title="1.Http静态服务器软件"></a>1.Http静态服务器软件</h3><h4 id="（一）Nginx"><a href="#（一）Nginx" class="headerlink" title="（一）Nginx"></a>（一）Nginx</h4><p>典型的静态服务器，可以做反向代理，负载均衡，一般放在最前面直面客户，和动态应用服务器例如tomcat打配合；纯C语言编写，性能贼高，内存消耗极少，稳定性也相当好，互联网公司重度使用。Nginx服务器也可以在诸如Lua脚本等辅助下做二次开发，变成一个可以提供动态服务的应用服务器，也就是大名鼎鼎的OpenRestyTengineApcheHttp Service</p>
-<h4 id="（二）Tengine"><a href="#（二）Tengine" class="headerlink" title="（二）Tengine"></a>（二）Tengine</h4><p>阿里出品，基于Nginx服务器做的改造（加强和封装），对大流量场景做了很多高级功能，性能、稳定性优秀</p>
-<h4 id="（三）Apache-Http-Server"><a href="#（三）Apache-Http-Server" class="headerlink" title="（三）Apache Http Server"></a>（三）Apache Http Server</h4><p>也是静态服务器，但是不如Nginx服务器</p>
-<h4 id="（四）IIS"><a href="#（四）IIS" class="headerlink" title="（四）IIS"></a>（四）IIS</h4><p>微软开发，只能用在Windows下，是具备一定应用服务器能力的http服务器</p>
-<h3 id="2-动态应用服务器"><a href="#2-动态应用服务器" class="headerlink" title="2.动态应用服务器"></a>2.动态应用服务器</h3><h4 id="一、轻量级动态应用服务器"><a href="#一、轻量级动态应用服务器" class="headerlink" title="一、轻量级动态应用服务器"></a>一、轻量级动态应用服务器</h4><h5 id="（一）Tomcat"><a href="#（一）Tomcat" class="headerlink" title="（一）Tomcat"></a>（一）Tomcat</h5><p>Apach出品，典型的应用服务器软件，符合Servlet标准的应用容器，也可以提供http服务，一般不会作为Http服务器去用，SpringBoot框架默认的内置服务器</p>
-<h5 id="（二）Jetty"><a href="#（二）Jetty" class="headerlink" title="（二）Jetty"></a>（二）Jetty</h5><p>跟Tomcat是一个性质的东西，符合Servlet标准的应用容器，更加轻量</p>
-<h5 id="（三）Undertow"><a href="#（三）Undertow" class="headerlink" title="（三）Undertow"></a>（三）Undertow</h5><p>红帽子出品，更tomcat、jetty一样也是SpringBoot框架支持的服务器，高并发时性能要优于Tomcat、Jetty</p>
-<h4 id="二、商用的重量级服务器软件"><a href="#二、商用的重量级服务器软件" class="headerlink" title="二、商用的重量级服务器软件"></a>二、商用的重量级服务器软件</h4><h5 id="（一）JBoss"><a href="#（一）JBoss" class="headerlink" title="（一）JBoss"></a>（一）JBoss</h5><p>(从8版开始更名未WildFly):不仅仅是Servlet应用容器，更是EJB时的应用容器，整套JavaEE框架部署的解决方案</p>
-<h5 id="（二）WebLogic"><a href="#（二）WebLogic" class="headerlink" title="（二）WebLogic"></a>（二）WebLogic</h5><p>Oracle公司出品，用于部署企业级JavaEE应用，全能型，几乎支持JavaEE所有应用规范</p>
-<h5 id="（三）WebSphere"><a href="#（三）WebSphere" class="headerlink" title="（三）WebSphere"></a>（三）WebSphere</h5><p>IBM公司出品，支持更多JavaEE的应用规范的综合应用服务器</p>
-
+          <p>b博文主要对服务器进行分类，以及一些常用的服务器软件分类，能够帮助理解系统的部署方式等~</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/11/17/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BD%AF%E4%BB%B6%E5%88%86%E7%B1%BB/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -419,7 +418,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021年11月18号 11:09:38" itemprop="dateModified" datetime="2021-11-18T11:09:38+08:00">2021年11月18号</time>
+                <time title="修改时间：2021年11月18号 11:15:36" itemprop="dateModified" datetime="2021-11-18T11:15:36+08:00">2021年11月18号</time>
               </span>
 
           <br>
@@ -447,138 +446,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="一、Nginx基础概念理解"><a href="#一、Nginx基础概念理解" class="headerlink" title="一、Nginx基础概念理解"></a>一、Nginx基础概念理解</h1><h2 id="1、Nginx是什么"><a href="#1、Nginx是什么" class="headerlink" title="1、Nginx是什么"></a>1、Nginx是什么</h2><p>Nginx是一个高性能的HTTP和反向代理Web服务器，核心特点是占用内存少，并发能力强</p>
-<h2 id="2、Nginx能做什么"><a href="#2、Nginx能做什么" class="headerlink" title="2、Nginx能做什么"></a>2、Nginx能做什么</h2><h3 id="（一）HTTP服务器（Web服务器）"><a href="#（一）HTTP服务器（Web服务器）" class="headerlink" title="（一）HTTP服务器（Web服务器）"></a>（一）HTTP服务器（Web服务器）</h3><p>关于服务器的分类可以参考文章</p>
-<p>Nginx做Web服务器性能非常高，非常注重效率，能够经受高负载的考研</p>
-<p>⽀持50000个并发连接数，不仅如此， CPU和内存的占⽤也⾮常的低， 10000个没有活动的连<br>接才占⽤2.5M的内存。  </p>
-<h3 id="（二）反向代理服务器"><a href="#（二）反向代理服务器" class="headerlink" title="（二）反向代理服务器"></a>（二）反向代理服务器</h3><h4 id="1、正向代理"><a href="#1、正向代理" class="headerlink" title="1、正向代理"></a>1、正向代理</h4><p>​        在浏览器中配置代理服务器的相关信息，通过代理服务器访问⽬标⽹站，代理服务器收<br>到⽬标⽹站的响应之后，会把响应信息返回给我们⾃⼰的浏览器客户端  </p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117143711172.png" alt="image-20211117143711172"></p>
-<h4 id="2、反向代理"><a href="#2、反向代理" class="headerlink" title="2、反向代理"></a>2、反向代理</h4><p>​    浏览器客户端发送请求到反向代理服务器（⽐如Nginx），由反向代理服务器选择原始<br>服务器提供服务获取结果响应，最终再返回给客户端浏览器  </p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117144945239.png" alt="image-20211117144945239"></p>
-<h4 id="3、正向代理和反向代理的区别"><a href="#3、正向代理和反向代理的区别" class="headerlink" title="3、正向代理和反向代理的区别"></a>3、正向代理和反向代理的区别</h4><blockquote>
-<p>维基百科：正向代理是客户端和其他所有服务器（重点：所有）的代理者，而反向代理是客户端和<strong>所要</strong>代理的服务器之间的代理</p>
-</blockquote>
-<p>解释一下：</p>
-<p>当我们要访问google，需要一台代理服务器，只要能够连接到这台服务器的软件，就可以通过这台代理服务器器访问其他的服务器（例如goole,facebook等），这里的服务器只对客户端负责，所以称之为正向代理。</p>
-<p>如果我们有3台服务器交由代理服务器进行反向代理，只有当客户端访问这3台服务器的时候，代理服务器才给客户端代理，也就是说代理服务器只对所代理的服务器负责，所以称之为反向代理。</p>
-<p>总结：<strong>正向代理对客户端负责，反向代理对代理的服务器负责，一正一反。</strong></p>
-<h3 id="（三）负载均衡服务器"><a href="#（三）负载均衡服务器" class="headerlink" title="（三）负载均衡服务器"></a>（三）负载均衡服务器</h3><p>负载均衡，当⼀个请求到来的时候（结合上图）， Nginx反向代理服务器根据请求去找到⼀个<br>原始服务器来处理当前请求，那么这叫做反向代理。那么，如果⽬标服务器有多台（⽐如上<br>图中的tomcat1， tomcat2， tomcat3…），找哪⼀个⽬标服务器来处理当前请求呢，这样⼀<br>个寻找确定的过程就叫做负载均衡。<br>⽣活中也有很多这样的例⼦，⽐如，我们去银⾏，可以处理业务的窗⼝有多个，那么我们会<br>被分配到哪个窗⼝呢到底，这样的⼀个过程就叫做负载均衡。  </p>
-<p>负载均衡就是为了解决⾼负载的问题。  </p>
-<h4 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h4><p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117145049890.png" alt="image-20211117145049890"></p>
-<h2 id="3、Nginx的特点"><a href="#3、Nginx的特点" class="headerlink" title="3、Nginx的特点"></a>3、Nginx的特点</h2><h3 id="（一）跨平台"><a href="#（一）跨平台" class="headerlink" title="（一）跨平台"></a>（一）跨平台</h3><p>Nginx可以在⼤多数类unix操作系统上编译运⾏，⽽且也有windows版本  </p>
-<h3 id="（二）操作简单"><a href="#（二）操作简单" class="headerlink" title="（二）操作简单"></a>（二）操作简单</h3><p>Nginx的上⼿⾮常容易，配置也⽐较简单  </p>
-<h3 id="（三）性能强"><a href="#（三）性能强" class="headerlink" title="（三）性能强"></a>（三）性能强</h3><p>⾼并发，性能好 ，稳定性也特别好，宕机概率很低  </p>
-<h1 id="二、Nginx操作"><a href="#二、Nginx操作" class="headerlink" title="二、Nginx操作"></a>二、Nginx操作</h1><h2 id="1、Nginx的安装"><a href="#1、Nginx的安装" class="headerlink" title="1、Nginx的安装"></a>1、Nginx的安装</h2><h3 id="（一）下载"><a href="#（一）下载" class="headerlink" title="（一）下载"></a>（一）下载</h3><p>上传nginx安装包到linux服务器， nginx安装包(.tar⽂件)下载地址：  <a target="_blank" rel="noopener" href="http://nginx.org/">http://nginx.org</a>  </p>
-<h3 id="（二）安装依赖"><a href="#（二）安装依赖" class="headerlink" title="（二）安装依赖"></a>（二）安装依赖</h3><p>安装Nginx依赖， pcre、 openssl、 gcc、 zlib（推荐使⽤yum源⾃动安装）  </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc zlib zlib-devel pcre-devel openssl openssl-devel</span><br></pre></td></tr></table></figure>
-
-<h3 id="（三）解压安装"><a href="#（三）解压安装" class="headerlink" title="（三）解压安装"></a>（三）解压安装</h3><p>解压Nginx软件包  </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf nginx-1.17.8.tar</span><br></pre></td></tr></table></figure>
-
-<p>进⼊解压之后的⽬录 nginx-1.17.8 </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd nginx-1.17.8</span><br></pre></td></tr></table></figure>
-
-<p> 命令⾏执⾏./configure<br>命令⾏执⾏ make<br>命令⾏执⾏ make install，完毕之后在/usr/local/下会产⽣⼀个nginx⽬录  </p>
-<p>进⼊sbin⽬录中，执⾏启动nginx命令  </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/</span><br><span class="line">cd nginx/sbin</span><br><span class="line">./nginx</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100118368.png" alt="image-20211118100118368"></p>
-<p>然后访问服务器的80端⼝（nginx默认监听80端⼝）  </p>
-<h3 id="（四）Nginx的主要命令"><a href="#（四）Nginx的主要命令" class="headerlink" title="（四）Nginx的主要命令"></a>（四）Nginx的主要命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./nginx 启动nginx</span><br><span class="line">./nginx -s stop 终⽌nginx（当然也可以找到nginx进程号，然后使⽤kill -9 杀掉nginx进程）</span><br><span class="line">./nginx -s reload (重新加载nginx.conf配置⽂件)</span><br></pre></td></tr></table></figure>
-
-<h1 id="三、核心配置文件解读"><a href="#三、核心配置文件解读" class="headerlink" title="三、核心配置文件解读"></a>三、核心配置文件解读</h1><p>Nginx的核⼼配置⽂件conf/nginx.conf包含三块内容：全局块、 events块、 http块  </p>
-<h2 id="1、全局块"><a href="#1、全局块" class="headerlink" title="1、全局块"></a>1、全局块</h2><p>从配置⽂件开始到events块之间的内容，此处的配置影响nginx服务器整体的运⾏，⽐如worker进<br>程的数量、错误⽇志的位置等  </p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100354343.png" alt="image-20211118100354343"></p>
-<h2 id="2、events块"><a href="#2、events块" class="headerlink" title="2、events块"></a>2、events块</h2><p>events块主要影响nginx服务器与⽤户的⽹络连接，⽐如worker_connections 1024，标识每个<br>workderprocess⽀持的最⼤连接数为1024  </p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100415321.png" alt="image-20211118100415321"></p>
-<h2 id="3、http块"><a href="#3、http块" class="headerlink" title="3、http块"></a>3、http块</h2><p>http块是配置最频繁的部分，虚拟主机的配置，监听端⼝的配置，请求转发、反向代理、负载均衡<br>等  </p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100438064.png" alt="image-20211118100438064"></p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100459886.png" alt="image-20211118100459886"></p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100520447.png" alt="image-20211118100520447"></p>
-<h1 id="四、Nginx应用场景之反向代理"><a href="#四、Nginx应用场景之反向代理" class="headerlink" title="四、Nginx应用场景之反向代理"></a>四、Nginx应用场景之反向代理</h1><h2 id="1、需求一"><a href="#1、需求一" class="headerlink" title="1、需求一"></a>1、需求一</h2><h3 id="（一）需求描述"><a href="#（一）需求描述" class="headerlink" title="（一）需求描述"></a>（一）需求描述</h3><p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105028881.png" alt="image-20211118105028881"></p>
-<h3 id="（二）需求实现"><a href="#（二）需求实现" class="headerlink" title="（二）需求实现"></a>（二）需求实现</h3><ol>
-<li><p>部署tomcat，保持默认监听8080端⼝  </p>
-</li>
-<li><p>修改nginx配置，并重新加载  </p>
-</li>
-<li><p>修改nginx配置  </p>
-</li>
-</ol>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105211960.png" alt="image-20211118105211960"></p>
-<ol start="4">
-<li>重新加载nginx配置  </li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./nginx -s reload</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li>测试，访问<a href="http://111.229.248.243:9003,返回tomcat的⻚⾯">http://111.229.248.243:9003,返回tomcat的⻚⾯</a>  </li>
-</ol>
-<h2 id="2、需求二"><a href="#2、需求二" class="headerlink" title="2、需求二"></a>2、需求二</h2><h3 id="（一）需求描述-1"><a href="#（一）需求描述-1" class="headerlink" title="（一）需求描述"></a>（一）需求描述</h3><p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105355992.png" alt="image-20211118105355992"></p>
-<h3 id="（二）需求实现-1"><a href="#（二）需求实现-1" class="headerlink" title="（二）需求实现"></a>（二）需求实现</h3><ol>
-<li>再部署⼀台tomcat，保持默认监听8081端⼝  </li>
-<li>修改nginx配置，并重新加载  </li>
-</ol>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105737970.png" alt="image-20211118105737970"></p>
-<ol>
-<li><p><strong>这⾥主要就是多location的使⽤，这⾥的nginx中server/location就好⽐tomcat中的 Host/Context</strong>  </p>
-</li>
-<li><p>location 语法如下：  </p>
-</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">location [=|~|~*|^~] /uri/ &#123; … &#125;</span><br></pre></td></tr></table></figure>
-
-<p>在nginx配置⽂件中， location主要有这⼏种形式：  </p>
-<ol>
-<li>正则匹配 location ~ /lagou { }</li>
-<li>不区分⼤⼩写的正则匹配 location ~* /lagou { }</li>
-<li>匹配路径的前缀 location ^~ /lagou { }</li>
-<li>精确匹配 location = /lagou { }</li>
-<li>普通路径前缀匹配 location /lagou { }</li>
-<li>优先级<br>4 &gt; 3 &gt; 2 &gt; 1 &gt; 5  </li>
-</ol>
-<h1 id="五、Nginx应用场景之负载均衡"><a href="#五、Nginx应用场景之负载均衡" class="headerlink" title="五、Nginx应用场景之负载均衡"></a>五、Nginx应用场景之负载均衡</h1><h2 id="1、需求描述"><a href="#1、需求描述" class="headerlink" title="1、需求描述"></a>1、需求描述</h2><p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105825319.png" alt="image-20211118105825319"></p>
-<h2 id="2、Nginx负载均衡策略"><a href="#2、Nginx负载均衡策略" class="headerlink" title="2、Nginx负载均衡策略"></a>2、Nginx负载均衡策略</h2><h3 id="（一）轮询"><a href="#（一）轮询" class="headerlink" title="（一）轮询"></a>（一）轮询</h3><p>默认策略，每个请求按时间顺序逐⼀分配到不同的服务器，如果某⼀个服务器下线，能⾃动剔除  </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">upstream lagouServer&#123;</span><br><span class="line">	server 111.229.248.243:8080;</span><br><span class="line">	server 111.229.248.243:8082;</span><br><span class="line">&#125;</span><br><span class="line">location /abc &#123;</span><br><span class="line">	proxy_pass http://lagouServer/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="（二）weight-权重"><a href="#（二）weight-权重" class="headerlink" title="（二）weight 权重"></a>（二）weight 权重</h3><p>weight代表权重，默认每⼀个负载的服务器都为1，权重越⾼那么被分配的请求越多（⽤于服务器<br>性能不均衡的场景）  </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">upstream lagouServer&#123;</span><br><span class="line">	server 111.229.248.243:8080 weight=1;</span><br><span class="line">	server 111.229.248.243:8082 weight=2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="（三）ip-hash"><a href="#（三）ip-hash" class="headerlink" title="（三）ip_hash"></a>（三）ip_hash</h3><p>每个请求按照ip的hash结果分配，每⼀个客户端的请求会固定分配到同⼀个⽬标服务器处理，可<br>以解决session问题  </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream lagouServer&#123;</span><br><span class="line">	ip_hash;</span><br><span class="line">    server 111.229.248.243:8080;</span><br><span class="line">	server 111.229.248.243:8082;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="六、Nginx应⽤场景之动静分离"><a href="#六、Nginx应⽤场景之动静分离" class="headerlink" title="六、Nginx应⽤场景之动静分离"></a>六、Nginx应⽤场景之动静分离</h1><h2 id="1、思想"><a href="#1、思想" class="headerlink" title="1、思想"></a>1、思想</h2><p>动静分离就是讲动态资源和静态资源的请求处理分配到不同的服务器上，⽐较经典的组合就是<br>Nginx+Tomcat架构（Nginx处理静态资源请求， Tomcat处理动态资源请求），</p>
-<p>那么其实之前的讲解中， Nginx反向代理⽬标服务器Tomcat，我们能看到⽬标服务器ROOT项⽬的index.jsp，这本身就是Tomcat在处理动态资源请求了。  </p>
-<p>所以，我们只需要配置静态资源访问即可。  </p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110231915.png" alt="image-20211118110231915"></p>
-<h2 id="2、Nginx配置"><a href="#2、Nginx配置" class="headerlink" title="2、Nginx配置"></a>2、Nginx配置</h2><p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110300079.png" alt="image-20211118110300079"></p>
-<h1 id="七、Nginx底层进程机制剖析"><a href="#七、Nginx底层进程机制剖析" class="headerlink" title="七、Nginx底层进程机制剖析"></a>七、Nginx底层进程机制剖析</h1><p>Nginx启动后，以daemon多进程⽅式在后台运⾏，包括⼀个Master进程和多个Worker进程， Master<br>进程是领导，是⽼⼤， Worker进程是⼲活的⼩弟。  </p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110348867.png" alt="image-20211118110348867"></p>
-<h2 id="1、Master进程"><a href="#1、Master进程" class="headerlink" title="1、Master进程"></a>1、Master进程</h2><p>主要是管理worker进程，⽐如：  </p>
-<ol>
-<li>接收外界信号向各worker进程发送信号(./nginx -s reload)  </li>
-<li>监控worker进程的运⾏状态，当worker进程异常退出后Master进程会⾃动重新启动新的<br>worker进程等  </li>
-</ol>
-<h2 id="2、Worker进程"><a href="#2、Worker进程" class="headerlink" title="2、Worker进程"></a>2、Worker进程</h2><p>worker进程具体处理⽹络请求。多个worker进程之间是对等的，他们同等竞争来⾃客户端的请<br>求， <strong>各进程互相之间是独⽴的</strong>。⼀个请求，只可能在⼀个worker进程中处理，⼀个worker进程，<br>不可能处理其它进程的请求。 worker进程的个数是可以设置的，⼀般设置与机器cpu核数⼀致。  </p>
-<h2 id="3、Nginx进程模型示意图如下"><a href="#3、Nginx进程模型示意图如下" class="headerlink" title="3、Nginx进程模型示意图如下"></a>3、Nginx进程模型示意图如下</h2><p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110524659.png" alt="image-20211118110524659"></p>
-<h4 id="一、以-nginx-s-reload-来说明nginx信号处理这部分-："><a href="#一、以-nginx-s-reload-来说明nginx信号处理这部分-：" class="headerlink" title="一、以 ./nginx -s reload 来说明nginx信号处理这部分  ："></a>一、以 ./nginx -s reload 来说明nginx信号处理这部分  ：</h4><ol>
-<li>以 ./nginx -s reload 来说明nginx信号处理这部分  </li>
-<li>尝试配置（⽐如修改了监听端⼝，那就尝试分配新的监听端⼝）  </li>
-<li>尝试成功则使⽤新的配置，新建worker进程  </li>
-<li>新建成功，给旧的worker进程发送关闭消息  </li>
-<li>旧的worker进程收到信号会继续服务，直到把当前进程接收到的请求处理完毕后关闭<br>所以reload之后worker进程pid是发⽣了变化的  </li>
-</ol>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110627187.png" alt="image-20211118110627187"></p>
-<h4 id="二、worker进程处理请求部分的说明"><a href="#二、worker进程处理请求部分的说明" class="headerlink" title="二、worker进程处理请求部分的说明"></a>二、worker进程处理请求部分的说明</h4><p>例如，我们监听9003端⼝，⼀个请求到来时，如果有多个worker进程，那么每个worker进程都有<br>可能处理这个链接。  </p>
-<ol>
-<li>master进程创建之后，会建⽴好需要监听的的socket，然后从master进程再fork出多个<br>worker进程。所以，所有worker进程的监听描述符listenfd在新连接到来时都变得可读。  </li>
-<li>nginx使⽤互斥锁来保证只有⼀个workder进程能够处理请求，拿到互斥锁的那个进程注册<br>listenfd读事件，在读事件⾥调⽤accept接受该连接，然后解析、处理、返回客户端  </li>
-</ol>
-<h4 id="三、nginx多进程模型好处"><a href="#三、nginx多进程模型好处" class="headerlink" title="三、nginx多进程模型好处"></a>三、nginx多进程模型好处</h4><ol>
-<li>每个worker进程都是独⽴的，不需要加锁，节省开销  </li>
-<li>每个worker进程都是独⽴的，互不影响，⼀个异常结束，其他的照样能提供服务  </li>
-<li>多进程模型为reload热部署机制提供了⽀撑  </li>
-</ol>
-
+          <p>这篇博文比较清晰的介绍了Nginx的相关概念和应用，主要包括动静分离、反向代理、负载均衡等相关功能实现</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -622,10 +498,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021年11月16号 10:02:13 / 修改时间：20:42:14" itemprop="dateCreated datePublished" datetime="2021-11-16T10:02:13+08:00">2021年11月16号</time>
+              <time title="创建时间：2021年11月16号 10:02:13" itemprop="dateCreated datePublished" datetime="2021-11-16T10:02:13+08:00">2021年11月16号</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021年11月18号 11:21:21" itemprop="dateModified" datetime="2021-11-18T11:21:21+08:00">2021年11月18号</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -642,7 +524,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>877</span>
+              <span>896</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -661,25 +543,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="一、查询"><a href="#一、查询" class="headerlink" title="一、查询"></a>一、查询</h1><p>查询一张表根据某个字段值有几条重复数据：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> 字段名,<span class="built_in">count</span>(<span class="number">1</span>) <span class="keyword">from</span> 表名 <span class="keyword">group</span> <span class="keyword">by</span> 字段名 <span class="keyword">having</span> <span class="built_in">count</span>(<span class="number">1</span>)<span class="operator">&gt;</span><span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>Oracle：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--1.获取表字段字典</span></span><br><span class="line"><span class="keyword">select</span></span><br><span class="line">t.COLUMN_NAME <span class="keyword">as</span> &quot;字段名&quot;,</span><br><span class="line">decode(c.COMMENTS, <span class="keyword">null</span>, <span class="string">&#x27; &#x27;</span>, c.COMMENTS) <span class="keyword">as</span> &quot;含义&quot;,</span><br><span class="line">decode(t.DATA_TYPE, <span class="string">&#x27;TIMESTAMP(6)&#x27;</span>, t.DATA_TYPE, <span class="string">&#x27;NUMBER&#x27;</span>, (t.DATA_TYPE <span class="operator">||</span> <span class="string">&#x27;(&#x27;</span> <span class="operator">||</span> t.DATA_PRECISION <span class="operator">||</span> <span class="string">&#x27;)&#x27;</span>),</span><br><span class="line">    <span class="string">&#x27;DATE&#x27;</span>, t.DATA_TYPE, (t.DATA_TYPE <span class="operator">||</span> <span class="string">&#x27;(&#x27;</span> <span class="operator">||</span> t.CHAR_LENGTH <span class="operator">||</span> <span class="string">&#x27;)&#x27;</span>)) <span class="keyword">as</span> &quot;长度&quot;,</span><br><span class="line"><span class="comment">-- t.DATA_TYPE || &#x27;(&#x27; || t.CHAR_LENGTH || &#x27;)&#x27; as &quot;类型(长度)&quot;,</span></span><br><span class="line"><span class="comment">--  t.CHAR_LENGTH as &quot;字段长度&quot;,</span></span><br><span class="line">t.NULLABLE <span class="keyword">AS</span> &quot;是否为空&quot;</span><br><span class="line"><span class="keyword">from</span> USER_TAB_COLUMNS t <span class="keyword">join</span> USER_COL_COMMENTS c <span class="keyword">on</span> c.TABLE_NAME <span class="operator">=</span> t.TABLE_NAME <span class="keyword">and</span> t.COLUMN_NAME <span class="operator">=</span> c.COLUMN_NAME</span><br><span class="line"><span class="keyword">where</span> c.TABLE_NAME <span class="operator">=</span> <span class="string">&#x27;SK_COLLECT_INFO&#x27;</span> <span class="comment">--表名应该大写  </span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> t.COLUMN_ID;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="二、增加"><a href="#二、增加" class="headerlink" title="二、增加"></a>二、增加</h1><h1 id="三、修改"><a href="#三、修改" class="headerlink" title="三、修改"></a>三、修改</h1><p>数据表新增字段</p>
-<p>Oracle：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table 表名 add (字段名 VARCHAR2(500) null);</span><br><span class="line">comment on column 表名.字段名 is &#x27;二维码链接地址&#x27;;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="四、删除"><a href="#四、删除" class="headerlink" title="四、删除"></a>四、删除</h1>
+          <p>记录一些常用的sql，便于以后查询实用</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/11/16/%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%9A%E7%94%A8%E5%9C%BA%E6%99%AFsql%E8%AE%B0%E5%BD%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -731,7 +603,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021年11月16号 20:54:30" itemprop="dateModified" datetime="2021-11-16T20:54:30+08:00">2021年11月16号</time>
+                <time title="修改时间：2021年11月18号 11:21:50" itemprop="dateModified" datetime="2021-11-18T11:21:50+08:00">2021年11月18号</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -769,13 +641,14 @@
 
       
           <p>以往学习多线程总是很零碎，不写就忘，然后一段时间又要翻各种资料，就打算最近写一写多线程内容，当然自己可能了解的都是基础，记录的话呢还是准备以实战为主，理论为辅</p>
-<h1 id="一、概念理解"><a href="#一、概念理解" class="headerlink" title="一、概念理解"></a>一、概念理解</h1><h3 id="1-进程："><a href="#1-进程：" class="headerlink" title="1. 进程："></a>1. 进程：</h3><p>进程是资源分配的最小单位，是程序的一次执行过程，或是正在运行的一个程序</p>
-<h3 id="2-线程："><a href="#2-线程：" class="headerlink" title="2. 线程："></a>2. 线程：</h3><p>线程是CPU调度的最小单位，是一个程序内部的一条执行路径，是进程中可独立执行的子任务</p>
-<p>同一个进程中的线程共享该进程申请到的资源</p>
-<h3 id="3-任务"><a href="#3-任务" class="headerlink" title="3.任务"></a>3.任务</h3><p>任务task是一个相对的概念，把线程比作员工的话，任务就是线程要完成的工作，一个文件可以算一个任务，文件中的多个记录也可以算一个任务，多个文件也可以算一个任务</p>
-<h3 id="3-并行、并发"><a href="#3-并行、并发" class="headerlink" title="3. 并行、并发"></a>3. 并行、并发</h3><p>并行：多个任务在同一时间范围内被执行，这些任务往往不是顺序执行的，而是交替执行的</p>
-<p>并发：多个任务在同一时刻被执行</p>
-<h3 id="4-线程上下文切换"><a href="#4-线程上下文切换" class="headerlink" title="4. 线程上下文切换"></a>4. 线程上下文切换</h3><h3 id="5-线程安全"><a href="#5-线程安全" class="headerlink" title="5. 线程安全"></a>5. 线程安全</h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/11/15/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

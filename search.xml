@@ -169,7 +169,10 @@
   <entry>
     <title>服务器软件分类</title>
     <url>/2021/11/17/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BD%AF%E4%BB%B6%E5%88%86%E7%B1%BB/</url>
-    <content><![CDATA[<h1 id="一、相关概念"><a href="#一、相关概念" class="headerlink" title="一、相关概念"></a>一、相关概念</h1><h2 id="1、静态和动态服务"><a href="#1、静态和动态服务" class="headerlink" title="1、静态和动态服务"></a>1、静态和动态服务</h2><h3 id="静态服务"><a href="#静态服务" class="headerlink" title="静态服务"></a>静态服务</h3><p>主要是提供静态资源、不同的用户访问服务得到的资源是一摸一样的</p>
+    <content><![CDATA[<p>b博文主要对服务器进行分类，以及一些常用的服务器软件分类，能够帮助理解系统的部署方式等~</p>
+<span id="more"></span>
+
+<h1 id="一、相关概念"><a href="#一、相关概念" class="headerlink" title="一、相关概念"></a>一、相关概念</h1><h2 id="1、静态和动态服务"><a href="#1、静态和动态服务" class="headerlink" title="1、静态和动态服务"></a>1、静态和动态服务</h2><h3 id="静态服务"><a href="#静态服务" class="headerlink" title="静态服务"></a>静态服务</h3><p>主要是提供静态资源、不同的用户访问服务得到的资源是一摸一样的</p>
 <h3 id="动态服务"><a href="#动态服务" class="headerlink" title="动态服务"></a>动态服务</h3><p>提供动态服务，不同用户访问得到的资源是不同的，例如后台系统，根据每个用户身份不同，返回的结果权限都是不同的</p>
 <h2 id="2、服务器分类"><a href="#2、服务器分类" class="headerlink" title="2、服务器分类"></a>2、服务器分类</h2><h3 id="Web服务器"><a href="#Web服务器" class="headerlink" title="Web服务器"></a>Web服务器</h3><p>广义上来说，就是响应用户的需求，提供服务，当下所有的服务器软件都可以称之为web服务器软件，现在的web服务器应用层通讯协议主要是http协议，web服务器和http服务器几乎对等</p>
 <h3 id="HTTP服务器（静态服务）"><a href="#HTTP服务器（静态服务）" class="headerlink" title="HTTP服务器（静态服务）"></a>HTTP服务器（静态服务）</h3><p>使用http协议将服务器上的资源传给客户端，侧重于静态资源的支持，可将其视为静态服务器</p>
@@ -196,7 +199,10 @@
   <entry>
     <title>Nginx学习笔记</title>
     <url>/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="一、Nginx基础概念理解"><a href="#一、Nginx基础概念理解" class="headerlink" title="一、Nginx基础概念理解"></a>一、Nginx基础概念理解</h1><h2 id="1、Nginx是什么"><a href="#1、Nginx是什么" class="headerlink" title="1、Nginx是什么"></a>1、Nginx是什么</h2><p>Nginx是一个高性能的HTTP和反向代理Web服务器，核心特点是占用内存少，并发能力强</p>
+    <content><![CDATA[<p>这篇博文比较清晰的介绍了Nginx的相关概念和应用，主要包括动静分离、反向代理、负载均衡等相关功能实现</p>
+<span id="more"></span>
+
+<h1 id="一、Nginx基础概念理解"><a href="#一、Nginx基础概念理解" class="headerlink" title="一、Nginx基础概念理解"></a>一、Nginx基础概念理解</h1><h2 id="1、Nginx是什么"><a href="#1、Nginx是什么" class="headerlink" title="1、Nginx是什么"></a>1、Nginx是什么</h2><p>Nginx是一个高性能的HTTP和反向代理Web服务器，核心特点是占用内存少，并发能力强</p>
 <h2 id="2、Nginx能做什么"><a href="#2、Nginx能做什么" class="headerlink" title="2、Nginx能做什么"></a>2、Nginx能做什么</h2><h3 id="（一）HTTP服务器（Web服务器）"><a href="#（一）HTTP服务器（Web服务器）" class="headerlink" title="（一）HTTP服务器（Web服务器）"></a>（一）HTTP服务器（Web服务器）</h3><p>关于服务器的分类可以参考文章</p>
 <p>Nginx做Web服务器性能非常高，非常注重效率，能够经受高负载的考研</p>
 <p>⽀持50000个并发连接数，不仅如此， CPU和内存的占⽤也⾮常的低， 10000个没有活动的连<br>接才占⽤2.5M的内存。  </p>
@@ -335,7 +341,12 @@
   <entry>
     <title>数据库通用场景sql记录</title>
     <url>/2021/11/16/%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%9A%E7%94%A8%E5%9C%BA%E6%99%AFsql%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="一、查询"><a href="#一、查询" class="headerlink" title="一、查询"></a>一、查询</h1><p>查询一张表根据某个字段值有几条重复数据：</p>
+    <content><![CDATA[<p>记录一些常用的sql，便于以后查询实用</p>
+<span id="more"></span>
+
+
+
+<h1 id="一、查询"><a href="#一、查询" class="headerlink" title="一、查询"></a>一、查询</h1><p>查询一张表根据某个字段值有几条重复数据：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> 字段名,<span class="built_in">count</span>(<span class="number">1</span>) <span class="keyword">from</span> 表名 <span class="keyword">group</span> <span class="keyword">by</span> 字段名 <span class="keyword">having</span> <span class="built_in">count</span>(<span class="number">1</span>)<span class="operator">&gt;</span><span class="number">1</span>;</span><br></pre></td></tr></table></figure>
 
 
@@ -365,6 +376,8 @@
     <title>多线程学习记录（一）</title>
     <url>/2021/11/15/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/</url>
     <content><![CDATA[<p>以往学习多线程总是很零碎，不写就忘，然后一段时间又要翻各种资料，就打算最近写一写多线程内容，当然自己可能了解的都是基础，记录的话呢还是准备以实战为主，理论为辅</p>
+<span id="more"></span>
+
 <h1 id="一、概念理解"><a href="#一、概念理解" class="headerlink" title="一、概念理解"></a>一、概念理解</h1><h3 id="1-进程："><a href="#1-进程：" class="headerlink" title="1. 进程："></a>1. 进程：</h3><p>进程是资源分配的最小单位，是程序的一次执行过程，或是正在运行的一个程序</p>
 <h3 id="2-线程："><a href="#2-线程：" class="headerlink" title="2. 线程："></a>2. 线程：</h3><p>线程是CPU调度的最小单位，是一个程序内部的一条执行路径，是进程中可独立执行的子任务</p>
 <p>同一个进程中的线程共享该进程申请到的资源</p>
@@ -2450,8 +2463,8 @@
         <category>脚本</category>
       </categories>
       <tags>
-        <tag>效率</tag>
         <tag>java</tag>
+        <tag>效率</tag>
       </tags>
   </entry>
   <entry>
