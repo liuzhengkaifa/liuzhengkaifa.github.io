@@ -169,7 +169,7 @@
   <entry>
     <title>服务器软件分类</title>
     <url>/2021/11/17/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BD%AF%E4%BB%B6%E5%88%86%E7%B1%BB/</url>
-    <content><![CDATA[<p>b博文主要对服务器进行分类，以及一些常用的服务器软件分类，能够帮助理解系统的部署方式等~</p>
+    <content><![CDATA[<p>博文主要对服务器进行分类，以及一些常用的服务器软件分类，能够帮助理解系统的部署方式等~</p>
 <span id="more"></span>
 
 <h1 id="一、相关概念"><a href="#一、相关概念" class="headerlink" title="一、相关概念"></a>一、相关概念</h1><h2 id="1、静态和动态服务"><a href="#1、静态和动态服务" class="headerlink" title="1、静态和动态服务"></a>1、静态和动态服务</h2><h3 id="静态服务"><a href="#静态服务" class="headerlink" title="静态服务"></a>静态服务</h3><p>主要是提供静态资源、不同的用户访问服务得到的资源是一摸一样的</p>
@@ -384,7 +384,9 @@
 <h3 id="3-任务"><a href="#3-任务" class="headerlink" title="3.任务"></a>3.任务</h3><p>任务task是一个相对的概念，把线程比作员工的话，任务就是线程要完成的工作，一个文件可以算一个任务，文件中的多个记录也可以算一个任务，多个文件也可以算一个任务</p>
 <h3 id="3-并行、并发"><a href="#3-并行、并发" class="headerlink" title="3. 并行、并发"></a>3. 并行、并发</h3><p>并行：多个任务在同一时间范围内被执行，这些任务往往不是顺序执行的，而是交替执行的</p>
 <p>并发：多个任务在同一时刻被执行</p>
-<h3 id="4-线程上下文切换"><a href="#4-线程上下文切换" class="headerlink" title="4. 线程上下文切换"></a>4. 线程上下文切换</h3><h3 id="5-线程安全"><a href="#5-线程安全" class="headerlink" title="5. 线程安全"></a>5. 线程安全</h3>]]></content>
+<h3 id="4-线程上下文切换"><a href="#4-线程上下文切换" class="headerlink" title="4. 线程上下文切换"></a>4. 线程上下文切换</h3><h3 id="5-线程安全"><a href="#5-线程安全" class="headerlink" title="5. 线程安全"></a>5. 线程安全</h3><div class="pdfobject-container" data-target="编程环境和软件工具安装手册.pdf" data-height="500px"></div>
+
+]]></content>
       <categories>
         <category>java</category>
       </categories>
@@ -1115,9 +1117,9 @@
       </categories>
       <tags>
         <tag>效率</tag>
+        <tag>linux</tag>
         <tag>shell</tag>
         <tag>脚本</tag>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -2463,8 +2465,8 @@
         <category>脚本</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>效率</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
