@@ -302,6 +302,69 @@
       </tags>
   </entry>
   <entry>
+    <title>一键导出数据库表结构文档生成工具</title>
+    <url>/2021/11/21/%E4%B8%80%E9%94%AE%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%BB%93%E6%9E%84%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<p>偶然间，发现了一个非常好用的项目，这个项目能够快速的将数据库表结构以文档形式导出，解决了之前项目要验收写数据库设计文档时的困扰。有了这个工具的加持，一键导出系统表结构，对快速理解项目的整体情况有很大帮助~~，有兴趣的小伙伴可以看看。</p>
+<span id="more"></span>
+
+<h1 id="一、项目来源"><a href="#一、项目来源" class="headerlink" title="一、项目来源"></a>一、项目来源</h1><p>项目来源于GItHub上的一个开源项目，作者将这个项目命名为 <code>screw</code>，含义为螺丝钉，寓意为：工具虽小，但作用很大，是开发中重要的工具</p>
+<p>GitHub地址：<a href="https://github.com/pingfangushi/screw">点击跳转</a></p>
+<h1 id="二、具体使用"><a href="#二、具体使用" class="headerlink" title="二、具体使用"></a>二、具体使用</h1><h2 id="1、导入依赖"><a href="#1、导入依赖" class="headerlink" title="1、导入依赖"></a>1、导入依赖</h2><p>新建一个Maven项目，在pom.xml文件中添加依赖，拉下相关jar包</p>
+<p>下面示例添加了<code>mysql</code>和<code>oracle</code>两个驱动依赖，可根据项目情况自行选择</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;cn.smallbun.screw&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;screw-core&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0.5&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- HikariCP --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.zaxxer&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;HikariCP&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.4.5&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--mysql driver--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.1.40&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.oracle.database.jdbc&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;ojdbc8&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;21.1.0.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、新建JAVA文件"><a href="#2、新建JAVA文件" class="headerlink" title="2、新建JAVA文件"></a>2、新建JAVA文件</h2><p>新建一个Test.java普通的java类，将代码拷贝到main方法中，导入相关jar包。</p>
+<p>修改配置信息</p>
+<ol>
+<li><p>连接驱动</p>
+<ol>
+<li>mysql：<code>com.mysql.jdbc.Driver</code></li>
+<li>oracle：<code>oracle.jdbc.driver.OracleDriver</code></li>
+</ol>
+</li>
+<li><p>jdbcUrl</p>
+<ol>
+<li>mysql：<code>jdbc:mysql://127.0.0.1:3306/health?characterEncoding=UTF-8</code></li>
+<li>oracle：<code>jdbc:oracle:thin:@xxx.xx.x.xx:1521:xxx?characterEncoding=UTF-8</code></li>
+</ol>
+</li>
+<li><p>username和password</p>
+<p>配置数据源的账号和密码</p>
+</li>
+<li><p>fileOutputDir</p>
+</li>
+</ol>
+<p>​        配置文档输出路径地址</p>
+<ol start="5">
+<li><p>fileType     </p>
+<p>文档输出类型，默认 <code>EngineFileType.HTML</code>以网页形式输出，可以修改</p>
+<ol>
+<li>EngineFileType.HTML ：HTML文件    </li>
+<li>EngineFileType.WORD：WORD文件    </li>
+<li>EngineFileType.MD  Markdown文件    </li>
+</ol>
+</li>
+<li><p>fileName</p>
+</li>
+</ol>
+<p>​        输出文件名自定义修改</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import cn.smallbun.screw.core.Configuration;</span><br><span class="line">import cn.smallbun.screw.core.engine.EngineConfig;</span><br><span class="line">import cn.smallbun.screw.core.engine.EngineFileType;</span><br><span class="line">import cn.smallbun.screw.core.engine.EngineTemplateType;</span><br><span class="line">import cn.smallbun.screw.core.execute.DocumentationExecute;</span><br><span class="line">import cn.smallbun.screw.core.process.ProcessConfig;</span><br><span class="line">import com.zaxxer.hikari.HikariConfig;</span><br><span class="line">import com.zaxxer.hikari.HikariDataSource;</span><br><span class="line"></span><br><span class="line">import javax.sql.DataSource;</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line"></span><br><span class="line">public class Test &#123;</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     文档生成</span><br><span class="line">    */</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //数据源</span><br><span class="line">        HikariConfig hikariConfig = new HikariConfig();</span><br><span class="line">        hikariConfig.setDriverClassName(&quot;com.mysql.jdbc.Driver&quot;);</span><br><span class="line">        hikariConfig.setJdbcUrl(&quot;jdbc:mysql://127.0.0.1:3306/health?characterEncoding=UTF-8&quot;);</span><br><span class="line">        hikariConfig.setUsername(&quot;root&quot;);</span><br><span class="line">        hikariConfig.setPassword(&quot;Gepoint&quot;);</span><br><span class="line">        //设置可以获取tables remarks信息</span><br><span class="line">        hikariConfig.addDataSourceProperty(&quot;useInformationSchema&quot;, &quot;true&quot;);</span><br><span class="line">        hikariConfig.setMinimumIdle(2);</span><br><span class="line">        hikariConfig.setMaximumPoolSize(5);</span><br><span class="line">        DataSource dataSource = new HikariDataSource(hikariConfig);</span><br><span class="line">        //生成配置</span><br><span class="line">        EngineConfig engineConfig = EngineConfig.builder()</span><br><span class="line">                //生成文件路径</span><br><span class="line">                .fileOutputDir(&quot;D:\\project\\screw\\&quot;)</span><br><span class="line">                //打开目录</span><br><span class="line">                .openOutputDir(true)</span><br><span class="line">                //文件类型</span><br><span class="line">                .fileType(EngineFileType.HTML)</span><br><span class="line">                //生成模板实现</span><br><span class="line">                .produceType(EngineTemplateType.freemarker)</span><br><span class="line">                //自定义文件名称</span><br><span class="line">                .fileName(&quot;数据库表结构文档&quot;).build();</span><br><span class="line"></span><br><span class="line">        //忽略表</span><br><span class="line">        ArrayList&lt;String&gt; ignoreTableName = new ArrayList&lt;&gt;();</span><br><span class="line">        ignoreTableName.add(&quot;test_user&quot;);</span><br><span class="line">        ignoreTableName.add(&quot;test_group&quot;);</span><br><span class="line">        //忽略表前缀</span><br><span class="line">        ArrayList&lt;String&gt; ignorePrefix = new ArrayList&lt;&gt;();</span><br><span class="line">        ignorePrefix.add(&quot;test_&quot;);</span><br><span class="line">        //忽略表后缀</span><br><span class="line">        ArrayList&lt;String&gt; ignoreSuffix = new ArrayList&lt;&gt;();</span><br><span class="line">        ignoreSuffix.add(&quot;_test&quot;);</span><br><span class="line">        ProcessConfig processConfig = ProcessConfig.builder()</span><br><span class="line">                //指定生成逻辑、当存在指定表、指定表前缀、指定表后缀时，将生成指定表，其余表不生成、并跳过忽略表配置</span><br><span class="line">                //根据名称指定表生成</span><br><span class="line">                .designatedTableName(new ArrayList&lt;&gt;())</span><br><span class="line">                //根据表前缀生成</span><br><span class="line">                .designatedTablePrefix(new ArrayList&lt;&gt;())</span><br><span class="line">                //根据表后缀生成</span><br><span class="line">                .designatedTableSuffix(new ArrayList&lt;&gt;())</span><br><span class="line">                //忽略表名</span><br><span class="line">                .ignoreTableName(ignoreTableName)</span><br><span class="line">                //忽略表前缀</span><br><span class="line">                .ignoreTablePrefix(ignorePrefix)</span><br><span class="line">                //忽略表后缀</span><br><span class="line">                .ignoreTableSuffix(ignoreSuffix).build();</span><br><span class="line">        //配置</span><br><span class="line">        Configuration config = Configuration.builder()</span><br><span class="line">                //版本</span><br><span class="line">                .version(&quot;1.0.0&quot;)</span><br><span class="line">                //描述</span><br><span class="line">                .description(&quot;数据库设计文档生成&quot;)</span><br><span class="line">                //数据源</span><br><span class="line">                .dataSource(dataSource)</span><br><span class="line">                //生成配置</span><br><span class="line">                .engineConfig(engineConfig)</span><br><span class="line">                //生成配置</span><br><span class="line">                .produceConfig(processConfig)</span><br><span class="line">                .build();</span><br><span class="line">        //执行生成</span><br><span class="line">        new DocumentationExecute(config).execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="三、执行代码"><a href="#三、执行代码" class="headerlink" title="三、执行代码"></a>三、执行代码</h1><p>执行完成后，在配置的路径下即生成对应格式的文档</p>
+<h2 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h2><p><img src="/2021/11/21/%E4%B8%80%E9%94%AE%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%BB%93%E6%9E%84%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/image-20211121161543086.png" alt="image-20211121161543086"></p>
+<h2 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h2><p><img src="/2021/11/21/%E4%B8%80%E9%94%AE%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%BB%93%E6%9E%84%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/image-20211121161606503.png" alt="image-20211121161606503"></p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>效率</tag>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>一致性Hash算法及在Nginx负载均衡策略上的应用</title>
     <url>/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/</url>
     <content><![CDATA[<p>博文介绍了普通hash算法、一致性hash算法、一致性hash算法在Nginx负载均衡策略中的应用，文章主要来源拉钩高薪训练营相关内容+自己的理解，条理清晰，能够帮助理解hash算法到底在查询和存储过程或者是负载均衡中到底起了什么样的作用，为什么会有那么高的效率?有兴趣的小伙伴可以了解下</p>
@@ -745,8 +808,8 @@
       </categories>
       <tags>
         <tag>效率</tag>
-        <tag>bat</tag>
         <tag>hexo</tag>
+        <tag>bat</tag>
         <tag>脚本</tag>
       </tags>
   </entry>
@@ -893,8 +956,8 @@
       </categories>
       <tags>
         <tag>效率</tag>
-        <tag>bat</tag>
         <tag>hexo</tag>
+        <tag>bat</tag>
         <tag>脚本</tag>
       </tags>
   </entry>
