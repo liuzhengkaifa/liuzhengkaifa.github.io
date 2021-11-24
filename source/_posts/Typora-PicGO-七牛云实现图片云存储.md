@@ -93,3 +93,13 @@ Typora依次选择格式>>图像>>全局图像设置
 
 
 至此完成配置使用，大家愉快的耍起来吧~
+
+## 5、问题
+
+这是看资源加载会发现本是http的数据资源会被强制加载成https
+
+![image-20211124103733805](Typora-PicGO-七牛云实现图片云存储/image-20211124103733805.png)
+
+如果此页面图片无法正常显示，请点击[解决方案](https://blog.csdn.net/qq_40875577/article/details/120000269?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link)：
+
+![image-20211124154552264](Typora-PicGO-七牛云实现图片云存储/image-20211124154552264-16377401145391.png)
