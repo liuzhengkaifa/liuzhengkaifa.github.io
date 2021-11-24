@@ -302,8 +302,95 @@
       </tags>
   </entry>
   <entry>
-    <title>一键导出数据库表结构文档生成工具</title>
-    <url>/2021/11/21/%E4%B8%80%E9%94%AE%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%BB%93%E6%9E%84%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/</url>
+    <title>Typora-PicGO-七牛云实现图片云存储</title>
+    <url>/2021/11/24/Typora-PicGO-%E4%B8%83%E7%89%9B%E4%BA%91%E5%AE%9E%E7%8E%B0%E5%9B%BE%E7%89%87%E4%BA%91%E5%AD%98%E5%82%A8/</url>
+    <content><![CDATA[<p>之前分享了《hexo搭配typora在文档中插入图片上传到github》，github作为代码存储仓库，放置图片总有些不合适，况且由于网络原因，加载效果并不是很好，因此，在这里推荐大家使用Typora+PicGO+七牛云来实现图片的云存储</p>
+<span id="more"></span>
+
+<h1 id="一、工具说明"><a href="#一、工具说明" class="headerlink" title="一、工具说明"></a>一、工具说明</h1><h2 id="1、Typora"><a href="#1、Typora" class="headerlink" title="1、Typora"></a>1、Typora</h2><p>typora大家都不陌生，是一款MarkDown语法的编辑工具，用来写笔记比较方便</p>
+<p>具体介绍和获取方式，可以参照我的<a href="https://liuzhengkaifa.github.io/2021/11/10/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7%E8%BD%AF%E4%BB%B6%E5%88%86%E4%BA%AB/#more">实用工具介绍</a></p>
+<h2 id="2、PicGo"><a href="#2、PicGo" class="headerlink" title="2、PicGo"></a>2、PicGo</h2><p>PicGo是一个用于快速上传图片并获取图片 URL 链接的工具，这个工具在GitHub上是开源的，我们可以访问直接下载</p>
+<p><a href="https://github.com/Molunerfinn/PicGo">PicGo开源GitHub点击跳转</a></p>
+<h2 id="3、七牛云"><a href="#3、七牛云" class="headerlink" title="3、七牛云"></a>3、七牛云</h2><p>七牛云存储用来存储图片，通过typora实用PicGo实际上是将图片上传到七牛云提供的云存储服务器上，然后我们通过图片访问url就能快速访问图片</p>
+<h1 id="二、使用操作"><a href="#二、使用操作" class="headerlink" title="二、使用操作"></a>二、使用操作</h1><h2 id="1、下载工具和七牛云注册"><a href="#1、下载工具和七牛云注册" class="headerlink" title="1、下载工具和七牛云注册"></a>1、下载工具和七牛云注册</h2><ul>
+<li>下载<a href="https://liuzhengkaifa.github.io/2021/11/10/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7%E8%BD%AF%E4%BB%B6%E5%88%86%E4%BA%AB/#more">Typora</a>和<a href="https://github.com/Molunerfinn/PicGo">PicGo</a></li>
+</ul>
+<p>Typora进入官网下载即可，正常安装</p>
+<p>PicGo进入GItHub网站，点击下载安装的<strong>应用</strong>，然后再新的页面下载exe可执行文件即可</p>
+<p><img src="http://r31aaelmi.hn-bkt.clouddn.com/image-20211124093453034.png" alt="image-20211124093453034"></p>
+<p><img src="http://r31aaelmi.hn-bkt.clouddn.com/image-20211124093527306.png" alt="image-20211124093527306"></p>
+<p>软件正常安装即可，需要记住安装的地址，后面需要配置使用</p>
+<ul>
+<li>注册七牛云账户</li>
+</ul>
+<p><a href="https://portal.qiniu.com/">点击跳转官网</a></p>
+<p>注册认证完成后，在对象存储&gt;&gt;空间管理&gt;&gt;新建一个空间，后续备用</p>
+<p><img src="http://r31aaelmi.hn-bkt.clouddn.com/image-20211124093850230.png" alt="image-20211124093850230"></p>
+<h2 id="2、配置PicGo"><a href="#2、配置PicGo" class="headerlink" title="2、配置PicGo"></a>2、配置PicGo</h2><p>软件安装完成后，打开PicGo</p>
+<p>将七牛云个人中心的 <code>AK</code> 和 <code>SK</code>，分别配置到 PicGo &gt;&gt; 图床设置&gt;&gt;七牛图床  对应位置</p>
+<p><img src="http://r31aaelmi.hn-bkt.clouddn.com/image-20211124094120923.png" alt="image-20211124094120923"></p>
+<p>然后在打开七牛云新建的空间，依次将空间名称、域名地址配到PicGo中（注意，域名配置中，需要添加http://或者https://），这里需要记一下，空间的存储区域在哪个位置，例如我的在华南。</p>
+<p><img src="http://r31aaelmi.hn-bkt.clouddn.com/image-20211124094500089.png" alt="image-20211124094500089"></p>
+<p>然后对照这张表将对应的地域简称填到PicGo的存储区域中，至此，PicGo完成配置</p>
+<p><img src="http://r31aaelmi.hn-bkt.clouddn.com/image-20211124094707432.png" alt="image-20211124094707432"></p>
+<h2 id="3、Typora配置"><a href="#3、Typora配置" class="headerlink" title="3、Typora配置"></a>3、Typora配置</h2><p>Typora依次选择格式&gt;&gt;图像&gt;&gt;全局图像设置</p>
+<p><img src="http://r31aaelmi.hn-bkt.clouddn.com/image-20211124094940026.png" alt="image-20211124094940026"></p>
+<p>在偏好设置处，先将 插入图片时改为上传图片，在上传服务设定处，选择上传服务为PicGo(app)，PicGo路径选择PicGo的安装路径</p>
+<p>最后点击验证图片上产选项，如果成功的话至此所有配置完成。</p>
+<p><img src="http://r31aaelmi.hn-bkt.clouddn.com/image-20211124095057680.png" alt="image-20211124095057680"></p>
+<h2 id="4、测试"><a href="#4、测试" class="headerlink" title="4、测试"></a>4、测试</h2><p>打开Typora,随便粘贴一张图片，看路径是否是配置的七牛云地址，以及图片是否能够正常显示。如果不能的话看看PicGo是否配置出错，例如协议是否加对了，将https://和http://切换试下。</p>
+<p><img src="http://r31aaelmi.hn-bkt.clouddn.com/image-20211124095443295.png" alt="image-20211124095443295"></p>
+<p>至此完成配置使用，大家愉快的耍起来吧~</p>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>效率</tag>
+        <tag>hexo</tag>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL学习记录（一）</title>
+    <url>/2021/11/22/MySQL%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    <content><![CDATA[<h1 id="一、MySQL发展历程"><a href="#一、MySQL发展历程" class="headerlink" title="一、MySQL发展历程"></a>一、MySQL发展历程</h1><h2 id="1-历史节点"><a href="#1-历史节点" class="headerlink" title="1. 历史节点"></a>1. 历史节点</h2><p>mysql发展主要有以下几个标志性节点</p>
+<ol>
+<li>1996年发布MySQL 1.0</li>
+<li>2005年发布MySQL 5.0版本，这是一个里程碑意义版本，支持了Oracle的许多功能</li>
+<li>2008年和2009年，大鱼吃小鱼，小鱼吃虾米，先后sum公司收购了MySQL AB 公司，Oracle公司收购了sun公司</li>
+</ol>
+<p><img src="/2021/11/22/MySQL%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/image-20211122112418273.png" alt="image-20211122112418273"></p>
+<p>MySQL主流分支架构</p>
+<p><img src="/2021/11/22/MySQL%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/image-20211122112950491.png" alt="image-20211122112950491"></p>
+<h2 id="2-应用架构演变"><a href="#2-应用架构演变" class="headerlink" title="2. 应用架构演变"></a>2. 应用架构演变</h2><h3 id="（一）V1-0-单机架构"><a href="#（一）V1-0-单机架构" class="headerlink" title="（一）V1.0 单机架构"></a>（一）V1.0 单机架构</h3><p>一个小型的网站，一台数据库服务器就能够满足数据的读取和写入，一般会把所有的数据写入一个MySQL instance中</p>
+<p><img src="/2021/11/22/MySQL%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/image-20211122113421008.png" alt="image-20211122113421008"></p>
+<h4 id="瓶颈"><a href="#瓶颈" class="headerlink" title="瓶颈"></a>瓶颈</h4><ol>
+<li>数据量不能太大，并发访问能力弱</li>
+<li>服务器挂点，系统就会崩溃无法访问</li>
+</ol>
+<h3 id="（二）主从架构"><a href="#（二）主从架构" class="headerlink" title="（二）主从架构"></a>（二）主从架构</h3><p>同步2台或多台服务器，一台M主库承担写压力，多台S子库承担读压力，对于写少读多的系统，采用主从架构能够解决数据库服务器读写压力多大的问题</p>
+<p><img src="/2021/11/22/MySQL%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/image-20211122153612805.png" alt="image-20211122153612805"></p>
+<h4 id="瓶颈-1"><a href="#瓶颈-1" class="headerlink" title="瓶颈"></a>瓶颈</h4><p>​        数据量不能太大，对于写要求比较高的场景，写服务器超出承受</p>
+<h3 id="（三）分库分表"><a href="#（三）分库分表" class="headerlink" title="（三）分库分表"></a>（三）分库分表</h3><p>分库分表分垂直拆分和水平拆分，垂直拆分每个库都拥有完整的数据，水平拆分每个库拥有1/n数据，</p>
+<p><img src="/2021/11/22/MySQL%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/image-20211122154500491.png" alt="image-20211122154500491"></p>
+<p>水平拆分如何拆分、客户端请求怎么路由以及如何保持数据的一致性是个难题</p>
+<h3 id="（四）云数据库"><a href="#（四）云数据库" class="headerlink" title="（四）云数据库"></a>（四）云数据库</h3><p>云数据库可以为公司节约成本，具有一定的优势，例如弹性扩容、便于管理，服务提供商提供详细的技术支撑</p>
+<p><img src="/2021/11/22/MySQL%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/image-20211122160213031.png" alt="image-20211122160213031"></p>
+<h1 id="二、MySQL架构原理"><a href="#二、MySQL架构原理" class="headerlink" title="二、MySQL架构原理"></a>二、MySQL架构原理</h1><p><img src="/2021/11/22/MySQL%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/image-20211122160856653.png" alt="image-20211122160856653"></p>
+<p>MySQL架构自顶向下可分为网络连接层、服务层、存储引擎层、和系统文件层</p>
+<h2 id="1、网络连接层"><a href="#1、网络连接层" class="headerlink" title="1、网络连接层"></a>1、网络连接层</h2>]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据库表结构文档生成工具</title>
+    <url>/2021/11/21/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%BB%93%E6%9E%84%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/</url>
     <content><![CDATA[<p>偶然间，发现了一个非常好用的项目，这个项目能够快速的将数据库表结构以文档形式导出，解决了之前项目要验收写数据库设计文档时的困扰。有了这个工具的加持，一键导出系统表结构，对快速理解项目的整体情况有很大帮助~~，有兴趣的小伙伴可以看看。</p>
 <span id="more"></span>
 
@@ -353,15 +440,15 @@
 
 
 <h1 id="三、执行代码"><a href="#三、执行代码" class="headerlink" title="三、执行代码"></a>三、执行代码</h1><p>执行完成后，在配置的路径下即生成对应格式的文档</p>
-<h2 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h2><p><img src="/2021/11/21/%E4%B8%80%E9%94%AE%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%BB%93%E6%9E%84%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/image-20211121161543086.png" alt="image-20211121161543086"></p>
-<h2 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h2><p><img src="/2021/11/21/%E4%B8%80%E9%94%AE%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%BB%93%E6%9E%84%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/image-20211121161606503.png" alt="image-20211121161606503"></p>
+<h2 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h2><p><img src="/2021/11/21/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%BB%93%E6%9E%84%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/image-20211121161543086.png" alt="image-20211121161543086"></p>
+<h2 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h2><p><img src="/2021/11/21/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%BB%93%E6%9E%84%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/image-20211121161606503.png" alt="image-20211121161606503"></p>
 ]]></content>
       <categories>
         <category>数据库</category>
       </categories>
       <tags>
-        <tag>效率</tag>
         <tag>数据库</tag>
+        <tag>效率</tag>
       </tags>
   </entry>
   <entry>
@@ -2765,8 +2852,8 @@
         <category>脚本</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>效率</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -2978,8 +3065,8 @@
         <category>博客</category>
       </categories>
       <tags>
-        <tag>博客</tag>
         <tag>hexo</tag>
+        <tag>博客</tag>
       </tags>
   </entry>
 </search>
