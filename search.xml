@@ -320,6 +320,20 @@
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">获取filebeat文件</span><br><span class="line">curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.15.2-linux-x86_64.tar.gz</span><br><span class="line">解压filebeat压缩包</span><br><span class="line">tar -zxf kafka_2.12-3.0.0.tgz -C /opt/</span><br></pre></td></tr></table></figure>
 
+<ol start="2">
+<li><p>修改配置文件</p>
+<p>cd filebeat-7.15.2-linux-x86_64/ 进入目录</p>
+<p>修改filebeat.yml文件，关注以下配置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 限制一个cpu核心，避免在日志较频繁时可能导致CPU满载</span><br><span class="line">max_procs: 1</span><br><span class="line"></span><br><span class="line"># 监测的日志路径</span><br><span class="line">paths:</span><br><span class="line">  - /home/weblogic/base_domain/logs/nohup/nohup*.log</span><br><span class="line"></span><br><span class="line"># 匹配日志的行信息，例如找到以Excepton和Error开头的错误  </span><br><span class="line">include_lines: [&#x27;ERROR&#x27;,&#x27;^(\w&#123;1,&#125;\.)&#123;1,&#125;(.*Exception|.*Error)&#123;1&#125;&#x27;]</span><br><span class="line"></span><br><span class="line">### Multiline options</span><br><span class="line"># 根据实际日志情况进行多行匹配，获取的是错误多行信息</span><br><span class="line">multiline.type: pattern</span><br><span class="line">multiline.pattern: &#x27;^(\w&#123;1,&#125;\.)&#123;1,&#125;(.*Exception|.*Error)&#123;1&#125;|^[[:space:]]+(at|\.&#123;3&#125;)[[:space:]]+\b|^Caused by:&#x27;</span><br><span class="line">multiline.negate: false</span><br><span class="line">multiline.match: after</span><br><span class="line"></span><br><span class="line"># -------------------------------kafka Output-----------------------------------</span><br><span class="line">output.kafka:</span><br><span class="line">  # initial brokers for reading cluster metadata</span><br><span class="line">  hosts: [&quot;101.132.XXX.XX:9092&quot;]</span><br><span class="line"></span><br><span class="line">  # message topic selection + partitioning</span><br><span class="line">  topic: &#x27;error_log_collect_topic&#x27;</span><br><span class="line">  partition.round_robin:</span><br><span class="line">    reachable_only: false</span><br><span class="line">  version: 2.0.0</span><br><span class="line">  required_acks: 1</span><br><span class="line">  compression: gzip</span><br><span class="line">  max_message_bytes: 1000000  </span><br></pre></td></tr></table></figure></li>
+<li><p>filebeat启动</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">./filebeat -e -c filebeat配置文件</span><br></pre></td></tr></table></figure>
+
+<p>​    也可以后台启动</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nohup ./filebeat -e -c filebeat.yml -d <span class="string">&quot;publish&quot;</span> &gt; /dev/null &gt;2&amp; &gt;1 &amp;</span><br></pre></td></tr></table></figure>
+
+<p>关于nohup具体用法，查看章节四</p>
 <h2 id="2、使用kafka获取错误日志信息"><a href="#2、使用kafka获取错误日志信息" class="headerlink" title="2、使用kafka获取错误日志信息"></a>2、使用kafka获取错误日志信息</h2><p><a href="https://www.orchome.com/66">kafka中文教程</a></p>
 <p>kafka的使用，要求先要安装好jdk以及zookeeper,kafka3.0.0自带zookeeper,也可以自行单独安装zookee。</p>
 <ol>
@@ -437,6 +451,20 @@
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//获取日志所在服务器ip</span><br><span class="line">JSONObject hostObject = (JSONObject)errorInfoObject.get(&quot;host&quot;);</span><br><span class="line">JSONArray ipArr = hostObject.getJSONArray(&quot;ip&quot;);</span><br><span class="line">errorLogInfo.setIpaddr(ipArr.get(0).toString());</span><br></pre></td></tr></table></figure>
 
+<h2 id="3、nohup"><a href="#3、nohup" class="headerlink" title="3、nohup"></a>3、nohup</h2><h3 id="（一）作用"><a href="#（一）作用" class="headerlink" title="（一）作用"></a>（一）作用</h3><p>nohup命令用于不挂断地运行命令（关闭当前session不会中断改程序，只能通过kill等命令删除）。<br>使用nohup命令提交作业，如果使用nohup命令提交作业，那么在缺省情况下该作业的所有输出都被重定向到一个名为nohup.out的文件中，除非另外指定了输出文件。</p>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nohup command &gt; myout.file 2&gt;&amp;1 &amp; echo $! &gt; command.pid</span><br></pre></td></tr></table></figure>
+
+<p>&amp;用于后台执行程序，但是关闭当前session程序也会结束</p>
+<h3 id="（二）2-gt-amp-1-amp-详解"><a href="#（二）2-gt-amp-1-amp-详解" class="headerlink" title="（二）2&gt;&amp;1 &amp;详解"></a>（二）2&gt;&amp;1 &amp;详解</h3><p>bash中：</p>
+<ul>
+<li>0 代表STDIN_FILENO 标准输入（一般是键盘），</li>
+<li>1 代表STDOUT_FILENO 标准输出（一般是显示屏，准确的说是用户终端控制台），</li>
+<li>2 三代表STDERR_FILENO (标准错误（出错信息输出）。</li>
+</ul>
+<p>&gt; 直接把内容生成到指定文件，会覆盖原来文件中的内容[ls &gt; test.txt],<br>&gt;&gt; 尾部追加，不会覆盖原有内容 [ls &gt;&gt; test.txt],<br>&lt; 将指定文件的内容作为前面命令的参数[cat &lt; text.sh]</p>
+<p><strong>2&gt;&amp;1就是用来将标准错误2重定向到标准输出1中的。此处1前面的&amp;就是为了让bash将1解释成标准输出而不是文件1。至于最后一个&amp;，则是让bash在后台执行。</strong></p>
+<h3 id="（三）-dev-null-2-gt-amp-1"><a href="#（三）-dev-null-2-gt-amp-1" class="headerlink" title="（三）/dev/null 2&gt;&amp;1"></a>（三）/dev/null 2&gt;&amp;1</h3><p>可以把/dev/null 可以看作”黑洞”. 它等价于一个只写文件. 所有写入它的内容都会永远丢失. 而尝试从它那儿读取内容则什么也读不到.<br>/dev/null 2&gt;&amp;1则表示吧标准输出和错误输出都放到这个“黑洞”，表示什么也不输出。</p>
 ]]></content>
       <categories>
         <category>java</category>
