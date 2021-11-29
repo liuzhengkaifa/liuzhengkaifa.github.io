@@ -320,3 +320,21 @@ date: 2021-11-11 09:35:35
 | apt-get upgrade           | 更新已安装软件包       |
 | apt-get clean             | 清理缓存               |
 
+# 其它
+
+## 软连接
+
+1. 创建软链接
+
+ln -s [源文件/目录] [目标文件/目录]
+
+示例：在当前目录下 base_domain8558新建快捷方式指向
+
+                 /home/weblogic/weblogic11/user_projects/domains/base_domain8558
+
+ln -s /home/weblogic/weblogic11/user_projects/domains/base_domain8558 ./base_domain8558
+
+2. 删除软连接，找到软连接所在目录
+
+        直接  rm   base_domain8558
+
