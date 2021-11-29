@@ -546,8 +546,8 @@
       </tags>
   </entry>
   <entry>
-    <title>Typora-PicGo-七牛云实现图片云存储</title>
-    <url>/2021/11/24/Typora-PicGo-%E4%B8%83%E7%89%9B%E4%BA%91%E5%AE%9E%E7%8E%B0%E5%9B%BE%E7%89%87%E4%BA%91%E5%AD%98%E5%82%A8/</url>
+    <title>Typora配合PicGo使用七牛云实现图片云存储</title>
+    <url>/2021/11/24/Typora%E9%85%8D%E5%90%88PicGo%E4%BD%BF%E7%94%A8%E4%B8%83%E7%89%9B%E4%BA%91%E5%AE%9E%E7%8E%B0%E5%9B%BE%E7%89%87%E4%BA%91%E5%AD%98%E5%82%A8/</url>
     <content><![CDATA[<p>之前分享了《hexo搭配typora在文档中插入图片上传到github》，github作为代码存储仓库，放置图片总有些不合适，况且由于网络原因，加载效果并不是很好，因此，在这里推荐大家使用Typora+PicGO+七牛云来实现图片的云存储</p>
 <span id="more"></span>
 
@@ -586,17 +586,17 @@
 <p><img src="http://r31aaelmi.hn-bkt.clouddn.com/image-20211124095443295.png" alt="image-20211124095443295"></p>
 <p>至此完成配置使用，大家愉快的耍起来吧~</p>
 <h2 id="5、问题"><a href="#5、问题" class="headerlink" title="5、问题"></a>5、问题</h2><p>这是看资源加载会发现本是http的数据资源会被强制加载成https</p>
-<p><img src="/2021/11/24/Typora-PicGo-%E4%B8%83%E7%89%9B%E4%BA%91%E5%AE%9E%E7%8E%B0%E5%9B%BE%E7%89%87%E4%BA%91%E5%AD%98%E5%82%A8/image-20211124103733805.png" alt="image-20211124103733805"></p>
+<p><img src="http://r31aaelmi.hn-bkt.clouddn.com/image-20211124103733805.png" alt="image-20211124103733805"></p>
 <p>如果此页面图片无法正常显示，请点击<a href="https://blog.csdn.net/qq_40875577/article/details/120000269?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2~default~CTRLIST~default-1.no_search_link&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2~default~CTRLIST~default-1.no_search_link">解决方案</a>：</p>
-<p><img src="/2021/11/24/Typora-PicGo-%E4%B8%83%E7%89%9B%E4%BA%91%E5%AE%9E%E7%8E%B0%E5%9B%BE%E7%89%87%E4%BA%91%E5%AD%98%E5%82%A8/image-20211124154552264-16377401145391.png" alt="image-20211124154552264"></p>
+<p><img src="http://r31aaelmi.hn-bkt.clouddn.com/image-20211124154552264-16377401145391.png" alt="image-20211124154552264"></p>
 ]]></content>
       <categories>
         <category>博客</category>
       </categories>
       <tags>
-        <tag>博客</tag>
         <tag>效率</tag>
         <tag>hexo</tag>
+        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
@@ -3117,8 +3117,8 @@
         <category>脚本</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>效率</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -3330,8 +3330,8 @@
         <category>博客</category>
       </categories>
       <tags>
-        <tag>博客</tag>
         <tag>hexo</tag>
+        <tag>博客</tag>
       </tags>
   </entry>
 </search>
