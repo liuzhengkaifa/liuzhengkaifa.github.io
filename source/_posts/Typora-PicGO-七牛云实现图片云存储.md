@@ -1,5 +1,5 @@
 ---
-title: Typora-PicGO-七牛云实现图片云存储
+title: Typora-PicGo-七牛云实现图片云存储
 tags:
   - 效率
   - hexo
@@ -102,4 +102,4 @@ Typora依次选择格式>>图像>>全局图像设置
 
 如果此页面图片无法正常显示，请点击[解决方案](https://blog.csdn.net/qq_40875577/article/details/120000269?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link)：
 
-![image-20211124154552264](Typora-PicGO-七牛云实现图片云存储/image-20211124154552264-16377401145391.png)
+![image-20211124154552264](Typora-PicGo-七牛云实现图片云存储/image-20211124154552264-16377401145391.png)
