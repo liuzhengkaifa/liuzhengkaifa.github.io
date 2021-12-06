@@ -302,6 +302,185 @@
       </tags>
   </entry>
   <entry>
+    <title>MySQL索引学习</title>
+    <url>/2021/12/02/MySQL%E7%B4%A2%E5%BC%95%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<p>s索引的学习对于数据库优化有着至关重要的作用，深入理解索引机制，才能更好的优化查询机制</p>
+<span id="more"></span>
+
+<h1 id="一、索引分类"><a href="#一、索引分类" class="headerlink" title="一、索引分类"></a>一、索引分类</h1><p>索引的使用会影响where条件查询以及order by排序，MySQL索引类型如下</p>
+<ul>
+<li>从存储结构划分：可分为B Tree索引、Hash索引、FuLLTEXT全文索引、R Tree索引</li>
+<li>从应用层次划分：可分为主键索引、普通索引、唯一索引、复合索引、全文索引</li>
+<li>从索引键类型划分：可分为主键索引、辅助索引</li>
+<li>从数据存储和键类型划分：可分为聚簇索引（聚集索引）、非聚簇索引</li>
+</ul>
+<p><img src="http://r31aaelmi.hn-bkt.clouddn.com/image-20211206163837167.png" alt="image-20211206163837167"></p>
+<h2 id="1、普通索引"><a href="#1、普通索引" class="headerlink" title="1、普通索引"></a>1、普通索引</h2><p>普通索引是最基本的索引类型，建立在普通字段上，没有任何限制</p>
+<p>创建普通索引的三种方式</p>
+<ol>
+<li>直接添加索引</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE INDEX &lt;索引的名字&gt; ON tablename (字段名);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>修改表结构添加索引</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ALTER TABLE tablename ADD INDEX [索引的名字] (字段名);</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>创建表时添加索引</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE TABLE tablename ( [...], INDEX [索引的名字] (字段名) );</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、主键索引"><a href="#2、主键索引" class="headerlink" title="2、主键索引"></a>2、主键索引</h2><p>主键索引是一种特殊的唯一值，不允许为空。创建主键索引有两种方式</p>
+<ol>
+<li>修改表结构添加索引</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ALTER TABLE tablename ADD PRIMARY KEY (字段名);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>创建表时添加索引</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE TABLE tablename ( [...], PRIMARY KEY (字段名) );</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3、唯一索引"><a href="#3、唯一索引" class="headerlink" title="3、唯一索引"></a>3、唯一索引</h2><p>与普通索引不同的时，唯一索引的列不能有重复值，但可以为空，在创建、修改表列字段属性为唯一约束时，自动添加唯一索引</p>
+<p>创建唯一索引的三种方式</p>
+<ol>
+<li>直接添加唯一索引</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE UNIQUE INDEX &lt;索引的名字&gt; ON tablename (字段名);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>修改表结构添加索引</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ALTER TABLE tablename ADD UNIQUE INDEX [索引的名字] (字段名);</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>创建表时添加索引</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE TABLE tablename ( [...], UNIQUE [索引的名字] (字段名) ;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4、复合索引"><a href="#4、复合索引" class="headerlink" title="4、复合索引"></a>4、复合索引</h2><p>单一索引是指索引只作用在一列上，复合索引是指用户在多个列上建立索引，这种索引叫复合索引（组合索引），复合索引可以代替多个单一索引，相比多个单一索引复合索引所需的开销更小。 但要注意<strong>最左前缀原则</strong></p>
+<p>创建复合索引的三种方式</p>
+<ol>
+<li>直接添加复合索引</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create index &lt;索引名称&gt; on table(字段名1，字段名2);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>修改表结构添加索引</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ALTER TABLE tablename ADD INDEX [索引的名字] (字段名1，字段名2...);</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>创建表时添加索引</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE TABLE tablename ( [...], INDEX [索引的名字] (字段名1，字段名2...) );</span><br></pre></td></tr></table></figure>
+
+<p>复合索引使用时注意事项：</p>
+<p>什么时候使用复合索引：</p>
+<ul>
+<li>添加复合索引要根据where条件建立，不要过多使用索引，过多无用的索引会影响表新增更新数据</li>
+<li>如果表已经有了(col1,col2)，就没有必要再单独建立(col1)，如果有了（col1）索引，如果需要查询col1和col2条件，可以建立(col1,col2)列复合索引，对查询速度有一定的提高。</li>
+</ul>
+<h2 id="5、全文索引"><a href="#5、全文索引" class="headerlink" title="5、全文索引"></a>5、全文索引</h2><p>查询操作在数据量比较少时，可以使用like模糊查询，但是对于大量的文本数据检索，效率很低。如果使用全文索引，查询速度会比like快很多倍。在MySQL 5.6 以前的版本，只有MyISAM存储引擎支持全文索引，从MySQL 5.6开始MyISAM和InnoDB存储引擎均支持  。</p>
+<p>创建全文索引的三种方式（注意只能对字符串和文本类型列生效）：</p>
+<ol>
+<li>直接添加全文索引</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE FULLTEXT INDEX &lt;索引的名字&gt; ON tablename (字段名);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>修改表结构添加全文索引</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ALTER TABLE tablename ADD FULLTEXT [索引的名字] (字段名);</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>创建表时添加全文索引</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE TABLE tablename ( [...], FULLTEXT KEY [索引的名字] (字段名) ;</span><br></pre></td></tr></table></figure>
+
+<p>与常见的like模糊查询不同，全文索引使用match和against关键字，比如</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from user where match(username) against(&#x27;aaa&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>全文索引使用注意事项：</p>
+<ul>
+<li>全文索引必须在字符串、文本字段上建立。<ul>
+<li>全文索引字段值必须在最小字符和最大字符之间的才会有效。（innodb：3-84；myisam：4-84）</li>
+</ul>
+</li>
+<li>全文索引字段值要进行切词处理，按syntax字符进行切割，例如b+aaa，切分成b和aaa</li>
+<li>全文索引匹配查询，默认使用的是等值匹配，例如a匹配a，不会匹配ab,ac。如果想匹配可以在布尔模式下搜索a*  </li>
+</ul>
+<h1 id="二、索引的原理"><a href="#二、索引的原理" class="headerlink" title="二、索引的原理"></a>二、索引的原理</h1><h1 id="三、索引的分析和优化"><a href="#三、索引的分析和优化" class="headerlink" title="三、索引的分析和优化"></a>三、索引的分析和优化</h1><h2 id="1、Explain"><a href="#1、Explain" class="headerlink" title="1、Explain"></a>1、Explain</h2><p>MySQL提供的explain命令，可以对select语句进行分析，并输出select 查询执行的详细信息，可以供开发人员查看，进而帮助开发人员针对性优化。例如</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">EXPLAIN SELECT * from user WHERE id &lt; 3;</span><br></pre></td></tr></table></figure>
+
+<p>EXPLAIN 命令的输出内容大致如下：  </p>
+<p><img src="http://r31aaelmi.hn-bkt.clouddn.com/image-20211206172601998.png" alt="image-20211206172601998"></p>
+<h3 id="（一）select-type"><a href="#（一）select-type" class="headerlink" title="（一）select_type"></a>（一）select_type</h3><p>表示查询的类型，常见的值有以下情况</p>
+<ul>
+<li>SIMPLE：表示查询语句不包含子查询或union  </li>
+<li>PRIMARY：表示此查询是最外层查询</li>
+<li>UNION：表示此查询是UNION的第二个或后续的查询  </li>
+<li>DEPENDENT UNION：UNION中的第二个或后续的查询语句，使用了外面查询结果  </li>
+<li>UNION RESULT：UNION的结果  </li>
+<li>SUBQUERY：SELECT子查询语句  </li>
+<li>SUBQUERY：SELECT子查询语句  </li>
+</ul>
+<p><strong>最常见的查询类型就是SIMPLE，表示我们查询没有子查询也没有用到union查询</strong></p>
+<h3 id="（二）type"><a href="#（二）type" class="headerlink" title="（二）type"></a>（二）type</h3><p>表示存储引擎查询数据时采用的方式。比较重要的一个属性，通过它可以判断出查询是全表扫描还是基于索引的部分扫描。常用属性值如下，从上至下效率依次增强。  </p>
+<ul>
+<li>ALL：表示全表扫描，性能最差。</li>
+<li>index：表示基于索引的全表扫描，先扫描索引再扫描全表数据。</li>
+<li>range：表示使用索引范围查询。使用&gt;、&gt;=、&lt;、&lt;=、in等等。</li>
+<li>ref：表示使用非唯一索引进行单值查询。</li>
+<li>eq_ref：一般情况下出现在多表join查询，表示前面表的每一个记录，都只能匹配后面表的一行结果。</li>
+<li>const：表示使用主键或唯一索引做等值查询，常量查询。</li>
+<li>NULL：表示不用访问表，速度最快  </li>
+</ul>
+<h3 id="（三）possible-keys"><a href="#（三）possible-keys" class="headerlink" title="（三）possible_keys"></a>（三）possible_keys</h3><p>表示查询时能够使用到的索引。注意并不一定会真正使用，显示的是索引名称。  </p>
+<h3 id="（四）key"><a href="#（四）key" class="headerlink" title="（四）key"></a>（四）key</h3><p>表示查询时真正使用到的索引，显示的是索引名称。  </p>
+<h3 id="（五）rows"><a href="#（五）rows" class="headerlink" title="（五）rows"></a>（五）rows</h3><p>MySQL查询优化器会根据统计信息，估算SQL要查询到结果需要扫描多少行记录。原则上rows是越少效率越高，可以直观的了解到SQL效率高低。  </p>
+<h3 id="（六）key-len"><a href="#（六）key-len" class="headerlink" title="（六）key_len"></a>（六）key_len</h3><p>表示查询使用了索引的字节数量。可以判断是否全部使用了组合索引。<br>key_len的计算规则如下：</p>
+<ul>
+<li>字符串类型<br>字符串长度跟字符集有关：latin1=1、gbk=2、utf8=3、utf8mb4=4<br>char(n)：n*字符集长度<br>varchar(n)：n * 字符集长度 + 2字节</li>
+<li>数值类型<br>TINYINT：1个字节<br>SMALLINT：2个字节<br>MEDIUMINT：3个字节<br>INT、FLOAT：4个字节<br>BIGINT、DOUBLE：8个字节</li>
+<li>时间类型<br>DATE：3个字节<br>TIMESTAMP：4个字节<br>DATETIME：8个字节</li>
+<li>字段属性<br>NULL属性占用1个字节，如果一个字段设置了NOT NULL，则没有此项。</li>
+</ul>
+<h3 id="（七）Extra"><a href="#（七）Extra" class="headerlink" title="（七）Extra"></a>（七）Extra</h3><p>Extra表示很多额外的信息，各种操作会在Extra提示相关信息，常见几种如下：</p>
+<ul>
+<li>Using where<br>表示查询需要通过索引回表查询数据。</li>
+<li>Using index<br>表示查询需要通过索引，索引就可以满足所需数据。</li>
+<li>Using filesort<br>表示查询出来的结果需要额外排序，数据量小在内存，大的话在磁盘，因此有Using filesort建议优化。</li>
+<li>Using temprorary<br>查询使用到了临时表，一般出现于去重、分组等操作。  </li>
+</ul>
+<h2 id="2、索引失效的七种情况"><a href="#2、索引失效的七种情况" class="headerlink" title="2、索引失效的七种情况"></a>2、索引失效的七种情况</h2><h3 id="（一）like-‘-XX’"><a href="#（一）like-‘-XX’" class="headerlink" title="（一）like ‘%XX’"></a>（一）like ‘%XX’</h3><h3 id="（二）where-索引列使用了函数"><a href="#（二）where-索引列使用了函数" class="headerlink" title="（二）where 索引列使用了函数"></a>（二）where 索引列使用了函数</h3><h3 id="（三）违反最左前缀原则"><a href="#（三）违反最左前缀原则" class="headerlink" title="（三）违反最左前缀原则"></a>（三）违反最左前缀原则</h3><h3 id="（四）有or关键字"><a href="#（四）有or关键字" class="headerlink" title="（四）有or关键字"></a>（四）有or关键字</h3><h3 id="（五）where-索引列有运算"><a href="#（五）where-索引列有运算" class="headerlink" title="（五）where 索引列有运算"></a>（五）where 索引列有运算</h3><h3 id="（六）需要类型转换"><a href="#（六）需要类型转换" class="headerlink" title="（六）需要类型转换"></a>（六）需要类型转换</h3><h3 id="（七）如果MySQL觉得全表扫描更快（例如范围查询，结果数据较多）"><a href="#（七）如果MySQL觉得全表扫描更快（例如范围查询，结果数据较多）" class="headerlink" title="（七）如果MySQL觉得全表扫描更快（例如范围查询，结果数据较多）"></a>（七）如果MySQL觉得全表扫描更快（例如范围查询，结果数据较多）</h3><p>​                    <a href="https://www.cnblogs.com/liehen2046/p/11052666.html">索引失效的7种情况</a></p>
+<h2 id="3、回表查询"><a href="#3、回表查询" class="headerlink" title="3、回表查询"></a>3、回表查询</h2><p>在之前介绍过，InnoDB索引有聚簇索引和辅助索引。聚簇索引的叶子节点存储行记录，InnoDB必须要有，且只有一个。辅助索引的叶子节点存储的是主键值和索引字段值，通过辅助索引无法直接定位行记录，通常情况下，需要扫码两遍索引树。先通过辅助索引定位主键值，然后再通过聚簇索引定位行记录，这就叫做回表查询，它的性能比扫一遍索引树低。<br>总结：<strong>通过索引查询主键值，然后再去聚簇索引查询记录信息</strong>  </p>
+<h2 id="4、索引覆盖"><a href="#4、索引覆盖" class="headerlink" title="4、索引覆盖"></a>4、索引覆盖</h2><p>简单来说，通过索引就能满足查询结果。不需要再去查询行记录。</p>
+<p>在MySQL官网，类似的说法出现在explain查询计划优化章节，即explain的输出结果Extra字段为Using index时，能够触发索引覆盖  </p>
+<p>不管是SQL-Server官网，还是MySQL官网，都表达了：<strong>只需要在一棵索引树上就能获取SQL所需的所有列数据，无需回表，速度更快，这就叫做索引覆盖</strong>。<br>实现索引覆盖最常见的方法就是：<strong>将被查询的字段，建立到组合索引</strong>。  </p>
+<h2 id="5、索引与排序"><a href="#5、索引与排序" class="headerlink" title="5、索引与排序"></a>5、索引与排序</h2><p>MySQL支持filesort和index两种方式排序</p>
+<h3 id="（一）filesort"><a href="#（一）filesort" class="headerlink" title="（一）filesort"></a>（一）filesort</h3><p>先把结果查出，然后在缓存或磁盘进行排序操作，效率较低。  </p>
+<ul>
+<li>双路排序</li>
+</ul>
+<p>需要两次磁盘扫描读取，最终得到用户数据。第一次将排序字段读取出来，然后排序；第二<br>次去读取其他字段数据  </p>
+<ul>
+<li>单路排序</li>
+</ul>
+<h3 id="（二）index"><a href="#（二）index" class="headerlink" title="（二）index"></a>（二）index</h3><p>使用index是指利用索引自动实现排序，不需另做排序操作，效率会比较高。  </p>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MySQL时间查询不走索引了？</title>
     <url>/2021/11/29/MySQL%E6%97%B6%E9%97%B4%E6%9F%A5%E8%AF%A2%E4%B8%8D%E8%B5%B0%E7%B4%A2%E5%BC%95%E4%BA%86%EF%BC%9F/</url>
     <content><![CDATA[<p>今天在根据时间查询表数据时，赶紧查询效率慢，于是在时间字段加了普通索引，然而查询效率仍然慢，于是Explain下发现走的仍然是全表扫描，为什么呢？加了索引为什么没生效？索引的失效条件好像也没说有时间相关内容，本着追根溯源的求知欲，于是有了这篇短记。</p>
