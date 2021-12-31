@@ -311,3 +311,9 @@ MySQL支持filesort和index两种方式排序
 答：可以，虽然MySQL可以再含有NULL的列上使用索引，但是NULL和其它数据还是有区别的，不建议列上允许未NULL值，最好设置为NOT NULL，并给一个默认值，比如0和空字符串 ‘’ 等，如果时datatime类型，也可以设置系统当前时间或某个固定的特殊值，例如'1970-01-01 00:00:00'  。
 
 注意：设置默认值的时候，例如0，不要和系统数据产生干扰，如果这个字段0本身就有含义，就不能使用了。
+
+# 四、参考文章
+
+## 1：[换一个角度看 B+ 树](https://mp.weixin.qq.com/s/A5gNVXMNE-iIlY3oofXtLw)
+
+## 2：[为什么 MySQL 采用 B+ 树作为索引](https://mp.weixin.qq.com/s/w1ZFOug8-Sa7ThtMnlaUtQ)
