@@ -302,6 +302,33 @@
       </tags>
   </entry>
   <entry>
+    <title>MyBatisPlus使用</title>
+    <url>/2021/12/28/MyBatisPlus%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>MyBatis-Plus是MyBatis的增强版，使用MyBatis-Plus可以快速开发，SQL语句都不用写了，分页也是自动完成，真香~</p>
+<span id="more"></span>
+
+<h1 id="一、数据库准备"><a href="#一、数据库准备" class="headerlink" title="一、数据库准备"></a>一、数据库准备</h1><p>这里创建一张简单的用户表供测试使用，可直接执行以下sql执行生成</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tbl_user</span><br><span class="line">(</span><br><span class="line">    user_id   <span class="type">BIGINT</span>(<span class="number">20</span>)</span><br><span class="line">        <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT</span><br><span class="line">        <span class="string">&#x27;主键ID&#x27;</span>,</span><br><span class="line">    user_name <span class="type">VARCHAR</span>(<span class="number">30</span>)</span><br><span class="line">        <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT</span><br><span class="line">        <span class="string">&#x27;姓名&#x27;</span>,</span><br><span class="line">    user_age  <span class="type">INT</span>(<span class="number">11</span>)</span><br><span class="line">        <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT</span><br><span class="line">        <span class="string">&#x27;年龄&#x27;</span>,</span><br><span class="line">    <span class="keyword">PRIMARY</span> KEY (user_id)</span><br><span class="line">) charset <span class="operator">=</span>utf8;</span><br></pre></td></tr></table></figure>
+
+<h1 id="二、MyBatis-Plus加持"><a href="#二、MyBatis-Plus加持" class="headerlink" title="二、MyBatis-Plus加持"></a>二、MyBatis-Plus加持</h1><h2 id="1、工程搭建"><a href="#1、工程搭建" class="headerlink" title="1、工程搭建"></a>1、工程搭建</h2><h2 id="2、pom依赖导入"><a href="#2、pom依赖导入" class="headerlink" title="2、pom依赖导入"></a>2、pom依赖导入</h2><p>这里主要导入mybatis-plus依赖，lombok依赖，Druid和mysql连接依赖</p>
+<p><img src="http://lzcoder.cn/image-20211228113444901.png" alt="image-20211228113444901"></p>
+<h1 id="三、业务编写"><a href="#三、业务编写" class="headerlink" title="三、业务编写"></a>三、业务编写</h1><h1 id="四、实际实验"><a href="#四、实际实验" class="headerlink" title="四、实际实验"></a>四、实际实验</h1><h1 id="五、分页实现"><a href="#五、分页实现" class="headerlink" title="五、分页实现"></a>五、分页实现</h1>]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>MyBatisPlus</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL事务和锁</title>
+    <url>/2021/12/22/MySQL%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81/</url>
+    <content><![CDATA[]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>工具方法集合</title>
     <url>/2021/12/16/%E5%B7%A5%E5%85%B7%E6%96%B9%E6%B3%95%E9%9B%86%E5%90%88/</url>
     <content><![CDATA[<p>项目上总会遇到一些通用的方法，每次使用去找不免会花费不必要的时间，这篇博客旨在不断积累有用的工具方法</p>
@@ -537,7 +564,7 @@
 <p>对MySQL来说，NULL是一个特殊的值，从概念上来讲，NULL意味着“一个未知值“，它的处理方式与其他值有些不同，比如：不能使用=、&lt;、&gt;这样的运算符，对NULL做算数运算的结果都是NULL,count时不会包括NULL行等，NULL比空字符串需要更多的存储空间等。</p>
 <p>答：可以，虽然MySQL可以再含有NULL的列上使用索引，但是NULL和其它数据还是有区别的，不建议列上允许未NULL值，最好设置为NOT NULL，并给一个默认值，比如0和空字符串 ‘’ 等，如果时datatime类型，也可以设置系统当前时间或某个固定的特殊值，例如’1970-01-01 00:00:00’  。</p>
 <p>注意：设置默认值的时候，例如0，不要和系统数据产生干扰，如果这个字段0本身就有含义，就不能使用了。</p>
-]]></content>
+<h1 id="四、参考文章"><a href="#四、参考文章" class="headerlink" title="四、参考文章"></a>四、参考文章</h1><h2 id="1：换一个角度看-B-树"><a href="#1：换一个角度看-B-树" class="headerlink" title="1：换一个角度看 B+ 树"></a>1：<a href="https://mp.weixin.qq.com/s/A5gNVXMNE-iIlY3oofXtLw">换一个角度看 B+ 树</a></h2><h2 id="2：为什么-MySQL-采用-B-树作为索引"><a href="#2：为什么-MySQL-采用-B-树作为索引" class="headerlink" title="2：为什么 MySQL 采用 B+ 树作为索引"></a>2：<a href="https://mp.weixin.qq.com/s/w1ZFOug8-Sa7ThtMnlaUtQ">为什么 MySQL 采用 B+ 树作为索引</a></h2>]]></content>
       <categories>
         <category>MySQL</category>
       </categories>
