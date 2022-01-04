@@ -21,7 +21,7 @@ s索引的学习对于数据库优化有着至关重要的作用，深入理解�
 * 从索引键类型划分：可分为主键索引、辅助索引
 * 从数据存储和键类型划分：可分为聚簇索引（聚集索引）、非聚簇索引
 
-![image-20211206163837167](http://r31aaelmi.hn-bkt.clouddn.com/image-20211206163837167.png)
+![image-20211206163837167](http://lzcoder.cn/image-20211206163837167.png)
 
 ## 1、普通索引
 
@@ -177,7 +177,7 @@ EXPLAIN SELECT * from user WHERE id < 3;
 
 EXPLAIN 命令的输出内容大致如下：  
 
-![image-20211206172601998](http://r31aaelmi.hn-bkt.clouddn.com/image-20211206172601998.png)
+![image-20211206172601998](http://lzcoder.cn/image-20211206172601998.png)
 
 ### （一）select_type
 

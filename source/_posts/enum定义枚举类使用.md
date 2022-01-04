@@ -56,28 +56,28 @@ public void testEnumValuesMethod(){
 }
 ```
 
-![image-20211216001619105](http://r31aaelmi.hn-bkt.clouddn.com/image-20211216001619105.png)
+![image-20211216001619105](http://lzcoder.cn//image-20211216001619105.png)
 
 ## 2、ordinal()
 
 返回枚举实例的序数，从0开始
 
-![image-20211216002126994](http://r31aaelmi.hn-bkt.clouddn.com/image-20211216002126994.png)
+![image-20211216002126994](http://lzcoder.cn//image-20211216002126994.png)
 
 ## 3、name()
 
 用于返回枚举类型实例名称
 
-![image-20211216002352584](http://r31aaelmi.hn-bkt.clouddn.com/image-20211216002352584.png)
+![image-20211216002352584](http://lzcoder.cn//image-20211216002352584.png)
 
 ## 4、values of()
 
 用于返回指定名称的枚举实例
 
-![image-20211216002824596](http://r31aaelmi.hn-bkt.clouddn.com/image-20211216002824596.png)
+![image-20211216002824596](http://lzcoder.cn//image-20211216002824596.png)
 
 ## 5、switch
 
 用于switch-case语句中
 
-![image-20211216003038841](http://r31aaelmi.hn-bkt.clouddn.com/image-20211216003038841.png)
+![image-20211216003038841](http://lzcoder.cn//image-20211216003038841.png)
