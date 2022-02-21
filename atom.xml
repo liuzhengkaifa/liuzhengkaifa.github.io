@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-12-31T02:52:28.519Z</updated>
+  <updated>2022-02-09T07:52:13.944Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,19 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>xxl-job任务调度中心使用</title>
+    <link href="http://example.com/2022/02/09/xxl-job%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E4%B8%AD%E5%BF%83%E4%BD%BF%E7%94%A8/"/>
+    <id>http://example.com/2022/02/09/xxl-job%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E4%B8%AD%E5%BF%83%E4%BD%BF%E7%94%A8/</id>
+    <published>2022-02-09T07:52:07.000Z</published>
+    <updated>2022-02-09T07:52:13.944Z</updated>
+    
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>MyBatisPlus使用</title>
@@ -452,33 +465,6 @@
     <category term="效率" scheme="http://example.com/tags/%E6%95%88%E7%8E%87/"/>
     
     <category term="bat" scheme="http://example.com/tags/bat/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>编写脚本一键部署发布博文 (一)</title>
-    <link href="http://example.com/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87%EF%BC%88%E4%B8%80%EF%BC%89/"/>
-    <id>http://example.com/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87%EF%BC%88%E4%B8%80%EF%BC%89/</id>
-    <published>2021-11-12T15:27:56.000Z</published>
-    <updated>2021-11-14T17:20:23.194Z</updated>
-    
-    <content type="html"><![CDATA[<p>事情起因是每次修改了博文都要执行 <code>hexo clean</code> <code>hexo g</code> <code>hexo d</code>一套来清除，重新编译，部署完成一套操作，这对于追求极客效率的开发来说必是要想办法优化的，怎么做编写一个一键部署的脚本呢，考虑到之前还没怎么编写过bat批处理脚本，本次借着时间来尝试一下</p><span id="more"></span>    <h1 id="一、目标"><a href="#一、目标" class="headerlink" title="一、目标"></a>一、目标</h1><p>1、执行脚本可以确认执行或者关掉窗口不执行，确认执行将依次执行<code>hexo clean</code> 和 <code>hexo g</code>指令</p><p>2、弹出指示询问是否部署到Github上，输入yes将部署，输入no，提示自己选择了不部署，然后关闭窗口即可</p><p>3、在任意界面能够执行脚本，这个之前分享的技巧可以结合，具体请移步通过<a href="https://liuzhengkaifa.github.io/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/#more">指令快速打开软件</a></p><h1 id="二、具体实现"><a href="#二、具体实现" class="headerlink" title="二、具体实现"></a>二、具体实现</h1><h2 id="1、实现一"><a href="#1、实现一" class="headerlink" title="1、实现一"></a>1、实现一</h2><ol><li>先是编写确认，主要是<code>pause</code>指令，作用是会在dos窗口显示 请按任意键继续. . . 如果想反悔不执行了直接关闭dos窗口即可</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">cls</span><br><span class="line">echo **********************************************</span><br><span class="line">echo.</span><br><span class="line">echo     一   键   布   署   发   布      </span><br><span class="line">echo.</span><br><span class="line">echo       安装请按任意键，退出直接关闭窗口</span><br><span class="line">echo.</span><br><span class="line">echo **********************************************</span><br><span class="line">echo.</span><br><span class="line">pause</span><br></pre></td></tr></table></figure><ol start="2"><li>依次执行<code>hexo clean</code> 和 <code>hexo g</code>指令，注意使用到了call指令，放在了hexo指令的前面，主要作用是执行完指令后任然返回到当前窗口，可以继续执行下面指令，不然一些指令本身带退出指令，就会造成下面指令无法执行。具体作用还请各位各自查询之~~~</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">:step1</span><br><span class="line">cd /d d:\blog</span><br><span class="line">echo Please wait</span><br><span class="line">call hexo clean</span><br><span class="line">echo  clean finished...</span><br><span class="line"></span><br><span class="line">:step2</span><br><span class="line">call hexo g</span><br><span class="line">cls</span><br><span class="line">echo  generate finished...</span><br></pre></td></tr></table></figure><ol start="3"><li>询问是否部署到<code>GitHub</code>，这里主要是做了一个输入判断</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">:step3</span><br><span class="line">set /p o=要部署到GitHub上吗? (YES NO):</span><br><span class="line">if /i &quot;%o%&quot;==&quot;yes&quot; goto yes</span><br><span class="line">if /i &quot;%o%&quot;==&quot;no&quot; goto no</span><br><span class="line">goto step3</span><br><span class="line">:yes</span><br><span class="line">call hexo d</span><br><span class="line">echo  deploy to GitHub finished...</span><br><span class="line">pause</span><br><span class="line">:no</span><br><span class="line">echo 你选择了不部署！</span><br><span class="line">pause</span><br></pre></td></tr></table></figure><h2 id="3、实现三"><a href="#3、实现三" class="headerlink" title="3、实现三"></a>3、实现三</h2><p>根据我们之前的技巧，只需要将我们编写的脚本放到加入环境变量的文件夹中即可</p><p><img src="/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87%EF%BC%88%E4%B8%80%EF%BC%89/image-20211113083252420.png" alt="image-20211113083252420"></p><p>然后快捷键<code>WIn+R</code>调出运行框，输入<code>hexocgd.bat</code>确定即可</p><p><img src="/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87%EF%BC%88%E4%B8%80%EF%BC%89/image-20211113083548405.png" alt="image-20211113083548405"></p><h2 id="三、实现效果"><a href="#三、实现效果" class="headerlink" title="三、实现效果"></a>三、实现效果</h2><p><img src="/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87%EF%BC%88%E4%B8%80%EF%BC%89/image-20211113084544330.png" alt="image-20211113084544330"></p><p>选择no,不部署</p><p><img src="/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87%EF%BC%88%E4%B8%80%EF%BC%89/image-20211113092540550.png" alt="image-20211113092540550"></p><p>选择yes,部署</p><p><img src="/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87%EF%BC%88%E4%B8%80%EF%BC%89/image-20211113092614842.png" alt="image-20211113092614842"></p><h1 id="四、脚本获取"><a href="#四、脚本获取" class="headerlink" title="四、脚本获取"></a>四、脚本获取</h1><p><a href="hexocgd.bat">hexocdg.bat脚本获取</a></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">cls</span><br><span class="line">echo **********************************************</span><br><span class="line">echo.</span><br><span class="line">echo     一   键   布   署   发   布      </span><br><span class="line">echo.</span><br><span class="line">echo       安装请按任意键，退出直接关闭窗口</span><br><span class="line">echo.</span><br><span class="line">echo **********************************************</span><br><span class="line">echo.</span><br><span class="line">pause</span><br><span class="line"></span><br><span class="line">:step1</span><br><span class="line">cd /d d:\blog</span><br><span class="line">echo Please wait</span><br><span class="line">call hexo clean</span><br><span class="line">echo  clean finished...</span><br><span class="line"></span><br><span class="line">:step2</span><br><span class="line">call hexo g</span><br><span class="line">echo  generate finished...</span><br><span class="line"></span><br><span class="line">:step3</span><br><span class="line">set /p o=要部署到GitHub上吗? (YES NO):</span><br><span class="line">if /i &quot;%o%&quot;==&quot;yes&quot; goto yes</span><br><span class="line">if /i &quot;%o%&quot;==&quot;no&quot; goto no</span><br><span class="line">goto step3</span><br><span class="line">:yes</span><br><span class="line">call hexo d</span><br><span class="line">echo  deploy to GitHub finished...</span><br><span class="line">pause</span><br><span class="line">:no</span><br><span class="line">echo 你选择了不部署！</span><br><span class="line">pause</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;事情起因是每次修改了博文都要执行 &lt;code&gt;hexo clean&lt;/code&gt; &lt;code&gt;hexo g&lt;/code&gt; &lt;code&gt;hexo d&lt;/code&gt;一套来清除，重新编译，部署完成一套操作，这对于追求极客效率的开发来说必是要想办法优化的，怎么做编写一个一键部署的脚本呢，考虑到之前还没怎么编写过bat批处理脚本，本次借着时间来尝试一下&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="博客" scheme="http://example.com/categories/%E5%8D%9A%E5%AE%A2/"/>
-    
-    
-    <category term="效率" scheme="http://example.com/tags/%E6%95%88%E7%8E%87/"/>
-    
-    <category term="hexo" scheme="http://example.com/tags/hexo/"/>
-    
-    <category term="bat" scheme="http://example.com/tags/bat/"/>
-    
-    <category term="脚本" scheme="http://example.com/tags/%E8%84%9A%E6%9C%AC/"/>
     
   </entry>
   
