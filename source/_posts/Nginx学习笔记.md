@@ -286,6 +286,8 @@ Nginx+Tomcat架构（Nginx处理静态资源请求， Tomcat处理动态资源�
 
 ## 2、Nginx配置
 
+注意：statticDeata 根目录指的是nginx服务器的目录，和nginx同层级，而不是linux服务器的目录，否则会报404
+
 ![image-20211118110300079](Nginx学习笔记/image-20211118110300079.png)
 
 # 七、Nginx底层进程机制剖析  
