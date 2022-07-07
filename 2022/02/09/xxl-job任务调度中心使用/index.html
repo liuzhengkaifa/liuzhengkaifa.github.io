@@ -19,17 +19,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false,"scrollpercent":"true   //返回顶部按钮的百分比"},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="知识分享，日常记录">
+  <meta name="description" content="使用开源xxl-job分布式任务调度平台 实现定时任务统一调度管理，开发迅速、学习简单、轻量级、易扩展。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="xxl-job任务调度中心使用">
 <meta property="og:url" content="http://example.com/2022/02/09/xxl-job%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E4%B8%AD%E5%BF%83%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="程序小牛">
-<meta property="og:description" content="知识分享，日常记录">
+<meta property="og:description" content="使用开源xxl-job分布式任务调度平台 实现定时任务统一调度管理，开发迅速、学习简单、轻量级、易扩展。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://lzcoder.cn/image-20220707112919996.png">
+<meta property="og:image" content="http://lzcoder.cn/image-20220707113010978.png">
 <meta property="article:published_time" content="2022-02-09T07:52:07.000Z">
-<meta property="article:modified_time" content="2022-02-21T06:48:30.252Z">
+<meta property="article:modified_time" content="2022-07-07T03:31:37.379Z">
 <meta property="article:author" content="coder-Man">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lzcoder.cn/image-20220707112919996.png">
 
 <link rel="canonical" href="http://example.com/2022/02/09/xxl-job%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E4%B8%AD%E5%BF%83%E4%BD%BF%E7%94%A8/">
 
@@ -222,7 +225,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022年02月21号 14:48:30" itemprop="dateModified" datetime="2022-02-21T14:48:30+08:00">2022年02月21号</time>
+                <time title="修改时间：2022年07月07号 11:31:37" itemprop="dateModified" datetime="2022-07-07T11:31:37+08:00">2022年07月07号</time>
               </span>
 
           
@@ -238,7 +241,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>147</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -257,7 +260,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <p>使用开源xxl-job分布式任务调度平台 实现定时任务统一调度管理，开发迅速、学习简单、轻量级、易扩展。</p>
+<span id="more"></span>
+
+<p>主要参考官方文档内容</p>
+<p><a target="_blank" rel="noopener" href="https://www.xuxueli.com/xxl-job/">官方文档</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/xuxueli/xxl-job">github源码仓库地址</a></p>
+<h1 id="xxl-架构图"><a href="#xxl-架构图" class="headerlink" title="xxl-架构图"></a>xxl-架构图</h1><p><img src="http://lzcoder.cn/image-20220707112919996.png" alt="image-20220707112919996"></p>
+<p>对于一些老项目，可以采用 httpJobHandler方式，通过接口方式实现定时任务实现，也可以作为心跳检查监控项目运行是否正常</p>
+<p><img src="http://lzcoder.cn/image-20220707113010978.png" alt="image-20220707113010978"></p>
+
     </div>
 
     
@@ -337,6 +349,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#xxl-%E6%9E%B6%E6%9E%84%E5%9B%BE"><span class="nav-text">xxl-架构图</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -420,13 +433,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">128k</span>
+    <span title="站点总字数">131k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:57</span>
+    <span title="站点阅读时长">1:59</span>
 </div>
 
         
