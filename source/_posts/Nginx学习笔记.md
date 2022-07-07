@@ -10,6 +10,21 @@ date: 2021-11-17 13:52:21
 
 <!--more-->
 
+[Nginx常用用法](https://blog.csdn.net/qq_32867467/article/details/88965755)
+
+```shell
+cd /usr/local/nginx/sbin/
+./nginx 启动
+./nginx -s stop 停止
+./nginx -s quit 安全退出
+./nginx -s reload 重新加载配置文件
+ps aux|grep nginx 查看nginx进程
+
+进入sbin目录，输入 ./nginx -t     校验ngxinx配置文件是否正确，同同时可以查看配置文件所在路径
+```
+
+
+
 # 一、Nginx基础概念理解
 
 ## 1、Nginx是什么

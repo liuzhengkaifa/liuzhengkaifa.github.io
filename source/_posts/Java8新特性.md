@@ -297,6 +297,19 @@ public void test7() {
 
 # 二、Stream流
 
+**常用操作**
+
+```
+
+ userList.stream().collect(Collectors.toMap(user::getUserId, t -> t, (oldvalue, newValue) -> newValue));
+ 参数说明：
+ 1. user::getUserId 作为map的key
+ 2. t->t value值为对象本身，也可以写 Function.identity()
+ 3. (oldvalue, newValue) -> newValue) 当key值冲突时，key对应的value值覆盖为newValue
+```
+
+
+
 ## 1.概要介绍
 
 * Stream关注的是对数据的运算，与CPU打交道
@@ -453,6 +466,21 @@ public static Stream<Character> fromStringToStream(String str){//aa
     return list.stream();
 
 }
+```
+
+###### （七）peek
+
+peek和map类似，peek方法接收一个Consumer的入参。了解λ表达式的应该明白 Consumer的实现类 应该只有一个方法，该方法返回类型为void。
+
+正因为 `peek()` 不是一个最终操作，不会影响“哪些元素会流过”，所以十分适合在调试的时候，用来打印出流经管道的元素。例如：
+
+```java
+Stream.of("one", "two", "three", "four")
+         .filter(e -> e.length() > 3)
+         .peek(e -> System.out.println("Filtered value: " + e))
+         .map(String::toUpperCase)
+         .peek(e -> System.out.println("Mapped value: " + e))
+         .collect(Collectors.toList());
 ```
 
 ##### 3.排序

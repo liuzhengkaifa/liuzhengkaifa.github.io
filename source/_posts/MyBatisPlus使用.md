@@ -501,6 +501,33 @@ public void test06() {
 }
 ```
 
+### （七）常用的条件参数
+
+| 查询方式   | 说明                                                         |
+| ---------- | ------------------------------------------------------------ |
+| eq         | 等于 =                                                       |
+| ne         | 不等于<>                                                     |
+| gt         | 大于>                                                        |
+| ge         | 大于等于>=                                                   |
+| lt         | 小于<                                                        |
+| le         | 小于等于                                                     |
+| like       | 模糊查询LIKE '%值%'                                          |
+| likeLeft   | Like '%值'                                                   |
+| likeRigth  | Like '值%'                                                   |
+| notLike    | 模糊查询 NOT LIKE                                            |
+| in         | in(v0,v1……)                                                  |
+| notin      | not in (v0,v1……)                                             |
+| inSql      | in (SQL语句)                                                 |
+| notInSql   | not in (SQL语句)                                             |
+| isNull     | NULL值查询                                                   |
+| isNotNull  | not Null值查询                                               |
+| groupBy    | group by                                                     |
+| orderBy    | 排序                                                         |
+| orderByAsc | orderByAsc                                                   |
+| exists     | EXISTS 条件语句                                              |
+| between    | between                                                      |
+| last       | 无视优化规则直接拼接到 sql 的最后 !!!只能调用一次,多次调用以最后一次为准 有sql注入的风险,请谨慎使用 |
+
 
 
 ## 3.UpdateWrapper
@@ -707,16 +734,28 @@ public class Product {
 2. 添加乐观锁插件
 
 ```java
-@Bean
-public MybatisPlusInterceptor mybatisPlusInterceptor(){
-    MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-    //添加分页插件
-    interceptor.addInnerInterceptor(new
-    PaginationInnerInterceptor(DbType.MYSQL));
-    //添加乐观锁插件
-    interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
-    return interceptor;
+/**
+ * Date:2022/2/14
+ * Author:liuzheng
+ * Description:
+ */
+@Configuration
+//扫描mapper接口所在的包
+@MapperScan("com.atguigu.mybatisplus.mapper")
+public class MyBatisPlusConfig {
+
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor(){
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        //添加分页插件
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        //添加乐观锁插件
+        interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+        return interceptor;
+    }
+
 }
+
 ```
 
 # 八、代码生成器
