@@ -587,74 +587,6 @@
       </tags>
   </entry>
   <entry>
-    <title>MySQL时间查询不走索引了？</title>
-    <url>/2021/11/29/MySQL%E6%97%B6%E9%97%B4%E6%9F%A5%E8%AF%A2%E4%B8%8D%E8%B5%B0%E7%B4%A2%E5%BC%95%E4%BA%86%EF%BC%9F/</url>
-    <content><![CDATA[<p>今天在根据时间查询表数据时，赶紧查询效率慢，于是在时间字段加了普通索引，然而查询效率仍然慢，于是Explain下发现走的仍然是全表扫描，为什么呢？加了索引为什么没生效？索引的失效条件好像也没说有时间相关内容，本着追根溯源的求知欲，于是有了这篇短记。</p>
-<span id="more"></span>
-
-<h1 id="一、情景复现"><a href="#一、情景复现" class="headerlink" title="一、情景复现"></a>一、情景复现</h1><p>数据表<code>error_log_info</code>大约有87760条数据记录</p>
-<p>通过添加普通索引</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE INDEX error_date_index on error_log_info(errordate);</span><br></pre></td></tr></table></figure>
-
-<p>为errordate字段添加了索引，然后执行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">EXPLAIN SELECT * from error_log_info where errordate &gt; &#x27;2021-11-29 12:00:22&#x27;;</span><br></pre></td></tr></table></figure>
-
-<p>explain结果发现 type:ALL，走的是全表扫描查询，key为空代表未使用索引，rows:82247行，估计的扫描行数近似于全表行数。显示在该查询中确实没有走建立的时间索引而是走了全表扫描</p>
-<p><img src="http://lzcoder.cn/image-20211129230326737.png" alt="image-20211129230326737"></p>
-<p>然后我将时间缩短，让查询出的记录数变少</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">EXPLAIN SELECT * from error_log_info where errordate &gt; &#x27;2021-11-29 22:00:22&#x27;;</span><br></pre></td></tr></table></figure>
-
-<p><img src="http://lzcoder.cn/image-20211129231057523.png" alt="image-20211129231057523"></p>
-<p>explain结果发现type:range，没有走全表扫描查询，key：error_date_index走了添加的时间索引，rows:2847,显示预估的扫描行数也比之前少了很多，这种情况下发现确实又走了索引。</p>
-<p>到底是什么情况，只是查询的范围不一样，为什么会有时走索引有事不走呢？</p>
-<h1 id="二、索引失效的几种原因"><a href="#二、索引失效的几种原因" class="headerlink" title="二、索引失效的几种原因"></a>二、索引失效的几种原因</h1><p>先回顾下几种使得索引失效的原因：</p>
-<ol>
-<li>where中索引列有运算</li>
-<li>where中索引使用了函数方法</li>
-<li>复合索引未用左列字段</li>
-<li>like 以 %开头</li>
-<li>条件有or关键字</li>
-<li>需要类型转换</li>
-<li>MySQL觉得全表扫描更快</li>
-</ol>
-<p>几种不推荐使用索引的场景：</p>
-<ol>
-<li>数据唯一性差（一个字段的取值只有几种时）的字段不要使用索引</li>
-<li>频繁更新的字段</li>
-<li>字段不在where语句出现时不要添加索引,如果where后含IS NULL /IS NOT NULL/ like ‘%输入符%’等条件，不建议使用索引</li>
-<li> where 子句里对索引列使用不等于（&lt;&gt;），使用索引效果一般</li>
-</ol>
-<p><a href="https://www.cnblogs.com/liehen2046/p/11052666.html">点击跳转参考博客</a></p>
-<h1 id="三、结论"><a href="#三、结论" class="headerlink" title="三、结论"></a>三、结论</h1><p>经过查证官网</p>
-<p><img src="http://lzcoder.cn/image-20211129232313911.png" alt="image-20211129232313911"></p>
-<p>大意是：</p>
-<blockquote>
-<p>Each table index is queried, and the best index is used unless the optimizer believes that it is more efficient to use a table scan.</p>
-</blockquote>
-<p>表中的每个索引都会被访问，当中最佳的那个则会被使用，除非优化器认为使用全表查询比使用所有查询更高效。(也就是上面列的第七条)</p>
-<blockquote>
-<p>At one time, a scan was used based on whether the best index spanned more than 30% of the table, but a fixed percentage no longer determines the choice between using an index or a scan.</p>
-</blockquote>
-<p>曾经，是否进行全表扫描取决于使用最好的索引查出来的数据是否超过表的30%的数据，但是现在这个固定百分比(30%)不再决定使用索引还是全表扫描了。</p>
-<blockquote>
-<p>The optimizer now is more complex and bases its estimate on additional factors such as table size, number of rows, and I/O block size.</p>
-</blockquote>
-<p>优化器现在变得更复杂，它考虑的因素更多，比如表大小、行数量、IO块大小。</p>
-<p>通俗点讲：</p>
-<p>我们建的索引并不是总会起作用的，中间有查询优化器插足，它会判断一个查询SQL是否走索引查得更快，若是，就走索引，否则做全表扫描。</p>
-<p>以前有个百分比(30%)决定SQL是走索引还是走全表扫描，就是说如果总共有100行记录，走索引查询出来的记录超过30条，那还不如不走索引了。</p>
-<p>但是现在MySQL不这么干了，不只通过这个百分比来决定走不走索引，而是要参考更多因素来做决定。</p>
-<p><strong>最终得出的结论是，索引失效并不是因为字段类型为时间类型，而是因为查询优化器会对SQL的执行计划进行判断，选择一个最优最快的查询方式，当走索引的代价高于全表扫描时就不会采取走索引的方式去执行SQL。</strong></p>
-]]></content>
-      <categories>
-        <category>MySQL</category>
-      </categories>
-      <tags>
-        <tag>MySQL</tag>
-        <tag>索引</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MySQL事务和锁</title>
     <url>/2021/12/22/MySQL%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81/</url>
     <content><![CDATA[]]></content>
@@ -846,9 +778,72 @@
       </tags>
   </entry>
   <entry>
-    <title>RocketMQ学习记录</title>
-    <url>/2022/04/02/RocketMQ%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[]]></content>
+    <title>MySQL时间查询不走索引了？</title>
+    <url>/2021/11/29/MySQL%E6%97%B6%E9%97%B4%E6%9F%A5%E8%AF%A2%E4%B8%8D%E8%B5%B0%E7%B4%A2%E5%BC%95%E4%BA%86%EF%BC%9F/</url>
+    <content><![CDATA[<p>今天在根据时间查询表数据时，赶紧查询效率慢，于是在时间字段加了普通索引，然而查询效率仍然慢，于是Explain下发现走的仍然是全表扫描，为什么呢？加了索引为什么没生效？索引的失效条件好像也没说有时间相关内容，本着追根溯源的求知欲，于是有了这篇短记。</p>
+<span id="more"></span>
+
+<h1 id="一、情景复现"><a href="#一、情景复现" class="headerlink" title="一、情景复现"></a>一、情景复现</h1><p>数据表<code>error_log_info</code>大约有87760条数据记录</p>
+<p>通过添加普通索引</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE INDEX error_date_index on error_log_info(errordate);</span><br></pre></td></tr></table></figure>
+
+<p>为errordate字段添加了索引，然后执行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">EXPLAIN SELECT * from error_log_info where errordate &gt; &#x27;2021-11-29 12:00:22&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>explain结果发现 type:ALL，走的是全表扫描查询，key为空代表未使用索引，rows:82247行，估计的扫描行数近似于全表行数。显示在该查询中确实没有走建立的时间索引而是走了全表扫描</p>
+<p><img src="http://lzcoder.cn/image-20211129230326737.png" alt="image-20211129230326737"></p>
+<p>然后我将时间缩短，让查询出的记录数变少</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">EXPLAIN SELECT * from error_log_info where errordate &gt; &#x27;2021-11-29 22:00:22&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://lzcoder.cn/image-20211129231057523.png" alt="image-20211129231057523"></p>
+<p>explain结果发现type:range，没有走全表扫描查询，key：error_date_index走了添加的时间索引，rows:2847,显示预估的扫描行数也比之前少了很多，这种情况下发现确实又走了索引。</p>
+<p>到底是什么情况，只是查询的范围不一样，为什么会有时走索引有事不走呢？</p>
+<h1 id="二、索引失效的几种原因"><a href="#二、索引失效的几种原因" class="headerlink" title="二、索引失效的几种原因"></a>二、索引失效的几种原因</h1><p>先回顾下几种使得索引失效的原因：</p>
+<ol>
+<li>where中索引列有运算</li>
+<li>where中索引使用了函数方法</li>
+<li>复合索引未用左列字段</li>
+<li>like 以 %开头</li>
+<li>条件有or关键字</li>
+<li>需要类型转换</li>
+<li>MySQL觉得全表扫描更快</li>
+</ol>
+<p>几种不推荐使用索引的场景：</p>
+<ol>
+<li>数据唯一性差（一个字段的取值只有几种时）的字段不要使用索引</li>
+<li>频繁更新的字段</li>
+<li>字段不在where语句出现时不要添加索引,如果where后含IS NULL /IS NOT NULL/ like ‘%输入符%’等条件，不建议使用索引</li>
+<li> where 子句里对索引列使用不等于（&lt;&gt;），使用索引效果一般</li>
+</ol>
+<p><a href="https://www.cnblogs.com/liehen2046/p/11052666.html">点击跳转参考博客</a></p>
+<h1 id="三、结论"><a href="#三、结论" class="headerlink" title="三、结论"></a>三、结论</h1><p>经过查证官网</p>
+<p><img src="http://lzcoder.cn/image-20211129232313911.png" alt="image-20211129232313911"></p>
+<p>大意是：</p>
+<blockquote>
+<p>Each table index is queried, and the best index is used unless the optimizer believes that it is more efficient to use a table scan.</p>
+</blockquote>
+<p>表中的每个索引都会被访问，当中最佳的那个则会被使用，除非优化器认为使用全表查询比使用所有查询更高效。(也就是上面列的第七条)</p>
+<blockquote>
+<p>At one time, a scan was used based on whether the best index spanned more than 30% of the table, but a fixed percentage no longer determines the choice between using an index or a scan.</p>
+</blockquote>
+<p>曾经，是否进行全表扫描取决于使用最好的索引查出来的数据是否超过表的30%的数据，但是现在这个固定百分比(30%)不再决定使用索引还是全表扫描了。</p>
+<blockquote>
+<p>The optimizer now is more complex and bases its estimate on additional factors such as table size, number of rows, and I/O block size.</p>
+</blockquote>
+<p>优化器现在变得更复杂，它考虑的因素更多，比如表大小、行数量、IO块大小。</p>
+<p>通俗点讲：</p>
+<p>我们建的索引并不是总会起作用的，中间有查询优化器插足，它会判断一个查询SQL是否走索引查得更快，若是，就走索引，否则做全表扫描。</p>
+<p>以前有个百分比(30%)决定SQL是走索引还是走全表扫描，就是说如果总共有100行记录，走索引查询出来的记录超过30条，那还不如不走索引了。</p>
+<p>但是现在MySQL不这么干了，不只通过这个百分比来决定走不走索引，而是要参考更多因素来做决定。</p>
+<p><strong>最终得出的结论是，索引失效并不是因为字段类型为时间类型，而是因为查询优化器会对SQL的执行计划进行判断，选择一个最优最快的查询方式，当走索引的代价高于全表扫描时就不会采取走索引的方式去执行SQL。</strong></p>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+        <tag>索引</tag>
+      </tags>
   </entry>
   <entry>
     <title>Nginx学习笔记</title>
@@ -999,6 +994,11 @@
       </tags>
   </entry>
   <entry>
+    <title>RocketMQ学习记录</title>
+    <url>/2022/04/02/RocketMQ%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>Typora配合PicGo使用七牛云实现图片云存储</title>
     <url>/2021/11/24/Typora%E9%85%8D%E5%90%88PicGo%E4%BD%BF%E7%94%A8%E4%B8%83%E7%89%9B%E4%BA%91%E5%AE%9E%E7%8E%B0%E5%9B%BE%E7%89%87%E4%BA%91%E5%AD%98%E5%82%A8/</url>
     <content><![CDATA[<p>之前分享了《hexo搭配typora在文档中插入图片上传到github》，github作为代码存储仓库，放置图片总有些不合适，况且由于网络原因，加载效果并不是很好，因此，在这里推荐大家使用Typora+PicGO+七牛云来实现图片的云存储</p>
@@ -1115,37 +1115,102 @@
       </tags>
   </entry>
   <entry>
-    <title>enum定义枚举类使用</title>
-    <url>/2021/12/15/enum%E5%AE%9A%E4%B9%89%E6%9E%9A%E4%B8%BE%E7%B1%BB%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p> 以往的项目中总会定义一些常量提供使用，当类别较多时并不好理解和维护，jdk5后支持enum使用枚举类，能够更简洁，约束性更强。下面简单介绍下enum枚举类的使用。</p>
+    <title>bat批处理脚本学习</title>
+    <url>/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<p>windows使用中，当我们经常要进行一系列重复操作时，就可以考虑编写一个批处理脚本来简化批量化处理。批处理（Batch）往往以<code>.bat</code>结尾，其作用嘛：无非就是能够连续执行多条命令</p>
 <span id="more"></span>
 
-<h1 id="一、使用enum定义枚举类的说明"><a href="#一、使用enum定义枚举类的说明" class="headerlink" title="一、使用enum定义枚举类的说明"></a>一、使用enum定义枚举类的说明</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">SeasonEnum</span> </span>&#123;</span><br><span class="line">    SPRING(<span class="string">&quot;春天&quot;</span>,<span class="string">&quot;春风又绿江南岸&quot;</span>),</span><br><span class="line">    SUMMER(<span class="string">&quot;夏天&quot;</span>,<span class="string">&quot;映日荷花别样红&quot;</span>),</span><br><span class="line">    AUTUMN(<span class="string">&quot;秋天&quot;</span>,<span class="string">&quot;秋水共长天一色&quot;</span>),</span><br><span class="line">    WINTER(<span class="string">&quot;冬天&quot;</span>,<span class="string">&quot;窗含西岭千秋雪&quot;</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String seasonName;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String seasonDesc;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SeasonEnum</span><span class="params">(String seasonName, String seasonDesc)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.seasonName = seasonName;</span><br><span class="line">        <span class="keyword">this</span>.seasonDesc = seasonDesc;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSeasonName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> seasonName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSeasonDesc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> seasonDesc;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="一、语法了解"><a href="#一、语法了解" class="headerlink" title="一、语法了解"></a>一、语法了解</h1><h2 id="1-变量"><a href="#1-变量" class="headerlink" title="1.变量"></a>1.变量</h2><h3 id="（一）bat文件变量的赋值"><a href="#（一）bat文件变量的赋值" class="headerlink" title="（一）bat文件变量的赋值"></a>（一）bat文件变量的赋值</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set num=10</span><br><span class="line">set name=xiaomin</span><br></pre></td></tr></table></figure>
 
-<ol>
-<li>使用enum定义的枚举类默认继承了java.lang.Enum类，因此<strong>不能够继承其他类</strong>，但可以实现接口</li>
-<li>枚举类的构造器只能使用<strong>private</strong>权限修饰符，即不能通过外部生成枚举类对象</li>
-<li>枚举类的所<strong>有实例必须在第一行声明，显式列出（,分割；结尾），列出的实例系统会自动添加public static final修饰</strong></li>
-<li>jdk1.5中可以在switch表达式中使用Enum定义枚举类的对象作为表达式</li>
+<h3 id="（二）bat文件变量的使用"><a href="#（二）bat文件变量的使用" class="headerlink" title="（二）bat文件变量的使用"></a>（二）bat文件变量的使用</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">echo %num%</span><br><span class="line">echo %name%</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-常用命令"><a href="#2-常用命令" class="headerlink" title="2.常用命令"></a>2.常用命令</h2><h3 id="1、echo"><a href="#1、echo" class="headerlink" title="1、echo"></a>1、echo</h3><ol>
+<li>ECHO [ON | OFF] 打开回显或关闭回显功能。</li>
 </ol>
-<h1 id="二、enum类的主要方法"><a href="#二、enum类的主要方法" class="headerlink" title="二、enum类的主要方法"></a>二、enum类的主要方法</h1><h2 id="1、values"><a href="#1、values" class="headerlink" title="1、values()"></a>1、values()</h2><p>用于返回枚举实例的对象数组，可以方便遍历当前枚举类的所有枚举值</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testEnumValuesMethod</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SeasonEnum[] seasonEnums = SeasonEnum.values();</span><br><span class="line">    <span class="keyword">for</span>(SeasonEnum seasonEnum:seasonEnums)&#123;</span><br><span class="line">    	System.out.println(seasonEnum);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一般bat文件第一行都是@echo off,即关闭回显功能</p>
+<p>echo off 代表这行后面的命令执行时都不再输出显示命令本身，@表示显示其后面的命令，对该行生效，所以搭配起来就是脚本执行不显示命令行本身</p>
+<ol start="2">
+<li>另外echo具备输出和换行的功能</li>
+</ol>
+<img src="/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114191146740.png" alt="image-20211114191146740" style="zoom: 67%;">
 
-<p><img src="http://lzcoder.cn//image-20211216001619105.png" alt="image-20211216001619105"></p>
-<h2 id="2、ordinal"><a href="#2、ordinal" class="headerlink" title="2、ordinal()"></a>2、ordinal()</h2><p>返回枚举实例的序数，从0开始</p>
-<p><img src="http://lzcoder.cn//image-20211216002126994.png" alt="image-20211216002126994"></p>
-<h2 id="3、name"><a href="#3、name" class="headerlink" title="3、name()"></a>3、name()</h2><p>用于返回枚举类型实例名称</p>
-<p><img src="http://lzcoder.cn//image-20211216002352584.png" alt="image-20211216002352584"></p>
-<h2 id="4、values-of"><a href="#4、values-of" class="headerlink" title="4、values of()"></a>4、values of()</h2><p>用于返回指定名称的枚举实例</p>
-<p><img src="http://lzcoder.cn//image-20211216002824596.png" alt="image-20211216002824596"></p>
-<h2 id="5、switch"><a href="#5、switch" class="headerlink" title="5、switch"></a>5、switch</h2><p>用于switch-case语句中</p>
-<p><img src="http://lzcoder.cn//image-20211216003038841.png" alt="image-20211216003038841"></p>
+<h3 id="2、pause"><a href="#2、pause" class="headerlink" title="2、pause"></a>2、pause</h3><p>会暂停批处理的执行，并在屏幕上显示请按任意键继续…的提示，等待用户按任意键后继续</p>
+<p>一般用来让用户考虑是否继续执行，不执行的话关掉命令窗口即可</p>
+<h3 id="3、cls"><a href="#3、cls" class="headerlink" title="3、cls"></a>3、cls</h3><p>清屏，执行到该命令时之前的输出结果将会clean掉，这个clean并不是删除了什么，只是将最新行置于窗口顶部，其实再往上翻记录还是有的</p>
+<h3 id="4、call"><a href="#4、call" class="headerlink" title="4、call"></a>4、call</h3><p>call [要执行的脚本路径+脚本名称] [要传递的参数]</p>
+<p>调用另一个批处理程序，并且不终止父批处理程序</p>
+<p>在执行完另一个脚本后仍然返回到当前的批处理程序继续执行</p>
+<h3 id="5、REM"><a href="#5、REM" class="headerlink" title="5、REM"></a>5、REM</h3><p>语法：Rem Message…</p>
+<p>(小技巧：用::代替rem)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">::下面一行会输出hello</span><br><span class="line">echo hello</span><br></pre></td></tr></table></figure>
+
+<h3 id="6、-p"><a href="#6、-p" class="headerlink" title="6、/p"></a>6、/p</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set /p filename=请输入文件名称</span><br><span class="line">echo %filename%</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114201532547.png" alt="image-20211114201532547"></p>
+<h3 id="7、if"><a href="#7、if" class="headerlink" title="7、if"></a>7、if</h3><p>if 表示将判断是否符合规定的条件，从而决定执行不同的命令。有三种格式:</p>
+<ol>
+<li>语法: if [not] “参数” == “字符串” 待执行的命令</li>
+</ol>
+<p>参数如果等于(not表示不等，下同)指定的字符串，则条件成立，运行命令，否则运行下一句。(注意是两个等号)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line"></span><br><span class="line">if &quot;111&quot;==&quot;222&quot; echo 111==222</span><br><span class="line">echo ================</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>语法: if [not] exist [路径]文件名 待执行的命令</li>
+</ol>
+<p><img src="/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114193227622.png" alt="image-20211114193227622"></p>
+<ol start="3">
+<li>语法: if [not] errorlevel &lt;数字&gt; 待执行的命令</li>
+</ol>
+<p>很多DOS程序在运行结束后会返回一个数字值用来表示程序运行的结果(或者状态)，称为错误码errorlevel或称返回码。</p>
+<p>常见的返回码为0、1。通过if errorlevel命令可以判断程序的返回值，根据不同的返回值来决定执行不同的命令。</p>
+<p>**if-else if-else **</p>
+<p>注意：输出的括号和条件之间要留有空格，如果要换行else ，在if行尾需要加上<code>^</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set num=1</span><br><span class="line">if %num%==0 (echo 111) else if %num%==2 (echo 222)^</span><br><span class="line">else (echo 333)	</span><br><span class="line">echo %num%</span><br><span class="line">pause</span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line">333</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<h3 id="8、goto"><a href="#8、goto" class="headerlink" title="8、goto"></a>8、goto</h3><p>语法：goto label (label是参数，指定所要转向的批处理程序中的行。)</p>
+<p>指定跳转到标签行，找到标签行后，程序将处理从下一行开始的命令。</p>
+<p>label标签的名字可以随便起，但是最好是有意义的，字母前必须加个冒号“:”来表示这个字母是标签。</p>
+<p>goto命令就是根据这个冒号来寻找下一步跳到到那里。经常与 if 配合使用，根据不同的条件来执行不同的命令组。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line"></span><br><span class="line">GOTO step3</span><br><span class="line">:step2</span><br><span class="line">echo step2</span><br><span class="line"></span><br><span class="line">:step3</span><br><span class="line">echo step3</span><br><span class="line"></span><br><span class="line">:step4</span><br><span class="line">echo step4</span><br><span class="line"></span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<p><img src="/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114202536708.png" alt="image-20211114202536708"></p>
+<h3 id="9、-dp0"><a href="#9、-dp0" class="headerlink" title="9、%~dp0"></a>9、%~dp0</h3><p><code>%~dp0</code>代表脚本当前路径，即：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">echo %~dp0</span><br><span class="line">输出的结果：D:\kuaijie\</span><br><span class="line"></span><br><span class="line">%~dp0 “d”为Drive的缩写，即为驱动器，磁盘、“p”为Path缩写，即为路径，目录</span><br><span class="line"></span><br><span class="line">cd %~dp0 ：进入bat脚本所在目录</span><br><span class="line"></span><br><span class="line">cd %~dp0bin\ ：进入bat脚本所在目录的bin目录</span><br></pre></td></tr></table></figure>
+
+<h3 id="10、脚本间参数传递"><a href="#10、脚本间参数传递" class="headerlink" title="10、脚本间参数传递"></a>10、脚本间参数传递</h3><p>%[1-9]表示参数，参数是指在运行批处理文件时在文件名后加的以空格(或者Tab)分隔的字符串。</p>
+<p>变量可以从%0到%9，%0表示批处理命令本身，其它参数字符串用 %1 到 %9 顺序表示。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">例如我执行：</span><br><span class="line">call test.bat c1 2 3 4 5 6 7 8 9 a s</span><br><span class="line"></span><br><span class="line">在test.bat脚本内部，$0=test.bat;$1=c1;$9=9;$19=c19</span><br></pre></td></tr></table></figure>
+
+<h3 id="11、start"><a href="#11、start" class="headerlink" title="11、start"></a>11、start</h3><p>调用外部程序，所有的DOS命令和命令行程序都可由start命令来调用</p>
+<p>例如:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">start /d &quot;D:\software&quot; typora.ext &quot;bat.md&quot;</span><br></pre></td></tr></table></figure>
+
+<p>就可以运行d盘software目录下的typora.exe编辑器打开bat.md文件了</p>
+<h3 id="12、choice"><a href="#12、choice" class="headerlink" title="12、choice"></a>12、choice</h3><p>CHOICE [/C choices] [/N] [/CS] [/T timeout /D choice] [/M text]</p>
+<p>描述:<br>    该工具允许用户从选择列表选择一个项目并返回所选项目的索引。</p>
+<p>参数列表:<br>   /C    choices       指定要创建的选项列表。默认列表是 “YN”。</p>
+<p>   /M    text          指定提示之前要显示的消息。如果没有指定，工具只显示提示。</p>
+<p>   /?                  显示此帮助消息。</p>
+<p>示例：</p>
+<p><img src="/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114195932969.png" alt="image-20211114195932969"></p>
+<h3 id="13、exit-命令"><a href="#13、exit-命令" class="headerlink" title="13、exit 命令"></a>13、exit 命令</h3><p>结束程序。即时是被调用的程序，结束后也不会返回原程序</p>
+<h1 id="二、小技巧"><a href="#二、小技巧" class="headerlink" title="二、小技巧"></a>二、小技巧</h1><h3 id="1、实现pause功能，自定义输出内容"><a href="#1、实现pause功能，自定义输出内容" class="headerlink" title="1、实现pause功能，自定义输出内容"></a>1、实现pause功能，自定义输出内容</h3><p>在bat文件最后实用set /p tmp=操作结束，请按回车键退出… 代替 pause</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set /p tmp=操作结束，请按回车键退出...</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、在脚本中添加chcp-65001解决中文乱码"><a href="#2、在脚本中添加chcp-65001解决中文乱码" class="headerlink" title="2、在脚本中添加chcp 65001解决中文乱码"></a>2、在脚本中添加chcp 65001解决中文乱码</h3><p>在脚本中文前方添加<code>chcp 65001</code>，cmd的编码格式就是UTF-8,仅当前脚本执行有效</p>
+<p>或者把bat文件的编码改为ANSI，UTF-8在win10我这儿会中文显示乱码</p>
+<h3 id="3、进入指定盘符"><a href="#3、进入指定盘符" class="headerlink" title="3、进入指定盘符"></a>3、进入指定盘符</h3><p>cmd窗口中我们往往要先输入d:切换到D盘</p>
+<p>然后再cd D:\blog进入D盘下目录，其实我们可以通过cd加参数 /d来直接进入任意盘符下目录</p>
+<p>cd /d d:\blog</p>
+<h1 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h1><p>bat脚本功能很多，这里只列了最最基本的一些使用，在后续实际需求中，我们可以思考用bat脚本如何提高自己的效率……</p>
 ]]></content>
       <categories>
-        <category>java</category>
+        <category>脚本</category>
       </categories>
       <tags>
-        <tag>java</tag>
+        <tag>效率</tag>
+        <tag>bat</tag>
       </tags>
   </entry>
   <entry>
@@ -1280,144 +1345,37 @@
       </tags>
   </entry>
   <entry>
-    <title>bat批处理脚本学习</title>
-    <url>/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<p>windows使用中，当我们经常要进行一系列重复操作时，就可以考虑编写一个批处理脚本来简化批量化处理。批处理（Batch）往往以<code>.bat</code>结尾，其作用嘛：无非就是能够连续执行多条命令</p>
+    <title>enum定义枚举类使用</title>
+    <url>/2021/12/15/enum%E5%AE%9A%E4%B9%89%E6%9E%9A%E4%B8%BE%E7%B1%BB%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p> 以往的项目中总会定义一些常量提供使用，当类别较多时并不好理解和维护，jdk5后支持enum使用枚举类，能够更简洁，约束性更强。下面简单介绍下enum枚举类的使用。</p>
 <span id="more"></span>
 
-<h1 id="一、语法了解"><a href="#一、语法了解" class="headerlink" title="一、语法了解"></a>一、语法了解</h1><h2 id="1-变量"><a href="#1-变量" class="headerlink" title="1.变量"></a>1.变量</h2><h3 id="（一）bat文件变量的赋值"><a href="#（一）bat文件变量的赋值" class="headerlink" title="（一）bat文件变量的赋值"></a>（一）bat文件变量的赋值</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set num=10</span><br><span class="line">set name=xiaomin</span><br></pre></td></tr></table></figure>
+<h1 id="一、使用enum定义枚举类的说明"><a href="#一、使用enum定义枚举类的说明" class="headerlink" title="一、使用enum定义枚举类的说明"></a>一、使用enum定义枚举类的说明</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">SeasonEnum</span> </span>&#123;</span><br><span class="line">    SPRING(<span class="string">&quot;春天&quot;</span>,<span class="string">&quot;春风又绿江南岸&quot;</span>),</span><br><span class="line">    SUMMER(<span class="string">&quot;夏天&quot;</span>,<span class="string">&quot;映日荷花别样红&quot;</span>),</span><br><span class="line">    AUTUMN(<span class="string">&quot;秋天&quot;</span>,<span class="string">&quot;秋水共长天一色&quot;</span>),</span><br><span class="line">    WINTER(<span class="string">&quot;冬天&quot;</span>,<span class="string">&quot;窗含西岭千秋雪&quot;</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String seasonName;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String seasonDesc;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SeasonEnum</span><span class="params">(String seasonName, String seasonDesc)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.seasonName = seasonName;</span><br><span class="line">        <span class="keyword">this</span>.seasonDesc = seasonDesc;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSeasonName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> seasonName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSeasonDesc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> seasonDesc;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="（二）bat文件变量的使用"><a href="#（二）bat文件变量的使用" class="headerlink" title="（二）bat文件变量的使用"></a>（二）bat文件变量的使用</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">echo %num%</span><br><span class="line">echo %name%</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-常用命令"><a href="#2-常用命令" class="headerlink" title="2.常用命令"></a>2.常用命令</h2><h3 id="1、echo"><a href="#1、echo" class="headerlink" title="1、echo"></a>1、echo</h3><ol>
-<li>ECHO [ON | OFF] 打开回显或关闭回显功能。</li>
-</ol>
-<p>一般bat文件第一行都是@echo off,即关闭回显功能</p>
-<p>echo off 代表这行后面的命令执行时都不再输出显示命令本身，@表示显示其后面的命令，对该行生效，所以搭配起来就是脚本执行不显示命令行本身</p>
-<ol start="2">
-<li>另外echo具备输出和换行的功能</li>
-</ol>
-<img src="/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114191146740.png" alt="image-20211114191146740" style="zoom: 67%;">
-
-<h3 id="2、pause"><a href="#2、pause" class="headerlink" title="2、pause"></a>2、pause</h3><p>会暂停批处理的执行，并在屏幕上显示请按任意键继续…的提示，等待用户按任意键后继续</p>
-<p>一般用来让用户考虑是否继续执行，不执行的话关掉命令窗口即可</p>
-<h3 id="3、cls"><a href="#3、cls" class="headerlink" title="3、cls"></a>3、cls</h3><p>清屏，执行到该命令时之前的输出结果将会clean掉，这个clean并不是删除了什么，只是将最新行置于窗口顶部，其实再往上翻记录还是有的</p>
-<h3 id="4、call"><a href="#4、call" class="headerlink" title="4、call"></a>4、call</h3><p>call [要执行的脚本路径+脚本名称] [要传递的参数]</p>
-<p>调用另一个批处理程序，并且不终止父批处理程序</p>
-<p>在执行完另一个脚本后仍然返回到当前的批处理程序继续执行</p>
-<h3 id="5、REM"><a href="#5、REM" class="headerlink" title="5、REM"></a>5、REM</h3><p>语法：Rem Message…</p>
-<p>(小技巧：用::代替rem)</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">::下面一行会输出hello</span><br><span class="line">echo hello</span><br></pre></td></tr></table></figure>
-
-<h3 id="6、-p"><a href="#6、-p" class="headerlink" title="6、/p"></a>6、/p</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set /p filename=请输入文件名称</span><br><span class="line">echo %filename%</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114201532547.png" alt="image-20211114201532547"></p>
-<h3 id="7、if"><a href="#7、if" class="headerlink" title="7、if"></a>7、if</h3><p>if 表示将判断是否符合规定的条件，从而决定执行不同的命令。有三种格式:</p>
 <ol>
-<li>语法: if [not] “参数” == “字符串” 待执行的命令</li>
+<li>使用enum定义的枚举类默认继承了java.lang.Enum类，因此<strong>不能够继承其他类</strong>，但可以实现接口</li>
+<li>枚举类的构造器只能使用<strong>private</strong>权限修饰符，即不能通过外部生成枚举类对象</li>
+<li>枚举类的所<strong>有实例必须在第一行声明，显式列出（,分割；结尾），列出的实例系统会自动添加public static final修饰</strong></li>
+<li>jdk1.5中可以在switch表达式中使用Enum定义枚举类的对象作为表达式</li>
 </ol>
-<p>参数如果等于(not表示不等，下同)指定的字符串，则条件成立，运行命令，否则运行下一句。(注意是两个等号)</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line"></span><br><span class="line">if &quot;111&quot;==&quot;222&quot; echo 111==222</span><br><span class="line">echo ================</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<h1 id="二、enum类的主要方法"><a href="#二、enum类的主要方法" class="headerlink" title="二、enum类的主要方法"></a>二、enum类的主要方法</h1><h2 id="1、values"><a href="#1、values" class="headerlink" title="1、values()"></a>1、values()</h2><p>用于返回枚举实例的对象数组，可以方便遍历当前枚举类的所有枚举值</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testEnumValuesMethod</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SeasonEnum[] seasonEnums = SeasonEnum.values();</span><br><span class="line">    <span class="keyword">for</span>(SeasonEnum seasonEnum:seasonEnums)&#123;</span><br><span class="line">    	System.out.println(seasonEnum);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<ol start="2">
-<li>语法: if [not] exist [路径]文件名 待执行的命令</li>
-</ol>
-<p><img src="/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114193227622.png" alt="image-20211114193227622"></p>
-<ol start="3">
-<li>语法: if [not] errorlevel &lt;数字&gt; 待执行的命令</li>
-</ol>
-<p>很多DOS程序在运行结束后会返回一个数字值用来表示程序运行的结果(或者状态)，称为错误码errorlevel或称返回码。</p>
-<p>常见的返回码为0、1。通过if errorlevel命令可以判断程序的返回值，根据不同的返回值来决定执行不同的命令。</p>
-<p>**if-else if-else **</p>
-<p>注意：输出的括号和条件之间要留有空格，如果要换行else ，在if行尾需要加上<code>^</code></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set num=1</span><br><span class="line">if %num%==0 (echo 111) else if %num%==2 (echo 222)^</span><br><span class="line">else (echo 333)	</span><br><span class="line">echo %num%</span><br><span class="line">pause</span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line">333</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
-
-<h3 id="8、goto"><a href="#8、goto" class="headerlink" title="8、goto"></a>8、goto</h3><p>语法：goto label (label是参数，指定所要转向的批处理程序中的行。)</p>
-<p>指定跳转到标签行，找到标签行后，程序将处理从下一行开始的命令。</p>
-<p>label标签的名字可以随便起，但是最好是有意义的，字母前必须加个冒号“:”来表示这个字母是标签。</p>
-<p>goto命令就是根据这个冒号来寻找下一步跳到到那里。经常与 if 配合使用，根据不同的条件来执行不同的命令组。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line"></span><br><span class="line">GOTO step3</span><br><span class="line">:step2</span><br><span class="line">echo step2</span><br><span class="line"></span><br><span class="line">:step3</span><br><span class="line">echo step3</span><br><span class="line"></span><br><span class="line">:step4</span><br><span class="line">echo step4</span><br><span class="line"></span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<p><img src="/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114202536708.png" alt="image-20211114202536708"></p>
-<h3 id="9、-dp0"><a href="#9、-dp0" class="headerlink" title="9、%~dp0"></a>9、%~dp0</h3><p><code>%~dp0</code>代表脚本当前路径，即：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">echo %~dp0</span><br><span class="line">输出的结果：D:\kuaijie\</span><br><span class="line"></span><br><span class="line">%~dp0 “d”为Drive的缩写，即为驱动器，磁盘、“p”为Path缩写，即为路径，目录</span><br><span class="line"></span><br><span class="line">cd %~dp0 ：进入bat脚本所在目录</span><br><span class="line"></span><br><span class="line">cd %~dp0bin\ ：进入bat脚本所在目录的bin目录</span><br></pre></td></tr></table></figure>
-
-<h3 id="10、脚本间参数传递"><a href="#10、脚本间参数传递" class="headerlink" title="10、脚本间参数传递"></a>10、脚本间参数传递</h3><p>%[1-9]表示参数，参数是指在运行批处理文件时在文件名后加的以空格(或者Tab)分隔的字符串。</p>
-<p>变量可以从%0到%9，%0表示批处理命令本身，其它参数字符串用 %1 到 %9 顺序表示。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">例如我执行：</span><br><span class="line">call test.bat c1 2 3 4 5 6 7 8 9 a s</span><br><span class="line"></span><br><span class="line">在test.bat脚本内部，$0=test.bat;$1=c1;$9=9;$19=c19</span><br></pre></td></tr></table></figure>
-
-<h3 id="11、start"><a href="#11、start" class="headerlink" title="11、start"></a>11、start</h3><p>调用外部程序，所有的DOS命令和命令行程序都可由start命令来调用</p>
-<p>例如:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">start /d &quot;D:\software&quot; typora.ext &quot;bat.md&quot;</span><br></pre></td></tr></table></figure>
-
-<p>就可以运行d盘software目录下的typora.exe编辑器打开bat.md文件了</p>
-<h3 id="12、choice"><a href="#12、choice" class="headerlink" title="12、choice"></a>12、choice</h3><p>CHOICE [/C choices] [/N] [/CS] [/T timeout /D choice] [/M text]</p>
-<p>描述:<br>    该工具允许用户从选择列表选择一个项目并返回所选项目的索引。</p>
-<p>参数列表:<br>   /C    choices       指定要创建的选项列表。默认列表是 “YN”。</p>
-<p>   /M    text          指定提示之前要显示的消息。如果没有指定，工具只显示提示。</p>
-<p>   /?                  显示此帮助消息。</p>
-<p>示例：</p>
-<p><img src="/2021/11/13/bat%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0/image-20211114195932969.png" alt="image-20211114195932969"></p>
-<h3 id="13、exit-命令"><a href="#13、exit-命令" class="headerlink" title="13、exit 命令"></a>13、exit 命令</h3><p>结束程序。即时是被调用的程序，结束后也不会返回原程序</p>
-<h1 id="二、小技巧"><a href="#二、小技巧" class="headerlink" title="二、小技巧"></a>二、小技巧</h1><h3 id="1、实现pause功能，自定义输出内容"><a href="#1、实现pause功能，自定义输出内容" class="headerlink" title="1、实现pause功能，自定义输出内容"></a>1、实现pause功能，自定义输出内容</h3><p>在bat文件最后实用set /p tmp=操作结束，请按回车键退出… 代替 pause</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set /p tmp=操作结束，请按回车键退出...</span><br></pre></td></tr></table></figure>
-
-<h3 id="2、在脚本中添加chcp-65001解决中文乱码"><a href="#2、在脚本中添加chcp-65001解决中文乱码" class="headerlink" title="2、在脚本中添加chcp 65001解决中文乱码"></a>2、在脚本中添加chcp 65001解决中文乱码</h3><p>在脚本中文前方添加<code>chcp 65001</code>，cmd的编码格式就是UTF-8,仅当前脚本执行有效</p>
-<p>或者把bat文件的编码改为ANSI，UTF-8在win10我这儿会中文显示乱码</p>
-<h3 id="3、进入指定盘符"><a href="#3、进入指定盘符" class="headerlink" title="3、进入指定盘符"></a>3、进入指定盘符</h3><p>cmd窗口中我们往往要先输入d:切换到D盘</p>
-<p>然后再cd D:\blog进入D盘下目录，其实我们可以通过cd加参数 /d来直接进入任意盘符下目录</p>
-<p>cd /d d:\blog</p>
-<h1 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h1><p>bat脚本功能很多，这里只列了最最基本的一些使用，在后续实际需求中，我们可以思考用bat脚本如何提高自己的效率……</p>
+<p><img src="http://lzcoder.cn//image-20211216001619105.png" alt="image-20211216001619105"></p>
+<h2 id="2、ordinal"><a href="#2、ordinal" class="headerlink" title="2、ordinal()"></a>2、ordinal()</h2><p>返回枚举实例的序数，从0开始</p>
+<p><img src="http://lzcoder.cn//image-20211216002126994.png" alt="image-20211216002126994"></p>
+<h2 id="3、name"><a href="#3、name" class="headerlink" title="3、name()"></a>3、name()</h2><p>用于返回枚举类型实例名称</p>
+<p><img src="http://lzcoder.cn//image-20211216002352584.png" alt="image-20211216002352584"></p>
+<h2 id="4、values-of"><a href="#4、values-of" class="headerlink" title="4、values of()"></a>4、values of()</h2><p>用于返回指定名称的枚举实例</p>
+<p><img src="http://lzcoder.cn//image-20211216002824596.png" alt="image-20211216002824596"></p>
+<h2 id="5、switch"><a href="#5、switch" class="headerlink" title="5、switch"></a>5、switch</h2><p>用于switch-case语句中</p>
+<p><img src="http://lzcoder.cn//image-20211216003038841.png" alt="image-20211216003038841"></p>
 ]]></content>
       <categories>
-        <category>脚本</category>
+        <category>java</category>
       </categories>
       <tags>
-        <tag>效率</tag>
-        <tag>bat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo搭配typora在文档中插入图片上传到github</title>
-    <url>/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/</url>
-    <content><![CDATA[<p>由于hexo本地图片路径和上传到github服务器上的路径不同，使用typora设置相对路径也会有问题，为了解决文章在本地插入图片和在服务器预览效果一致，跟随一下步骤即可完美解决</p>
-<h2 id="一、hexo配置文件修改"><a href="#一、hexo配置文件修改" class="headerlink" title="一、hexo配置文件修改"></a>一、hexo配置文件修改</h2><ol>
-<li>在博客根目录下的_config.yml文件中，找到<strong>post_asset_folder</strong>字段，属性值设为<strong>true</strong></li>
-</ol>
-<span id="more"></span>
-
-<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111000301442.png" alt="image-20211111000301442"></p>
-<ol start="2">
-<li><p>当设置完<strong>post_asset_folder</strong>字段值后，使用hexo new “博客名称” 时，会生成一个博客名称文件夹和博客名称.md文件</p>
-<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111000824606.png" alt="image-20211111000824606"></p>
-<ol start="3">
-<li>在文章使用中的资源可以放到对应的文件夹里，可以方便区分，这样也有一个问题，插入一张图片放一张，然后在编辑器上去引相对路径，不是很麻烦吗，答案是结合typora设置一下即可完美解决</li>
-</ol>
-<h2 id="二、设置Typora"><a href="#二、设置Typora" class="headerlink" title="二、设置Typora"></a>二、设置Typora</h2><ol>
-<li>typora 点击格式&gt;&gt;图像&gt;&gt;全局图像设置</li>
-</ol>
-<img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111001152225.png" alt="image-20211111001152225" style="zoom:80%;">
-
-<ol start="2">
-<li>在偏好设置处修改复制到指定路径</li>
-</ol>
-</li>
-</ol>
-<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111001342435.png" alt="image-20211111001342435"></p>
-<ol start="3">
-<li>操作完成后，粘贴在文档的图片都会自动复制到跟文件同名的文件夹中去，也不用单独去存放图片和写相对路径了，是不是很nice</li>
-</ol>
-<h2 id="三、装插件"><a href="#三、装插件" class="headerlink" title="三、装插件"></a>三、装插件</h2><p>操作到当前步骤还未结束，</p>
-<p>需要到博客的根目录下执行 npm install <a href="https://link.jianshu.com/?t=https://github.com/CodeFalling/hexo-asset-image">https://github.com/CodeFalling/hexo-asset-image</a> –save 命令来进行插件的安装。</p>
-<p>以便在服务器上访问图片和本地预览访问的图片都能够正常显示</p>
-<p>至此，图片问题解决，可以图文写作不是很棒嘛~</p>
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -1545,6 +1503,48 @@
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo搭配typora在文档中插入图片上传到github</title>
+    <url>/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/</url>
+    <content><![CDATA[<p>由于hexo本地图片路径和上传到github服务器上的路径不同，使用typora设置相对路径也会有问题，为了解决文章在本地插入图片和在服务器预览效果一致，跟随一下步骤即可完美解决</p>
+<h2 id="一、hexo配置文件修改"><a href="#一、hexo配置文件修改" class="headerlink" title="一、hexo配置文件修改"></a>一、hexo配置文件修改</h2><ol>
+<li>在博客根目录下的_config.yml文件中，找到<strong>post_asset_folder</strong>字段，属性值设为<strong>true</strong></li>
+</ol>
+<span id="more"></span>
+
+<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111000301442.png" alt="image-20211111000301442"></p>
+<ol start="2">
+<li><p>当设置完<strong>post_asset_folder</strong>字段值后，使用hexo new “博客名称” 时，会生成一个博客名称文件夹和博客名称.md文件</p>
+<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111000824606.png" alt="image-20211111000824606"></p>
+<ol start="3">
+<li>在文章使用中的资源可以放到对应的文件夹里，可以方便区分，这样也有一个问题，插入一张图片放一张，然后在编辑器上去引相对路径，不是很麻烦吗，答案是结合typora设置一下即可完美解决</li>
+</ol>
+<h2 id="二、设置Typora"><a href="#二、设置Typora" class="headerlink" title="二、设置Typora"></a>二、设置Typora</h2><ol>
+<li>typora 点击格式&gt;&gt;图像&gt;&gt;全局图像设置</li>
+</ol>
+<img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111001152225.png" alt="image-20211111001152225" style="zoom:80%;">
+
+<ol start="2">
+<li>在偏好设置处修改复制到指定路径</li>
+</ol>
+</li>
+</ol>
+<p><img src="/2021/11/10/hexo%E6%90%AD%E9%85%8Dtypora%E5%9C%A8%E6%96%87%E6%A1%A3%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0github/image-20211111001342435.png" alt="image-20211111001342435"></p>
+<ol start="3">
+<li>操作完成后，粘贴在文档的图片都会自动复制到跟文件同名的文件夹中去，也不用单独去存放图片和写相对路径了，是不是很nice</li>
+</ol>
+<h2 id="三、装插件"><a href="#三、装插件" class="headerlink" title="三、装插件"></a>三、装插件</h2><p>操作到当前步骤还未结束，</p>
+<p>需要到博客的根目录下执行 npm install <a href="https://link.jianshu.com/?t=https://github.com/CodeFalling/hexo-asset-image">https://github.com/CodeFalling/hexo-asset-image</a> –save 命令来进行插件的安装。</p>
+<p>以便在服务器上访问图片和本地预览访问的图片都能够正常显示</p>
+<p>至此，图片问题解决，可以图文写作不是很棒嘛~</p>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -2662,6 +2662,40 @@
       </tags>
   </entry>
   <entry>
+    <title>xxl-job任务调度中心使用</title>
+    <url>/2022/02/09/xxl-job%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E4%B8%AD%E5%BF%83%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>使用开源xxl-job分布式任务调度平台 实现定时任务统一调度管理，开发迅速、学习简单、轻量级、易扩展。</p>
+<span id="more"></span>
+
+<p>主要参考官方文档内容</p>
+<p><a href="https://www.xuxueli.com/xxl-job/">官方文档</a></p>
+<p><a href="https://github.com/xuxueli/xxl-job">github源码仓库地址</a></p>
+<h1 id="xxl-架构图"><a href="#xxl-架构图" class="headerlink" title="xxl-架构图"></a>xxl-架构图</h1><p><img src="http://lzcoder.cn/image-20220707112919996.png" alt="image-20220707112919996"></p>
+<p>对于一些老项目，可以采用 httpJobHandler方式，通过接口方式实现定时任务实现，也可以作为心跳检查监控项目运行是否正常</p>
+<p><img src="http://lzcoder.cn/image-20220707113010978.png" alt="image-20220707113010978"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>多线程学习记录（一）</title>
+    <url>/2021/11/15/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    <content><![CDATA[<p>以往学习多线程总是很零碎，不写就忘，然后一段时间又要翻各种资料，就打算最近写一写多线程内容，当然自己可能了解的都是基础，记录的话呢还是准备以实战为主，理论为辅</p>
+<span id="more"></span>
+
+<h1 id="一、概念理解"><a href="#一、概念理解" class="headerlink" title="一、概念理解"></a>一、概念理解</h1><h3 id="1-进程："><a href="#1-进程：" class="headerlink" title="1. 进程："></a>1. 进程：</h3><p>进程是资源分配的最小单位，是程序的一次执行过程，或是正在运行的一个程序</p>
+<h3 id="2-线程："><a href="#2-线程：" class="headerlink" title="2. 线程："></a>2. 线程：</h3><p>线程是CPU调度的最小单位，是一个程序内部的一条执行路径，是进程中可独立执行的子任务</p>
+<p>同一个进程中的线程共享该进程申请到的资源</p>
+<h3 id="3-任务"><a href="#3-任务" class="headerlink" title="3.任务"></a>3.任务</h3><p>任务task是一个相对的概念，把线程比作员工的话，任务就是线程要完成的工作，一个文件可以算一个任务，文件中的多个记录也可以算一个任务，多个文件也可以算一个任务</p>
+<h3 id="3-并行、并发"><a href="#3-并行、并发" class="headerlink" title="3. 并行、并发"></a>3. 并行、并发</h3><p>并行：多个任务在同一时间范围内被执行，这些任务往往不是顺序执行的，而是交替执行的</p>
+<p>并发：多个任务在同一时刻被执行</p>
+<h3 id="4-线程上下文切换"><a href="#4-线程上下文切换" class="headerlink" title="4. 线程上下文切换"></a>4. 线程上下文切换</h3><h3 id="5-线程安全"><a href="#5-线程安全" class="headerlink" title="5. 线程安全"></a>5. 线程安全</h3>]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>效率</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>shell编写心得</title>
     <url>/2021/11/11/shell%E7%BC%96%E5%86%99%E5%BF%83%E5%BE%97/</url>
     <content><![CDATA[<p>使用shell脚本在linux服务器上可以帮助我们处理很多工作，想要追求效率，会编写shell脚本是非常有必要的</p>
@@ -2961,20 +2995,6 @@
       </tags>
   </entry>
   <entry>
-    <title>xxl-job任务调度中心使用</title>
-    <url>/2022/02/09/xxl-job%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E4%B8%AD%E5%BF%83%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>使用开源xxl-job分布式任务调度平台 实现定时任务统一调度管理，开发迅速、学习简单、轻量级、易扩展。</p>
-<span id="more"></span>
-
-<p>主要参考官方文档内容</p>
-<p><a href="https://www.xuxueli.com/xxl-job/">官方文档</a></p>
-<p><a href="https://github.com/xuxueli/xxl-job">github源码仓库地址</a></p>
-<h1 id="xxl-架构图"><a href="#xxl-架构图" class="headerlink" title="xxl-架构图"></a>xxl-架构图</h1><p><img src="http://lzcoder.cn/image-20220707112919996.png" alt="image-20220707112919996"></p>
-<p>对于一些老项目，可以采用 httpJobHandler方式，通过接口方式实现定时任务实现，也可以作为心跳检查监控项目运行是否正常</p>
-<p><img src="http://lzcoder.cn/image-20220707113010978.png" alt="image-20220707113010978"></p>
-]]></content>
-  </entry>
-  <entry>
     <title>一致性Hash算法及在Nginx负载均衡策略上的应用</title>
     <url>/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/</url>
     <content><![CDATA[<p>博文介绍了普通hash算法、一致性hash算法、一致性hash算法在Nginx负载均衡策略中的应用，文章主要来源拉钩高薪训练营相关内容+自己的理解，条理清晰，能够帮助理解hash算法到底在查询和存储过程或者是负载均衡中到底起了什么样的作用，为什么会有那么高的效率?有兴趣的小伙伴可以了解下</p>
@@ -3076,6 +3096,69 @@
         <tag>算法</tag>
         <tag>nginx</tag>
         <tag>hash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>快速搭建java开发环境</title>
+    <url>/2021/11/13/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<p>每次换电脑或者换环境开发都需要重新搭建一套java开发环境，如果有一个脚本我们点一下就能装好这一套环境是不是很nice呢~</p>
+<span id="more"></span>
+
+<h1 id="一、概念理解"><a href="#一、概念理解" class="headerlink" title="一、概念理解"></a>一、概念理解</h1><h2 id="1、首先我们要明确下通用的一套java环境包括那些："><a href="#1、首先我们要明确下通用的一套java环境包括那些：" class="headerlink" title="1、首先我们要明确下通用的一套java环境包括那些："></a>1、首先我们要明确下通用的一套java环境包括那些：</h2><ol>
+<li>jdk: 这里选择使用最多的1.8版本。这里我们要明白，我们装jdk最后输出的不过就是一个文件夹，里面有java编译运行工具、jre虚拟机环境、依赖 的jar包等。所以我们直接拷贝过来一个这样的目录也是丝毫没有问题的。</li>
+<li>maven: 我们下载解压出来就是一个文件目录</li>
+<li>tomcat: 同样下载解压也是一个文件目录</li>
+</ol>
+<h2 id="2、在开搞前理解下环境变量和classpath的含义和区别"><a href="#2、在开搞前理解下环境变量和classpath的含义和区别" class="headerlink" title="2、在开搞前理解下环境变量和classpath的含义和区别"></a>2、在开搞前理解下环境变量和classpath的含义和区别</h2><h3 id="一、Path环境变量"><a href="#一、Path环境变量" class="headerlink" title="一、Path环境变量"></a>一、Path环境变量</h3><p>这么简单理解吧，我们想要找一个文件，是不是要一层一层找到它所在的文件夹下然后进去才能找到它，现在我们把它所在的文件夹路径配置到<code>Path</code>中，那么我们就可在任意目录下都能直接操作这个文件夹下的文件或者工具。</p>
+<p>你想要是我们使用<code>jdk</code>中<code>bin</code>目录下的<code>javac</code>编译工具，我们把它的上级文件夹路径配到<code>Path</code>中，那么我们在任意目录下都能用<code>javac</code>和它同目录下的工具不是很方便嘛。换而言之，我们不配有什么影响吗？虽然没有，但是编译只能在<code>bin</code>这个目录下操作不觉得很麻烦吗，并且现在的编译器像<code>Eclipse</code>安装前都必须要求配置好环境变量</p>
+<h3 id="二、classpath环境变量"><a href="#二、classpath环境变量" class="headerlink" title="二、classpath环境变量"></a>二、classpath环境变量</h3><p>classpath和path环境变量有什么区别呢，首先我们明白path是让指定目录下的文件在任意目录下可用，那么我们知道java在编写代码时肯定会用到一些jdk自带的工具类，我们的代码依赖这样的jar包，这个时候将我们所依赖的jar包也配置成在任意目录下可导入，是很有意义的，不然这一系列路径开发起来别提多难受了。简单理解</p>
+<p>path暴漏的时工具，classpath暴漏的是代码编写所依赖的jar包</p>
+<h2 id="3、那我们需要配置哪些东西呢"><a href="#3、那我们需要配置哪些东西呢" class="headerlink" title="3、那我们需要配置哪些东西呢"></a>3、那我们需要配置哪些东西呢</h2><ol>
+<li>java的path环境变量</li>
+<li>java的classpath环境变量</li>
+<li>maven的path环境变量</li>
+</ol>
+<h1 id="二、具体实现"><a href="#二、具体实现" class="headerlink" title="二、具体实现"></a>二、具体实现</h1><h2 id="1、环境准备"><a href="#1、环境准备" class="headerlink" title="1、环境准备"></a>1、环境准备</h2><p>首先我们准备这样一套文件，tomcat不需要配置环境变量，因此脚本并不需要对其进行操作</p>
+<p><img src="/2021/11/13/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image-20211113180621148.png" alt="image-20211113180621148"></p>
+<h2 id="2、编写脚本"><a href="#2、编写脚本" class="headerlink" title="2、编写脚本"></a>2、编写脚本</h2><ol>
+<li>新建<strong>java开发环境搭建（管理员运行）.bat</strong>脚本，注意脚本和三个文件目录在同一级别下，并且jdk和maven文件夹进去后bin目录就在里面</li>
+</ol>
+<p>也可以替换不同的jdk和maven版本，替换文件夹后，修改<code>JdkFilePath</code>和<code>MavenFilePath</code>两个参数即可，值为文件夹名称</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">:step1</span><br><span class="line">cd /d %~dp0</span><br><span class="line">set currentPATH=%PATH%</span><br><span class="line">set currentDir=%cd%</span><br><span class="line">::只需要修改这两个参数即可</span><br><span class="line">set JdkFilePath=jdk1.8.0_162</span><br><span class="line">set MavenFilePath=apache-maven-3.8.1</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>脚本执行的核心操作也就是对环境变量的操作，具体为：</li>
+</ol>
+<p>使用<code>wmic</code> 指令，对<code>JAVA_HOME</code>、<code>MAVEN_HOME</code>、<code>CLASSPATH</code>三条变量先删除，再新建</p>
+<p><img src="/2021/11/13/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image-20211113184028661.png" alt="image-20211113184028661"></p>
+<ol start="3">
+<li>然后判断Path变量有无配置JAVA_HOME、MAVEN_HOME，如果配置了就不用再操作，未配置则添加</li>
+</ol>
+<p><img src="/2021/11/13/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image-20211113184207955.png" alt="image-20211113184207955"></p>
+<ol start="4">
+<li>因为操作涉及到环境变量的修改，所以需要重启电脑，将在完成指令的30s后重启</li>
+</ol>
+<p><img src="/2021/11/13/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image-20211113184428829.png" alt="image-20211113184428829"></p>
+<ol start="5">
+<li>注意：脚本涉及环境变量的修改，执行时一定要使用管理员权限执行</li>
+</ol>
+<p><img src="/2021/11/13/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image-20211113182856443.png" alt="image-20211113182856443"></p>
+<ol start="6">
+<li>重启后，执行版本查看，发现已经修改成功</li>
+</ol>
+<p><img src="/2021/11/13/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image-20211113183355567.png" alt="image-20211113183355567"></p>
+<h1 id="三、结论"><a href="#三、结论" class="headerlink" title="三、结论"></a>三、结论</h1><p>其实这个脚本没有什么别的操作，就是对环境变量的修改，还是蛮简单的，将这个文件夹打个包，传到云端，随去随用不是很方便吗~</p>
+<p><a href="java%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88%E7%AE%A1%E7%90%86%E5%91%98%E8%BF%90%E8%A1%8C%EF%BC%89.bat">脚本点击下载</a></p>
+<p>源码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">cls</span><br><span class="line"><span class="built_in">echo</span> **********************************************</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>     一   键   配   置   开   发   环   境</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>       安装请按任意键，退出直接关闭窗口</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> **********************************************</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">pause</span><br><span class="line"></span><br><span class="line">:step1</span><br><span class="line"><span class="built_in">cd</span> /d %~dp0</span><br><span class="line"><span class="built_in">set</span> currentPATH=%PATH%</span><br><span class="line"><span class="built_in">set</span> currentDir=%<span class="built_in">cd</span>%</span><br><span class="line">::只需要修改这两个参数即可</span><br><span class="line"><span class="built_in">set</span> JdkFilePath=jdk1.8.0_162</span><br><span class="line"><span class="built_in">set</span> MavenFilePath=apache-maven-3.8.1</span><br><span class="line"></span><br><span class="line">:step2</span><br><span class="line"><span class="built_in">set</span> developDir=%currentDir%</span><br><span class="line"><span class="built_in">echo</span> %developDir%</span><br><span class="line">goto step4</span><br><span class="line"></span><br><span class="line">:step4</span><br><span class="line">wmic ENVIRONMENT <span class="built_in">where</span> <span class="string">&quot;name=&#x27;JAVA_HOME&#x27;&quot;</span> delete</span><br><span class="line">wmic ENVIRONMENT create name=<span class="string">&quot;JAVA_HOME&quot;</span>,username=<span class="string">&quot;&lt;system&gt;&quot;</span>,VariableValue=<span class="string">&quot;%developDir%\%JdkFilePath%&quot;</span></span><br><span class="line">wmic ENVIRONMENT <span class="built_in">where</span> <span class="string">&quot;name=&#x27;MAVEN_HOME&#x27;&quot;</span> delete</span><br><span class="line">wmic ENVIRONMENT create name=<span class="string">&quot;MAVEN_HOME&quot;</span>,username=<span class="string">&quot;&lt;system&gt;&quot;</span>,VariableValue=<span class="string">&quot;%developDir%\%MavenFilePath%&quot;</span></span><br><span class="line">wmic ENVIRONMENT <span class="built_in">where</span> <span class="string">&quot;name=&#x27;CLASSPATH&#x27;&quot;</span> delete</span><br><span class="line">wmic ENVIRONMENT create name=<span class="string">&quot;CLASSPATH&quot;</span>,username=<span class="string">&quot;&lt;system&gt;&quot;</span>,VariableValue=<span class="string">&quot;.;%%JAVA_HOME%%\lib\toos.jar;%%JAVA_HOME%%\lib\dt.jar&quot;</span></span><br><span class="line"><span class="built_in">echo</span> JAVA_HOME:%developDir%\%JdkFilePath%</span><br><span class="line"><span class="built_in">echo</span> MAVEN_HOME:%developDir%\%MavenFilePath%</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">goto step7</span><br><span class="line"></span><br><span class="line">:step7</span><br><span class="line">wmic ENVIRONMENT <span class="built_in">where</span> <span class="string">&quot;name=&#x27;Path&#x27;&quot;</span> get VariableValue|findstr /i /c:<span class="string">&quot;%%JAVA_HOME%%\bin&quot;</span>&gt;nul&amp;&amp;(goto step5)  </span><br><span class="line"><span class="built_in">echo</span> PATH环境变量中未添加: %JAVA_HOME%\bin </span><br><span class="line">wmic ENVIRONMENT <span class="built_in">where</span> <span class="string">&quot;name=&#x27;Path&#x27; and username=&#x27;&lt;system&gt;&#x27;&quot;</span> <span class="built_in">set</span> VariableValue=<span class="string">&quot;%currentPATH%;%%JAVA_HOME%%\bin&quot;</span></span><br><span class="line"><span class="built_in">set</span> currentPATH=%currentPATH%;%%JAVA_HOME%%\bin</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"></span><br><span class="line">:step5</span><br><span class="line"><span class="built_in">echo</span> JAVA_HOME PATH中已添加</span><br><span class="line">wmic ENVIRONMENT <span class="built_in">where</span> <span class="string">&quot;name=&#x27;Path&#x27;&quot;</span> get VariableValue|findstr /i /c:<span class="string">&quot;%%MAVEN_HOME%%\bin&quot;</span>&gt;nul&amp;&amp;(goto step6)  </span><br><span class="line"><span class="built_in">echo</span> PATH环境变量中未添加: %MAVEN_HOME%\bin </span><br><span class="line">wmic ENVIRONMENT <span class="built_in">where</span> <span class="string">&quot;name=&#x27;Path&#x27; and username=&#x27;&lt;system&gt;&#x27;&quot;</span> <span class="built_in">set</span> VariableValue=<span class="string">&quot;%currentPATH%;%%MAVEN_HOME%%\bin&quot;</span></span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"></span><br><span class="line">:step6</span><br><span class="line"><span class="built_in">echo</span> MAVEN_HOME PATH中已添加</span><br><span class="line"></span><br><span class="line">:step8</span><br><span class="line"><span class="built_in">echo</span> 电脑将在30秒内重启，请做好保存工作，按任意键继续...</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">pause</span><br><span class="line"></span><br><span class="line">shutdown -r -t 30</span><br><span class="line">:<span class="built_in">test</span></span><br><span class="line"></span><br><span class="line">@<span class="built_in">echo</span>.</span><br><span class="line">:end</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>效率</tag>
+        <tag>bat</tag>
+        <tag>脚本</tag>
       </tags>
   </entry>
   <entry>
@@ -3373,6 +3456,10 @@
 </ul>
 <h2 id="五、实用网站"><a href="#五、实用网站" class="headerlink" title="五、实用网站"></a>五、实用网站</h2><h3 id="1-分秒帧"><a href="#1-分秒帧" class="headerlink" title="1.分秒帧"></a>1.<a href="https://app.mediatrack.cn/">分秒帧</a></h3><p>用这个网站登录之后就相当于有了一块无限制大小的网盘，不限速哦~，如果担心资源安全问题，上传一些软件、学习课程类的相当方便</p>
 <h3 id="2-蓝奏云"><a href="#2-蓝奏云" class="headerlink" title="2.蓝奏云"></a>2.<a href="https://up.woozooo.com/u">蓝奏云</a></h3><p>下载速度块，单个文件大小有限制，只能上传100M以下软件</p>
+<h2 id="六、常用软件安装方法"><a href="#六、常用软件安装方法" class="headerlink" title="六、常用软件安装方法"></a>六、常用软件安装方法</h2><div class="pdfobject-container" data-target="http://lzcoder.cn/编程环境和软件工具安装手册.pdf" data-height="500px"></div>
+
+
+
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>除了以上工具，还有不少使用的工具，像pdf转换、合并，视频格式转化，各种破解工具因为比较杂比较乱，等梳理清晰了再修改在上面，因为GIthub上不能上传100M以上的文件,所以有兴趣想获取软件，有一些在官网，或者交流的同学可以加个wx，一起探讨交流</p>
 <img src="/2021/11/10/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7%E8%BD%AF%E4%BB%B6%E5%88%86%E4%BA%AB/image-20211110221656622.png" alt="image-20211110221656622" style="zoom:50%;">
 
@@ -3384,26 +3471,6 @@
       </categories>
       <tags>
         <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>多线程学习记录（一）</title>
-    <url>/2021/11/15/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/</url>
-    <content><![CDATA[<p>以往学习多线程总是很零碎，不写就忘，然后一段时间又要翻各种资料，就打算最近写一写多线程内容，当然自己可能了解的都是基础，记录的话呢还是准备以实战为主，理论为辅</p>
-<span id="more"></span>
-
-<h1 id="一、概念理解"><a href="#一、概念理解" class="headerlink" title="一、概念理解"></a>一、概念理解</h1><h3 id="1-进程："><a href="#1-进程：" class="headerlink" title="1. 进程："></a>1. 进程：</h3><p>进程是资源分配的最小单位，是程序的一次执行过程，或是正在运行的一个程序</p>
-<h3 id="2-线程："><a href="#2-线程：" class="headerlink" title="2. 线程："></a>2. 线程：</h3><p>线程是CPU调度的最小单位，是一个程序内部的一条执行路径，是进程中可独立执行的子任务</p>
-<p>同一个进程中的线程共享该进程申请到的资源</p>
-<h3 id="3-任务"><a href="#3-任务" class="headerlink" title="3.任务"></a>3.任务</h3><p>任务task是一个相对的概念，把线程比作员工的话，任务就是线程要完成的工作，一个文件可以算一个任务，文件中的多个记录也可以算一个任务，多个文件也可以算一个任务</p>
-<h3 id="3-并行、并发"><a href="#3-并行、并发" class="headerlink" title="3. 并行、并发"></a>3. 并行、并发</h3><p>并行：多个任务在同一时间范围内被执行，这些任务往往不是顺序执行的，而是交替执行的</p>
-<p>并发：多个任务在同一时刻被执行</p>
-<h3 id="4-线程上下文切换"><a href="#4-线程上下文切换" class="headerlink" title="4. 线程上下文切换"></a>4. 线程上下文切换</h3><h3 id="5-线程安全"><a href="#5-线程安全" class="headerlink" title="5. 线程安全"></a>5. 线程安全</h3>]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>效率</tag>
       </tags>
   </entry>
   <entry>
@@ -3422,69 +3489,6 @@
       </categories>
       <tags>
         <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>快速搭建java开发环境</title>
-    <url>/2021/11/13/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<p>每次换电脑或者换环境开发都需要重新搭建一套java开发环境，如果有一个脚本我们点一下就能装好这一套环境是不是很nice呢~</p>
-<span id="more"></span>
-
-<h1 id="一、概念理解"><a href="#一、概念理解" class="headerlink" title="一、概念理解"></a>一、概念理解</h1><h2 id="1、首先我们要明确下通用的一套java环境包括那些："><a href="#1、首先我们要明确下通用的一套java环境包括那些：" class="headerlink" title="1、首先我们要明确下通用的一套java环境包括那些："></a>1、首先我们要明确下通用的一套java环境包括那些：</h2><ol>
-<li>jdk: 这里选择使用最多的1.8版本。这里我们要明白，我们装jdk最后输出的不过就是一个文件夹，里面有java编译运行工具、jre虚拟机环境、依赖 的jar包等。所以我们直接拷贝过来一个这样的目录也是丝毫没有问题的。</li>
-<li>maven: 我们下载解压出来就是一个文件目录</li>
-<li>tomcat: 同样下载解压也是一个文件目录</li>
-</ol>
-<h2 id="2、在开搞前理解下环境变量和classpath的含义和区别"><a href="#2、在开搞前理解下环境变量和classpath的含义和区别" class="headerlink" title="2、在开搞前理解下环境变量和classpath的含义和区别"></a>2、在开搞前理解下环境变量和classpath的含义和区别</h2><h3 id="一、Path环境变量"><a href="#一、Path环境变量" class="headerlink" title="一、Path环境变量"></a>一、Path环境变量</h3><p>这么简单理解吧，我们想要找一个文件，是不是要一层一层找到它所在的文件夹下然后进去才能找到它，现在我们把它所在的文件夹路径配置到<code>Path</code>中，那么我们就可在任意目录下都能直接操作这个文件夹下的文件或者工具。</p>
-<p>你想要是我们使用<code>jdk</code>中<code>bin</code>目录下的<code>javac</code>编译工具，我们把它的上级文件夹路径配到<code>Path</code>中，那么我们在任意目录下都能用<code>javac</code>和它同目录下的工具不是很方便嘛。换而言之，我们不配有什么影响吗？虽然没有，但是编译只能在<code>bin</code>这个目录下操作不觉得很麻烦吗，并且现在的编译器像<code>Eclipse</code>安装前都必须要求配置好环境变量</p>
-<h3 id="二、classpath环境变量"><a href="#二、classpath环境变量" class="headerlink" title="二、classpath环境变量"></a>二、classpath环境变量</h3><p>classpath和path环境变量有什么区别呢，首先我们明白path是让指定目录下的文件在任意目录下可用，那么我们知道java在编写代码时肯定会用到一些jdk自带的工具类，我们的代码依赖这样的jar包，这个时候将我们所依赖的jar包也配置成在任意目录下可导入，是很有意义的，不然这一系列路径开发起来别提多难受了。简单理解</p>
-<p>path暴漏的时工具，classpath暴漏的是代码编写所依赖的jar包</p>
-<h2 id="3、那我们需要配置哪些东西呢"><a href="#3、那我们需要配置哪些东西呢" class="headerlink" title="3、那我们需要配置哪些东西呢"></a>3、那我们需要配置哪些东西呢</h2><ol>
-<li>java的path环境变量</li>
-<li>java的classpath环境变量</li>
-<li>maven的path环境变量</li>
-</ol>
-<h1 id="二、具体实现"><a href="#二、具体实现" class="headerlink" title="二、具体实现"></a>二、具体实现</h1><h2 id="1、环境准备"><a href="#1、环境准备" class="headerlink" title="1、环境准备"></a>1、环境准备</h2><p>首先我们准备这样一套文件，tomcat不需要配置环境变量，因此脚本并不需要对其进行操作</p>
-<p><img src="/2021/11/13/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image-20211113180621148.png" alt="image-20211113180621148"></p>
-<h2 id="2、编写脚本"><a href="#2、编写脚本" class="headerlink" title="2、编写脚本"></a>2、编写脚本</h2><ol>
-<li>新建<strong>java开发环境搭建（管理员运行）.bat</strong>脚本，注意脚本和三个文件目录在同一级别下，并且jdk和maven文件夹进去后bin目录就在里面</li>
-</ol>
-<p>也可以替换不同的jdk和maven版本，替换文件夹后，修改<code>JdkFilePath</code>和<code>MavenFilePath</code>两个参数即可，值为文件夹名称</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">:step1</span><br><span class="line">cd /d %~dp0</span><br><span class="line">set currentPATH=%PATH%</span><br><span class="line">set currentDir=%cd%</span><br><span class="line">::只需要修改这两个参数即可</span><br><span class="line">set JdkFilePath=jdk1.8.0_162</span><br><span class="line">set MavenFilePath=apache-maven-3.8.1</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>脚本执行的核心操作也就是对环境变量的操作，具体为：</li>
-</ol>
-<p>使用<code>wmic</code> 指令，对<code>JAVA_HOME</code>、<code>MAVEN_HOME</code>、<code>CLASSPATH</code>三条变量先删除，再新建</p>
-<p><img src="/2021/11/13/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image-20211113184028661.png" alt="image-20211113184028661"></p>
-<ol start="3">
-<li>然后判断Path变量有无配置JAVA_HOME、MAVEN_HOME，如果配置了就不用再操作，未配置则添加</li>
-</ol>
-<p><img src="/2021/11/13/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image-20211113184207955.png" alt="image-20211113184207955"></p>
-<ol start="4">
-<li>因为操作涉及到环境变量的修改，所以需要重启电脑，将在完成指令的30s后重启</li>
-</ol>
-<p><img src="/2021/11/13/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image-20211113184428829.png" alt="image-20211113184428829"></p>
-<ol start="5">
-<li>注意：脚本涉及环境变量的修改，执行时一定要使用管理员权限执行</li>
-</ol>
-<p><img src="/2021/11/13/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image-20211113182856443.png" alt="image-20211113182856443"></p>
-<ol start="6">
-<li>重启后，执行版本查看，发现已经修改成功</li>
-</ol>
-<p><img src="/2021/11/13/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image-20211113183355567.png" alt="image-20211113183355567"></p>
-<h1 id="三、结论"><a href="#三、结论" class="headerlink" title="三、结论"></a>三、结论</h1><p>其实这个脚本没有什么别的操作，就是对环境变量的修改，还是蛮简单的，将这个文件夹打个包，传到云端，随去随用不是很方便吗~</p>
-<p><a href="java%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88%E7%AE%A1%E7%90%86%E5%91%98%E8%BF%90%E8%A1%8C%EF%BC%89.bat">脚本点击下载</a></p>
-<p>源码：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">cls</span><br><span class="line"><span class="built_in">echo</span> **********************************************</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>     一   键   配   置   开   发   环   境</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>       安装请按任意键，退出直接关闭窗口</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> **********************************************</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">pause</span><br><span class="line"></span><br><span class="line">:step1</span><br><span class="line"><span class="built_in">cd</span> /d %~dp0</span><br><span class="line"><span class="built_in">set</span> currentPATH=%PATH%</span><br><span class="line"><span class="built_in">set</span> currentDir=%<span class="built_in">cd</span>%</span><br><span class="line">::只需要修改这两个参数即可</span><br><span class="line"><span class="built_in">set</span> JdkFilePath=jdk1.8.0_162</span><br><span class="line"><span class="built_in">set</span> MavenFilePath=apache-maven-3.8.1</span><br><span class="line"></span><br><span class="line">:step2</span><br><span class="line"><span class="built_in">set</span> developDir=%currentDir%</span><br><span class="line"><span class="built_in">echo</span> %developDir%</span><br><span class="line">goto step4</span><br><span class="line"></span><br><span class="line">:step4</span><br><span class="line">wmic ENVIRONMENT <span class="built_in">where</span> <span class="string">&quot;name=&#x27;JAVA_HOME&#x27;&quot;</span> delete</span><br><span class="line">wmic ENVIRONMENT create name=<span class="string">&quot;JAVA_HOME&quot;</span>,username=<span class="string">&quot;&lt;system&gt;&quot;</span>,VariableValue=<span class="string">&quot;%developDir%\%JdkFilePath%&quot;</span></span><br><span class="line">wmic ENVIRONMENT <span class="built_in">where</span> <span class="string">&quot;name=&#x27;MAVEN_HOME&#x27;&quot;</span> delete</span><br><span class="line">wmic ENVIRONMENT create name=<span class="string">&quot;MAVEN_HOME&quot;</span>,username=<span class="string">&quot;&lt;system&gt;&quot;</span>,VariableValue=<span class="string">&quot;%developDir%\%MavenFilePath%&quot;</span></span><br><span class="line">wmic ENVIRONMENT <span class="built_in">where</span> <span class="string">&quot;name=&#x27;CLASSPATH&#x27;&quot;</span> delete</span><br><span class="line">wmic ENVIRONMENT create name=<span class="string">&quot;CLASSPATH&quot;</span>,username=<span class="string">&quot;&lt;system&gt;&quot;</span>,VariableValue=<span class="string">&quot;.;%%JAVA_HOME%%\lib\toos.jar;%%JAVA_HOME%%\lib\dt.jar&quot;</span></span><br><span class="line"><span class="built_in">echo</span> JAVA_HOME:%developDir%\%JdkFilePath%</span><br><span class="line"><span class="built_in">echo</span> MAVEN_HOME:%developDir%\%MavenFilePath%</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">goto step7</span><br><span class="line"></span><br><span class="line">:step7</span><br><span class="line">wmic ENVIRONMENT <span class="built_in">where</span> <span class="string">&quot;name=&#x27;Path&#x27;&quot;</span> get VariableValue|findstr /i /c:<span class="string">&quot;%%JAVA_HOME%%\bin&quot;</span>&gt;nul&amp;&amp;(goto step5)  </span><br><span class="line"><span class="built_in">echo</span> PATH环境变量中未添加: %JAVA_HOME%\bin </span><br><span class="line">wmic ENVIRONMENT <span class="built_in">where</span> <span class="string">&quot;name=&#x27;Path&#x27; and username=&#x27;&lt;system&gt;&#x27;&quot;</span> <span class="built_in">set</span> VariableValue=<span class="string">&quot;%currentPATH%;%%JAVA_HOME%%\bin&quot;</span></span><br><span class="line"><span class="built_in">set</span> currentPATH=%currentPATH%;%%JAVA_HOME%%\bin</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"></span><br><span class="line">:step5</span><br><span class="line"><span class="built_in">echo</span> JAVA_HOME PATH中已添加</span><br><span class="line">wmic ENVIRONMENT <span class="built_in">where</span> <span class="string">&quot;name=&#x27;Path&#x27;&quot;</span> get VariableValue|findstr /i /c:<span class="string">&quot;%%MAVEN_HOME%%\bin&quot;</span>&gt;nul&amp;&amp;(goto step6)  </span><br><span class="line"><span class="built_in">echo</span> PATH环境变量中未添加: %MAVEN_HOME%\bin </span><br><span class="line">wmic ENVIRONMENT <span class="built_in">where</span> <span class="string">&quot;name=&#x27;Path&#x27; and username=&#x27;&lt;system&gt;&#x27;&quot;</span> <span class="built_in">set</span> VariableValue=<span class="string">&quot;%currentPATH%;%%MAVEN_HOME%%\bin&quot;</span></span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"></span><br><span class="line">:step6</span><br><span class="line"><span class="built_in">echo</span> MAVEN_HOME PATH中已添加</span><br><span class="line"></span><br><span class="line">:step8</span><br><span class="line"><span class="built_in">echo</span> 电脑将在30秒内重启，请做好保存工作，按任意键继续...</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">pause</span><br><span class="line"></span><br><span class="line">shutdown -r -t 30</span><br><span class="line">:<span class="built_in">test</span></span><br><span class="line"></span><br><span class="line">@<span class="built_in">echo</span>.</span><br><span class="line">:end</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>效率</tag>
-        <tag>bat</tag>
-        <tag>脚本</tag>
       </tags>
   </entry>
   <entry>
@@ -3710,171 +3714,6 @@
       </tags>
   </entry>
   <entry>
-    <title>本地搭建hexo博客并上传github</title>
-    <url>/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/</url>
-    <content><![CDATA[<p>一、下载安装Nodejs</p>
-<p><a href="https://nodejs.org/en/">官网下载地址</a></p>
-<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-1024x331.png" alt="此图片的alt属性为空；文件名为image-1024x331.png"></p>
-<span id="more"></span>
-
-<p>安装 下一步下一步正常安装即可</p>
-
-<img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-1.png" alt="此图片的alt属性为空；文件名为image-1.png" style="zoom:50%;">
-
-<p> 二、配置环境变量</p>
-<ol><li>找到nodejs安装路径，我本地安装路径：D:\installsoftware\nodejs</li><li>将安装路径配置到path： 计算机-属性-高级系统设置-环境变量-系统变量-path </li><li>校验，win+r 输入cmd，在命令窗户输入 node -v查看nodejs版本，正常输出则安装成功</li></ol>
-
-<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-2.png" alt="此图片的alt属性为空；文件名为image-2.png"></p>
-<p>三、安装hexo是借助npm安装，由于国内安装镜像源速度很慢，可以借助淘宝cnpm安装</p>
-
-<p>1、命令行输入：npm install -g cnpm --registry=https://registry.npm.taobao.org</p>
-
-<img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-4-1024x467.png" alt="此图片的alt属性为空；文件名为image-4-1024x467.png" style="zoom:67%;">
-
-<p>2、 命令行输入：cnpm install -g hexo-cli 安装hexo</p>
-
-<img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-5-1024x467.png" alt="此图片的alt属性为空；文件名为image-5-1024x467.png" style="zoom:67%;">
-
-<p> 3、 新建blog目录，存放博客</p>
-
-<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-6.png" alt="此图片的alt属性为空；文件名为image-6.png"></p>
-<p>4、 命令行输入 hexo init 初始化hexo</p>
-
-<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-7.png" alt="此图片的alt属性为空；文件名为image-7.png"></p>
-<p>5、 此时hexo安装已经完成，我们通过输入 ls -l会发现hexo初始化会生成以下文件</p>
-
-<img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-8.png" alt="此图片的alt属性为空；文件名为image-8.png" style="zoom:67%;">
-
-<p>6、安装完成，输入命令：hexo s  来启动hexo , 启动完成，浏览器输入http://localhost:4000/ 即可访问hexo博客</p>
-
-<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-9.png" alt="此图片的alt属性为空；文件名为image-9.png"></p>
-<img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-10-1024x597.png" alt="此图片的alt属性为空；文件名为image-10-1024x597.png" style="zoom:50%;">
-
-<p> 四、使用hexo编写博客</p>
-
-<p>1、写一篇新文章</p>
-
-<p>命令行输入： hexo n "我的第一篇博客文章" </p>
-
-<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-11.png" alt="此图片的alt属性为空；文件名为image-11.png"></p>
-<p>使用编辑器或者其他工具修改博客文章</p>
-<p>然后命令行输入：hexo clean 先清理一下</p>
-<p>然后命令行输入：hexo g 重新生成一下博客</p>
-<p>最后命令行输入：hexo s 启动一下，启动完成浏览器输入localhost:4000即可访问博客</p>
-
-<img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-12-1024x705.png" alt="此图片的alt属性为空；文件名为image-12-1024x705.png" style="zoom:67%;">
-
-<img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-13-1024x660.png" alt="此图片的alt属性为空；文件名为image-13-1024x660.png" style="zoom:67%;">
-
-<p>至此hexo博客的搭建和编写已经完成</p>
-
-<p> 五、将hexo博客部署到远端（github）,通过github即可访问博客 </p>
-
-<p>1、github 新建一个仓库</p>
-
-<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-14.png" alt="此图片的alt属性为空；文件名为image-14.png"></p>
-<p>2、注意仓库命名，然后点击create创建仓库即可</p>
-
-<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-15-1024x479.png" alt="此图片的alt属性为空；文件名为image-15-1024x479.png"></p>
-<p> 3、需要在我们间的blog博客文件夹下装一个git部署插件</p>
-
-<p>通过命令行输入：cnpm install --save hexo-deployer-git</p>
-
-<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-16-1024x99.png" alt="此图片的alt属性为空；文件名为image-16-1024x99.png"></p>
-<p>4、需要设置blog目录下的_config.yml，注意yml格式使用空格缩进</p>
-
-<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-17-1024x164.png" alt="此图片的alt属性为空；文件名为image-17-1024x164.png"></p>
-<p>5、保存后，命令行输入：hexo -d 即可部署远程博客，github登录方式调整可能有问题，解决方案看文章下方</p>
-
-<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-19-1024x419.png" alt="此图片的alt属性为空；文件名为image-19-1024x419.png"></p>
-<p>6、部署完成，通过访问 https://liuzhengkaifa.github.io/ 查看博客内容。 </p>
-
-<p>六、问题</p>
-<p>  在命令行 hexo d 部署博客时出现错误</p>
-<p>remote: Support for password authentication was removed on August 13, 2021. Please use a personal access token instead.</p>
-<p>原因时：GitHub不再支持密码验证解决方案：SSH免密与Token登录配置，基于方便我采用了ssh免密方式登录，可参考以下步骤</p>
-**cmd命令窗口需要切换到git安装目录的Git\usr\bin目录下，否则会找不到ssh-keygen命令**
-
-<p>1、本地生成公钥</p>
-<pre class="wp-block-preformatted">ssh-keygen -t rsa -C “835570372@qq.com” </pre>
-<p>接着会提示这个公钥私钥的保存路径-建议直接回车就好（默认目录里)</p>
-<p>接着提示输入私钥密码passphrase - 如果不想使用私钥登录的话，私钥密码为空，直接回车</p>
-
-<p> 2、将公钥配置到github中，用编辑器打开 C:\Users\电脑名\.ssh 目录下的 id_rsa.pub</p>
-
-<p>将内容粘贴到githun配置处</p>
-
-<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-20-1024x440.png" alt="此图片的alt属性为空；文件名为image-20-1024x440.png"></p>
-<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-21-1024x448.png" alt="此图片的alt属性为空；文件名为image-21-1024x448.png"></p>
-<p>3、将_config.yml文件的repo地址改为 ssh方式地址，即可完成正常操作</p>
-
-<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-22.png" alt="此图片的alt属性为空；文件名为image-22.png"></p>
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>编写脚本一键部署发布博文（二）</title>
-    <url>/2021/11/13/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
-    <content><![CDATA[<p>上一篇一键发布脚本写好了，但是感觉还是不够方便，所以又进行了一番优化，优化的点主要有以下几方面</p>
-<ol>
-<li>脚本支持<strong>新增博文</strong>功能，只需输入要新建的文章名称，<strong>自动创建博客文章</strong>，<strong>并且会自动运行</strong><code>typora</code>编辑器打开这篇新增博文</li>
-<li><strong>支持重复</strong><code>clean</code>、<code>generate</code>，有时候一次clean编译会由于文件正在使用或者其他原因没有成功，这时我们肯定不希望脚本就此停止了，而是再解决完问题后在这次执行中继续<code>clean</code>,编译</li>
-<li><strong>支持本地运行</strong>，可以通过输入选项来开启本地预览</li>
-<li>支持<strong>单独部署</strong>到<code>GitHub</code>上，解决上一个博客每次部署前都会clean编译问题,有时并不需要</li>
-<li>支持部署到<code>GitHub</code>后的同时，开启本地预览</li>
-</ol>
-<p>哈哈哈~~至此，是不是觉得这个脚本功能还是挺全的</p>
-<span id="more"></span>    
-
-<h1 id="一、脚本整体架构"><a href="#一、脚本整体架构" class="headerlink" title="一、脚本整体架构"></a>一、脚本整体架构</h1><ol>
-<li>脚本采用类似Java中Switch-Case的语法，通过输入的指令来进行对应功能执行</li>
-</ol>
-<p><img src="/2021/11/13/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87%EF%BC%88%E4%BA%8C%EF%BC%89/image-20211113113033319.png" alt="image-20211113113033319"></p>
-<ol start="2">
-<li>脚本可复用性提高，只需要修改几个参数即可实现拿来即用，几个参数均放置在脚本内容上方</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">::此处配置编译器路径，自定义调整</span><br><span class="line">set idePath=&quot;D:\installsoftware\Typora\Typora&quot;</span><br><span class="line"></span><br><span class="line">::此处配置编译器名称，搭配上一条调整</span><br><span class="line">set ideName=&quot;Typora.exe&quot;</span><br><span class="line"></span><br><span class="line">::博客根目录</span><br><span class="line">set blogRootPath=&quot;D:\blog&quot;</span><br><span class="line"></span><br><span class="line">::博文所在目录</span><br><span class="line">set blogSrcPath=&quot;%blogRootPath%\source\_posts&quot;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="二、具体功能"><a href="#二、具体功能" class="headerlink" title="二、具体功能"></a>二、具体功能</h1><h2 id="1、新增博文"><a href="#1、新增博文" class="headerlink" title="1、新增博文"></a>1、新增博文</h2><p>核心代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">::新建博文并编辑</span><br><span class="line">:step4</span><br><span class="line">set /p name=input name:</span><br><span class="line">echo name:%name%</span><br><span class="line">echo please wait</span><br><span class="line">call hexo new post %name%</span><br><span class="line">call start /d &quot;%idePath%&quot; %ideName% &quot;%blogSrcPath%\%name%.md&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>主要是接收一个博文名称，执行hexo new &lt;name&gt; 指令新增博文</li>
-<li>使用<code>start</code>指令运行typora可执行文件打开这篇已创建的博文</li>
-</ol>
-<h2 id="2、单独部署到GitHub"><a href="#2、单独部署到GitHub" class="headerlink" title="2、单独部署到GitHub"></a>2、单独部署到GitHub</h2><p>这个功能没有什么，就是输入指令，然后运行了对应的<code>hexo -d</code> 指令</p>
-<h2 id="3、可重复clean-编译"><a href="#3、可重复clean-编译" class="headerlink" title="3、可重复clean 编译"></a>3、可重复clean 编译</h2><p>哈哈哈，这地方取了个巧，就是在<code>clean</code>,<code>generate</code> 之后，使用goto指令再次指向功能菜单那一步骤</p>
-<h2 id="4、可单独本地预览"><a href="#4、可单独本地预览" class="headerlink" title="4、可单独本地预览"></a>4、可单独本地预览</h2><p>这…可不就是把第二步拿来替换了个指令嘛<code>hexo s</code></p>
-<h1 id="三、结论"><a href="#三、结论" class="headerlink" title="三、结论"></a>三、结论</h1><p>整体看上去没什么技术含量，实际上确实没有，哈哈哈，只是把功能做了个整合。有兴趣的朋友可以试一试哈哈哈</p>
-<p><a href="hexoopt.bat">完成版脚本下载点击</a></p>
-<p>源码：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">cls</span><br><span class="line"><span class="built_in">echo</span> **********************************************</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>       hexo  新  增 - 预  览 - 发   布       </span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>       安装请按任意键，退出直接关闭窗口</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> **********************************************</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">pause</span><br><span class="line"></span><br><span class="line">::此处配置编译器路径，自定义调整</span><br><span class="line"><span class="built_in">set</span> idePath=<span class="string">&quot;D:\installsoftware\Typora\Typora&quot;</span></span><br><span class="line">::此处配置编译器名称，搭配上一条调整</span><br><span class="line"><span class="built_in">set</span> ideName=<span class="string">&quot;Typora.exe&quot;</span></span><br><span class="line"></span><br><span class="line">::博客根目录</span><br><span class="line"><span class="built_in">set</span> blogRootPath=<span class="string">&quot;D:\blog&quot;</span></span><br><span class="line">::博文所在目录</span><br><span class="line"><span class="built_in">set</span> blogSrcPath=<span class="string">&quot;%blogRootPath%\source\_posts&quot;</span></span><br><span class="line"></span><br><span class="line">::切换到博客根目录</span><br><span class="line"><span class="built_in">cd</span> /d %blogRootPath%</span><br><span class="line"></span><br><span class="line">:step1</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> C:新建博文并编辑</span><br><span class="line"><span class="built_in">echo</span> R:重新clean并构建</span><br><span class="line"><span class="built_in">echo</span> S:本地预览</span><br><span class="line"><span class="built_in">echo</span> D:部署到GitHub</span><br><span class="line"><span class="built_in">echo</span> E:结束执行</span><br><span class="line"><span class="built_in">echo</span> A:部署到GitHub后开启本地预览</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">set</span> /p o=请选择以下操作?(C R S D E A):</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;c&quot;</span> goto c</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;r&quot;</span> goto r</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;s&quot;</span> goto s</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;d&quot;</span> goto d</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;e&quot;</span> goto e</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;a&quot;</span> goto a</span><br><span class="line"></span><br><span class="line">goto step1</span><br><span class="line">:d</span><br><span class="line">call hexo d	</span><br><span class="line"><span class="built_in">echo</span>  部署到GitHub上完成...</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">:e</span><br><span class="line"><span class="built_in">echo</span> 脚本执行结束！</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">:s</span><br><span class="line">call hexo s</span><br><span class="line"><span class="built_in">echo</span>  本地启动完成...预览地址：http://localhost:4000/</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">:A</span><br><span class="line">call hexo d</span><br><span class="line"><span class="built_in">echo</span> 部署到GitHub上完成...</span><br><span class="line">call hexo s</span><br><span class="line"><span class="built_in">echo</span> 本地启动完成...预览地址：http://localhost:4000/</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">:C</span><br><span class="line">goto step4</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">:R</span><br><span class="line">goto step2</span><br><span class="line"></span><br><span class="line">::clean</span><br><span class="line">:step2</span><br><span class="line"><span class="built_in">echo</span> Please <span class="built_in">wait</span></span><br><span class="line">call hexo clean</span><br><span class="line"><span class="built_in">echo</span> clean清除完成...</span><br><span class="line"></span><br><span class="line">::generate</span><br><span class="line">:step3</span><br><span class="line">call hexo g</span><br><span class="line"><span class="built_in">echo</span> generate 构建完成...</span><br><span class="line">goto step1</span><br><span class="line"></span><br><span class="line">::新建博文并编辑</span><br><span class="line">:step4</span><br><span class="line"><span class="built_in">set</span> /p name=input name:</span><br><span class="line"><span class="built_in">echo</span> name:%name%</span><br><span class="line"><span class="built_in">echo</span> please <span class="built_in">wait</span></span><br><span class="line">call hexo new post %name%</span><br><span class="line">call start /d <span class="string">&quot;%idePath%&quot;</span> %ideName% <span class="string">&quot;%blogSrcPath%\%name%.md&quot;</span></span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-
-<h1 id="四、后续优化"><a href="#四、后续优化" class="headerlink" title="四、后续优化"></a>四、后续优化</h1><p>本次优化实现了执行完hexo d部署静态文件后，执行了上传博客源文件的步骤，这样保证不经博文是最新的，博客的源文件也是最新的，换个电脑拉下来即可接着写内容，实现效果</p>
-<p><img src="/2021/11/13/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87%EF%BC%88%E4%BA%8C%EF%BC%89/image-20211115015102520.png" alt="image-20211115015102520"></p>
-<p>修改部分内容如下，需要的可以改在脚本上即可：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">:d</span><br><span class="line">call hexo d	</span><br><span class="line">echo **********************************************     </span><br><span class="line">echo.</span><br><span class="line">echo       部署到GitHub上完成</span><br><span class="line">echo.</span><br><span class="line">echo **********************************************</span><br><span class="line">echo.</span><br><span class="line">echo.</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;提交博客源文件&quot;</span><br><span class="line">git push origin hexoSrc</span><br><span class="line">echo **********************************************     </span><br><span class="line">echo.</span><br><span class="line">echo       提交博客源文件完成</span><br><span class="line">echo.</span><br><span class="line">echo **********************************************</span><br><span class="line">pause</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>效率</tag>
-        <tag>hexo</tag>
-        <tag>bat</tag>
-        <tag>脚本</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>服务注册中心</title>
     <url>/2022/07/07/%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</url>
     <content><![CDATA[<p>分布式微服务项目离不开服务注册与发现，文章通过记录主流服务注册中心，并列举其差异对比进行核心内容学习。主要包含 Nacos、Zookeeper、Eureka、Consul、Etcd 。</p>
@@ -4062,7 +3901,25 @@
 
 
 
-<h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1>]]></content>
+<h2 id="2、Eureka"><a href="#2、Eureka" class="headerlink" title="2、Eureka"></a>2、Eureka</h2><h3 id="一、基础架构"><a href="#一、基础架构" class="headerlink" title="一、基础架构"></a>一、基础架构</h3><p><img src="http://lzcoder.cn/image-20220708180524528.png" alt="image-20220708180524528"></p>
+<ol>
+<li>服务提供者：client，项目启动后，会向Eureka Server注册中心注册，并通过心跳来续约保持节点联系</li>
+<li>Eureka Server注册中心：需要自己创建工程，client需要引入eureka client的相关jar，并进行相关配置，微服务才能和Eureka Server建立联系</li>
+<li>客户端消费者：客户端消费者会定期拉取Eureka Server注册中心服务列表，并以缓存形式保存</li>
+</ol>
+<h3 id="二、交互流程及原理"><a href="#二、交互流程及原理" class="headerlink" title="二、交互流程及原理"></a>二、交互流程及原理</h3><p><img src="http://lzcoder.cn/image-20220708181105244.png" alt="image-20220708181105244"></p>
+<p>Eureka包含两个组件：Eureka Server 和 Eureka Client，Eureka是一个Java客户端，用于简化与Eureka Server的交互；Eureka Server提供服务发现的能力，各个微服务启动时，会通过Eureka Client向Eureka Server 注册自己的信息（例如网络信息），Eureka Server会存储该服务的信息</p>
+<ol>
+<li>图中us-east-1c、us-east-1d、us-east-1e 代表不同的地区也就是不同的机房</li>
+<li>图中每一个Eureka Server都是一个集群</li>
+<li>图中Application Service 作为服务提供者向Eureka Server中注册服务，Eureka Server接收到注册事件会在集群和分区中进行数据同步，Application Client作为消费端（服务消费者）可以从Eureka Server中获取到服务注册信息，进行服务调用</li>
+<li>微服务启动后，会周期性的向Eureka Server发送心跳（默认周期为30秒）</li>
+<li>Eureka Server在一定时间内没有接收到某个微服务的心跳，Eureka Server 将会注销该微服务节点（默认90秒）</li>
+<li>每个Eureka Server同时也是Eureka Client，多个Eureka Server之间通过复制的方式完成服务注册列表的同步</li>
+<li>Eureka Client<strong>会缓存Eureka Server中的信息。即使所有的EureKa Server节点都宕掉，服务消费者依然可以使用缓存中的信息找到服务提供者</strong></li>
+</ol>
+<p><strong>Eureka通过心跳检测、健康检查和客户端缓存等机制，提高系统的灵活性、可伸缩性和可用性</strong></p>
+<h3 id="三、搭建单例Eureka-Server-服务注册中心"><a href="#三、搭建单例Eureka-Server-服务注册中心" class="headerlink" title="三、搭建单例Eureka Server 服务注册中心"></a>三、搭建单例Eureka Server 服务注册中心</h3>]]></content>
       <categories>
         <category>微服务</category>
       </categories>
@@ -4117,6 +3974,210 @@
         <tag>hexo</tag>
         <tag>bat</tag>
         <tag>脚本</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>本地搭建hexo博客并上传github</title>
+    <url>/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/</url>
+    <content><![CDATA[<p>一、下载安装Nodejs</p>
+<p><a href="https://nodejs.org/en/">官网下载地址</a></p>
+<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-1024x331.png" alt="此图片的alt属性为空；文件名为image-1024x331.png"></p>
+<span id="more"></span>
+
+<p>安装 下一步下一步正常安装即可</p>
+
+<img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-1.png" alt="此图片的alt属性为空；文件名为image-1.png" style="zoom:50%;">
+
+<p> 二、配置环境变量</p>
+<ol><li>找到nodejs安装路径，我本地安装路径：D:\installsoftware\nodejs</li><li>将安装路径配置到path： 计算机-属性-高级系统设置-环境变量-系统变量-path </li><li>校验，win+r 输入cmd，在命令窗户输入 node -v查看nodejs版本，正常输出则安装成功</li></ol>
+
+<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-2.png" alt="此图片的alt属性为空；文件名为image-2.png"></p>
+<p>三、安装hexo是借助npm安装，由于国内安装镜像源速度很慢，可以借助淘宝cnpm安装</p>
+
+<p>1、命令行输入：npm install -g cnpm --registry=https://registry.npm.taobao.org</p>
+
+<img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-4-1024x467.png" alt="此图片的alt属性为空；文件名为image-4-1024x467.png" style="zoom:67%;">
+
+<p>2、 命令行输入：cnpm install -g hexo-cli 安装hexo</p>
+
+<img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-5-1024x467.png" alt="此图片的alt属性为空；文件名为image-5-1024x467.png" style="zoom:67%;">
+
+<p> 3、 新建blog目录，存放博客</p>
+
+<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-6.png" alt="此图片的alt属性为空；文件名为image-6.png"></p>
+<p>4、 命令行输入 hexo init 初始化hexo</p>
+
+<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-7.png" alt="此图片的alt属性为空；文件名为image-7.png"></p>
+<p>5、 此时hexo安装已经完成，我们通过输入 ls -l会发现hexo初始化会生成以下文件</p>
+
+<img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-8.png" alt="此图片的alt属性为空；文件名为image-8.png" style="zoom:67%;">
+
+<p>6、安装完成，输入命令：hexo s  来启动hexo , 启动完成，浏览器输入http://localhost:4000/ 即可访问hexo博客</p>
+
+<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-9.png" alt="此图片的alt属性为空；文件名为image-9.png"></p>
+<img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-10-1024x597.png" alt="此图片的alt属性为空；文件名为image-10-1024x597.png" style="zoom:50%;">
+
+<p> 四、使用hexo编写博客</p>
+
+<p>1、写一篇新文章</p>
+
+<p>命令行输入： hexo n "我的第一篇博客文章" </p>
+
+<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-11.png" alt="此图片的alt属性为空；文件名为image-11.png"></p>
+<p>使用编辑器或者其他工具修改博客文章</p>
+<p>然后命令行输入：hexo clean 先清理一下</p>
+<p>然后命令行输入：hexo g 重新生成一下博客</p>
+<p>最后命令行输入：hexo s 启动一下，启动完成浏览器输入localhost:4000即可访问博客</p>
+
+<img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-12-1024x705.png" alt="此图片的alt属性为空；文件名为image-12-1024x705.png" style="zoom:67%;">
+
+<img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-13-1024x660.png" alt="此图片的alt属性为空；文件名为image-13-1024x660.png" style="zoom:67%;">
+
+<p>至此hexo博客的搭建和编写已经完成</p>
+
+<p> 五、将hexo博客部署到远端（github）,通过github即可访问博客 </p>
+
+<p>1、github 新建一个仓库</p>
+
+<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-14.png" alt="此图片的alt属性为空；文件名为image-14.png"></p>
+<p>2、注意仓库命名，然后点击create创建仓库即可</p>
+
+<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-15-1024x479.png" alt="此图片的alt属性为空；文件名为image-15-1024x479.png"></p>
+<p> 3、需要在我们间的blog博客文件夹下装一个git部署插件</p>
+
+<p>通过命令行输入：cnpm install --save hexo-deployer-git</p>
+
+<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-16-1024x99.png" alt="此图片的alt属性为空；文件名为image-16-1024x99.png"></p>
+<p>4、需要设置blog目录下的_config.yml，注意yml格式使用空格缩进</p>
+
+<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-17-1024x164.png" alt="此图片的alt属性为空；文件名为image-17-1024x164.png"></p>
+<p>5、保存后，命令行输入：hexo -d 即可部署远程博客，github登录方式调整可能有问题，解决方案看文章下方</p>
+
+<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-19-1024x419.png" alt="此图片的alt属性为空；文件名为image-19-1024x419.png"></p>
+<p>6、部署完成，通过访问 https://liuzhengkaifa.github.io/ 查看博客内容。 </p>
+
+<p>六、问题</p>
+<p>  在命令行 hexo d 部署博客时出现错误</p>
+<p>remote: Support for password authentication was removed on August 13, 2021. Please use a personal access token instead.</p>
+<p>原因时：GitHub不再支持密码验证解决方案：SSH免密与Token登录配置，基于方便我采用了ssh免密方式登录，可参考以下步骤</p>
+**cmd命令窗口需要切换到git安装目录的Git\usr\bin目录下，否则会找不到ssh-keygen命令**
+
+<p>1、本地生成公钥</p>
+<pre class="wp-block-preformatted">ssh-keygen -t rsa -C “835570372@qq.com” </pre>
+<p>接着会提示这个公钥私钥的保存路径-建议直接回车就好（默认目录里)</p>
+<p>接着提示输入私钥密码passphrase - 如果不想使用私钥登录的话，私钥密码为空，直接回车</p>
+
+<p> 2、将公钥配置到github中，用编辑器打开 C:\Users\电脑名\.ssh 目录下的 id_rsa.pub</p>
+
+<p>将内容粘贴到githun配置处</p>
+
+<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-20-1024x440.png" alt="此图片的alt属性为空；文件名为image-20-1024x440.png"></p>
+<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-21-1024x448.png" alt="此图片的alt属性为空；文件名为image-21-1024x448.png"></p>
+<p>3、将_config.yml文件的repo地址改为 ssh方式地址，即可完成正常操作</p>
+
+<p><img src="/2021/11/09/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E4%B8%8A%E4%BC%A0github/image-22.png" alt="此图片的alt属性为空；文件名为image-22.png"></p>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>编写脚本一键部署发布博文（二）</title>
+    <url>/2021/11/13/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
+    <content><![CDATA[<p>上一篇一键发布脚本写好了，但是感觉还是不够方便，所以又进行了一番优化，优化的点主要有以下几方面</p>
+<ol>
+<li>脚本支持<strong>新增博文</strong>功能，只需输入要新建的文章名称，<strong>自动创建博客文章</strong>，<strong>并且会自动运行</strong><code>typora</code>编辑器打开这篇新增博文</li>
+<li><strong>支持重复</strong><code>clean</code>、<code>generate</code>，有时候一次clean编译会由于文件正在使用或者其他原因没有成功，这时我们肯定不希望脚本就此停止了，而是再解决完问题后在这次执行中继续<code>clean</code>,编译</li>
+<li><strong>支持本地运行</strong>，可以通过输入选项来开启本地预览</li>
+<li>支持<strong>单独部署</strong>到<code>GitHub</code>上，解决上一个博客每次部署前都会clean编译问题,有时并不需要</li>
+<li>支持部署到<code>GitHub</code>后的同时，开启本地预览</li>
+</ol>
+<p>哈哈哈~~至此，是不是觉得这个脚本功能还是挺全的</p>
+<span id="more"></span>    
+
+<h1 id="一、脚本整体架构"><a href="#一、脚本整体架构" class="headerlink" title="一、脚本整体架构"></a>一、脚本整体架构</h1><ol>
+<li>脚本采用类似Java中Switch-Case的语法，通过输入的指令来进行对应功能执行</li>
+</ol>
+<p><img src="/2021/11/13/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87%EF%BC%88%E4%BA%8C%EF%BC%89/image-20211113113033319.png" alt="image-20211113113033319"></p>
+<ol start="2">
+<li>脚本可复用性提高，只需要修改几个参数即可实现拿来即用，几个参数均放置在脚本内容上方</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">::此处配置编译器路径，自定义调整</span><br><span class="line">set idePath=&quot;D:\installsoftware\Typora\Typora&quot;</span><br><span class="line"></span><br><span class="line">::此处配置编译器名称，搭配上一条调整</span><br><span class="line">set ideName=&quot;Typora.exe&quot;</span><br><span class="line"></span><br><span class="line">::博客根目录</span><br><span class="line">set blogRootPath=&quot;D:\blog&quot;</span><br><span class="line"></span><br><span class="line">::博文所在目录</span><br><span class="line">set blogSrcPath=&quot;%blogRootPath%\source\_posts&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="二、具体功能"><a href="#二、具体功能" class="headerlink" title="二、具体功能"></a>二、具体功能</h1><h2 id="1、新增博文"><a href="#1、新增博文" class="headerlink" title="1、新增博文"></a>1、新增博文</h2><p>核心代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">::新建博文并编辑</span><br><span class="line">:step4</span><br><span class="line">set /p name=input name:</span><br><span class="line">echo name:%name%</span><br><span class="line">echo please wait</span><br><span class="line">call hexo new post %name%</span><br><span class="line">call start /d &quot;%idePath%&quot; %ideName% &quot;%blogSrcPath%\%name%.md&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>主要是接收一个博文名称，执行hexo new &lt;name&gt; 指令新增博文</li>
+<li>使用<code>start</code>指令运行typora可执行文件打开这篇已创建的博文</li>
+</ol>
+<h2 id="2、单独部署到GitHub"><a href="#2、单独部署到GitHub" class="headerlink" title="2、单独部署到GitHub"></a>2、单独部署到GitHub</h2><p>这个功能没有什么，就是输入指令，然后运行了对应的<code>hexo -d</code> 指令</p>
+<h2 id="3、可重复clean-编译"><a href="#3、可重复clean-编译" class="headerlink" title="3、可重复clean 编译"></a>3、可重复clean 编译</h2><p>哈哈哈，这地方取了个巧，就是在<code>clean</code>,<code>generate</code> 之后，使用goto指令再次指向功能菜单那一步骤</p>
+<h2 id="4、可单独本地预览"><a href="#4、可单独本地预览" class="headerlink" title="4、可单独本地预览"></a>4、可单独本地预览</h2><p>这…可不就是把第二步拿来替换了个指令嘛<code>hexo s</code></p>
+<h1 id="三、结论"><a href="#三、结论" class="headerlink" title="三、结论"></a>三、结论</h1><p>整体看上去没什么技术含量，实际上确实没有，哈哈哈，只是把功能做了个整合。有兴趣的朋友可以试一试哈哈哈</p>
+<p><a href="hexoopt.bat">完成版脚本下载点击</a></p>
+<p>源码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">cls</span><br><span class="line"><span class="built_in">echo</span> **********************************************</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>       hexo  新  增 - 预  览 - 发   布       </span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>       安装请按任意键，退出直接关闭窗口</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> **********************************************</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">pause</span><br><span class="line"></span><br><span class="line">::此处配置编译器路径，自定义调整</span><br><span class="line"><span class="built_in">set</span> idePath=<span class="string">&quot;D:\installsoftware\Typora\Typora&quot;</span></span><br><span class="line">::此处配置编译器名称，搭配上一条调整</span><br><span class="line"><span class="built_in">set</span> ideName=<span class="string">&quot;Typora.exe&quot;</span></span><br><span class="line"></span><br><span class="line">::博客根目录</span><br><span class="line"><span class="built_in">set</span> blogRootPath=<span class="string">&quot;D:\blog&quot;</span></span><br><span class="line">::博文所在目录</span><br><span class="line"><span class="built_in">set</span> blogSrcPath=<span class="string">&quot;%blogRootPath%\source\_posts&quot;</span></span><br><span class="line"></span><br><span class="line">::切换到博客根目录</span><br><span class="line"><span class="built_in">cd</span> /d %blogRootPath%</span><br><span class="line"></span><br><span class="line">:step1</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> C:新建博文并编辑</span><br><span class="line"><span class="built_in">echo</span> R:重新clean并构建</span><br><span class="line"><span class="built_in">echo</span> S:本地预览</span><br><span class="line"><span class="built_in">echo</span> D:部署到GitHub</span><br><span class="line"><span class="built_in">echo</span> E:结束执行</span><br><span class="line"><span class="built_in">echo</span> A:部署到GitHub后开启本地预览</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">set</span> /p o=请选择以下操作?(C R S D E A):</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;c&quot;</span> goto c</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;r&quot;</span> goto r</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;s&quot;</span> goto s</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;d&quot;</span> goto d</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;e&quot;</span> goto e</span><br><span class="line"><span class="keyword">if</span> /i <span class="string">&quot;%o%&quot;</span>==<span class="string">&quot;a&quot;</span> goto a</span><br><span class="line"></span><br><span class="line">goto step1</span><br><span class="line">:d</span><br><span class="line">call hexo d	</span><br><span class="line"><span class="built_in">echo</span>  部署到GitHub上完成...</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">:e</span><br><span class="line"><span class="built_in">echo</span> 脚本执行结束！</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">:s</span><br><span class="line">call hexo s</span><br><span class="line"><span class="built_in">echo</span>  本地启动完成...预览地址：http://localhost:4000/</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">:A</span><br><span class="line">call hexo d</span><br><span class="line"><span class="built_in">echo</span> 部署到GitHub上完成...</span><br><span class="line">call hexo s</span><br><span class="line"><span class="built_in">echo</span> 本地启动完成...预览地址：http://localhost:4000/</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">:C</span><br><span class="line">goto step4</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">:R</span><br><span class="line">goto step2</span><br><span class="line"></span><br><span class="line">::clean</span><br><span class="line">:step2</span><br><span class="line"><span class="built_in">echo</span> Please <span class="built_in">wait</span></span><br><span class="line">call hexo clean</span><br><span class="line"><span class="built_in">echo</span> clean清除完成...</span><br><span class="line"></span><br><span class="line">::generate</span><br><span class="line">:step3</span><br><span class="line">call hexo g</span><br><span class="line"><span class="built_in">echo</span> generate 构建完成...</span><br><span class="line">goto step1</span><br><span class="line"></span><br><span class="line">::新建博文并编辑</span><br><span class="line">:step4</span><br><span class="line"><span class="built_in">set</span> /p name=input name:</span><br><span class="line"><span class="built_in">echo</span> name:%name%</span><br><span class="line"><span class="built_in">echo</span> please <span class="built_in">wait</span></span><br><span class="line">call hexo new post %name%</span><br><span class="line">call start /d <span class="string">&quot;%idePath%&quot;</span> %ideName% <span class="string">&quot;%blogSrcPath%\%name%.md&quot;</span></span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+<h1 id="四、后续优化"><a href="#四、后续优化" class="headerlink" title="四、后续优化"></a>四、后续优化</h1><p>本次优化实现了执行完hexo d部署静态文件后，执行了上传博客源文件的步骤，这样保证不经博文是最新的，博客的源文件也是最新的，换个电脑拉下来即可接着写内容，实现效果</p>
+<p><img src="/2021/11/13/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87%EF%BC%88%E4%BA%8C%EF%BC%89/image-20211115015102520.png" alt="image-20211115015102520"></p>
+<p>修改部分内容如下，需要的可以改在脚本上即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">:d</span><br><span class="line">call hexo d	</span><br><span class="line">echo **********************************************     </span><br><span class="line">echo.</span><br><span class="line">echo       部署到GitHub上完成</span><br><span class="line">echo.</span><br><span class="line">echo **********************************************</span><br><span class="line">echo.</span><br><span class="line">echo.</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;提交博客源文件&quot;</span><br><span class="line">git push origin hexoSrc</span><br><span class="line">echo **********************************************     </span><br><span class="line">echo.</span><br><span class="line">echo       提交博客源文件完成</span><br><span class="line">echo.</span><br><span class="line">echo **********************************************</span><br><span class="line">pause</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>效率</tag>
+        <tag>hexo</tag>
+        <tag>bat</tag>
+        <tag>脚本</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>通过指令快速打开软件</title>
+    <url>/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/</url>
+    <content><![CDATA[<p>每次桌面打开一堆页面，再想要去打开一个新的软件，如何不用返回屏幕也不用触碰鼠标快速秒开软件呢，</p>
+<span id="more"></span>
+
+<h1 id="一、建立文件夹"><a href="#一、建立文件夹" class="headerlink" title="一、建立文件夹"></a>一、建立文件夹</h1><ol>
+<li><p>首先在任意位置建个文件夹</p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111175928832.png" alt="image-20211111175928832"></p>
+</li>
+</ol>
+<h1 id="二、将文件目录配到环境变量中"><a href="#二、将文件目录配到环境变量中" class="headerlink" title="二、将文件目录配到环境变量中"></a>二、将文件目录配到环境变量中</h1><ol>
+<li>点击桌面此电脑 右击 选择属性</li>
+<li>点击高级系统设置，弹出页面点击环境变量</li>
+</ol>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180102457.png" alt="image-20211111180102457"></p>
+<ol start="3">
+<li>选中Path然后点解编辑</li>
+</ol>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180233166.png" alt="image-20211111180233166"></p>
+<ol start="4">
+<li>点击新建，将新建的文件夹路径配置进去，然后点击确定完成操作</li>
+</ol>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180406382.png" alt="image-20211111180406382"></p>
+<h1 id="三、存放快捷方式"><a href="#三、存放快捷方式" class="headerlink" title="三、存放快捷方式"></a>三、存放快捷方式</h1><p><strong>将一些常用的软件快捷方式按照自己习惯命名放到新建的文件夹中</strong></p>
+<img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180543035.png" alt="image-20211111180543035" style="zoom:67%;">
+
+<p><strong>这样在任意界面都可以通过快捷键Win+R调出左下角运行输入框</strong></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180706062.png" alt="image-20211111180706062"></p>
+<p><strong>输入自己命名的快捷方式（直接输过的敲一个字母就会带出来）回车边立即打开相应软件</strong></p>
+<p>是不是相当nice~~~~</p>
+]]></content>
+      <categories>
+        <category>效率</category>
+      </categories>
+      <tags>
+        <tag>技巧</tag>
       </tags>
   </entry>
   <entry>
@@ -4189,36 +4250,31 @@
       </tags>
   </entry>
   <entry>
-    <title>通过指令快速打开软件</title>
-    <url>/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/</url>
-    <content><![CDATA[<p>每次桌面打开一堆页面，再想要去打开一个新的软件，如何不用返回屏幕也不用触碰鼠标快速秒开软件呢，</p>
-<span id="more"></span>
+    <title>通过共享实现电脑间文件传递</title>
+    <url>/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/</url>
+    <content><![CDATA[<p><strong>背景：在办公时，你要发给小明一个很大的文件，u盘存放不下，且传输速度慢，怎么解决</strong></p>
+<p><strong>一、在你一个本地空间新建一个文件夹FileReceive</strong></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/a8b1afbf5bbc430bb3b4132767d35975.png" alt="img"></p>
+<span id="more"></span> 
 
-<h1 id="一、建立文件夹"><a href="#一、建立文件夹" class="headerlink" title="一、建立文件夹"></a>一、建立文件夹</h1><ol>
-<li><p>首先在任意位置建个文件夹</p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111175928832.png" alt="image-20211111175928832"></p>
-</li>
-</ol>
-<h1 id="二、将文件目录配到环境变量中"><a href="#二、将文件目录配到环境变量中" class="headerlink" title="二、将文件目录配到环境变量中"></a>二、将文件目录配到环境变量中</h1><ol>
-<li>点击桌面此电脑 右击 选择属性</li>
-<li>点击高级系统设置，弹出页面点击环境变量</li>
-</ol>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180102457.png" alt="image-20211111180102457"></p>
-<ol start="3">
-<li>选中Path然后点解编辑</li>
-</ol>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180233166.png" alt="image-20211111180233166"></p>
-<ol start="4">
-<li>点击新建，将新建的文件夹路径配置进去，然后点击确定完成操作</li>
-</ol>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180406382.png" alt="image-20211111180406382"></p>
-<h1 id="三、存放快捷方式"><a href="#三、存放快捷方式" class="headerlink" title="三、存放快捷方式"></a>三、存放快捷方式</h1><p><strong>将一些常用的软件快捷方式按照自己习惯命名放到新建的文件夹中</strong></p>
-<img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180543035.png" alt="image-20211111180543035" style="zoom:67%;">
-
-<p><strong>这样在任意界面都可以通过快捷键Win+R调出左下角运行输入框</strong></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/image-20211111180706062.png" alt="image-20211111180706062"></p>
-<p><strong>输入自己命名的快捷方式（直接输过的敲一个字母就会带出来）回车边立即打开相应软件</strong></p>
-<p>是不是相当nice~~~~</p>
+<p><strong>二、右键属性，点击共享</strong></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/be1e6ae5c2c84f1bb3c19ddb4f1d4e5f.png" alt="img"></p>
+<p> <strong>三、选择共享账号为everyone,这之后会有一个窗口提示共享已完成，点击右下角的“完成”按钮</strong></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/928ca4e2ef13437e9c5ff9df90a4354e.png" alt="img"></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/e36c11e7ffcb41c0bad8c815f78ca397.png" alt="img"></p>
+<p> <strong>四、虽然现在共享给了Everyone，但是组和用户那里却没有Everyone，需要另行添加。点击箭头所指处的“编辑”。</strong></p>
+<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1b9e8951ac1c4a6bbf8423b51bf8e5a9.png" alt="img"></p>
+<p> <strong>五、在“FileReceive的权限”窗口中点击箭头所指处的“添加”。</strong></p>
+<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/db762c242f92479fb1d54b29811ec9d3.png" alt="img"></p>
+<p> <strong>六、在“选择组和用户”窗口中点击“高级”。</strong> </p>
+<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/6eb3ea6e500e4c34a5819aa5b3ee1e86.png" alt="img"></p>
+<p>  <strong>七、点击“立即查找”，在搜索结果中找到Everyone，双击添加，然后点击确定。</strong></p>
+<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/404e1f88728941e58813c17682d28bc6.png" alt="img"></p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/7ca724ffe1054cddaa33d96830dc79ca.png" alt="img"></p>
+<p>  <strong>八、勾选Everyone的所有权限，如下图所示，然后点击“应用”，“确定”。</strong> </p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/d1e03223471b4548ac96e8e7929576e6.png" alt="img"></p>
+<p>  <strong>九、使用win+r快捷键调出运行窗口，输入\+IP地址，连接至电脑B的共享。</strong> </p>
+<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1bbc15b8aa784bfe8fb8a3faad79768f.png" alt="img"></p>
 ]]></content>
       <categories>
         <category>效率</category>
@@ -4401,40 +4457,6 @@
         <tag>kafka</tag>
         <tag>SpringBoot</tag>
         <tag>filebeat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>通过共享实现电脑间文件传递</title>
-    <url>/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/</url>
-    <content><![CDATA[<p><strong>背景：在办公时，你要发给小明一个很大的文件，u盘存放不下，且传输速度慢，怎么解决</strong></p>
-<p><strong>一、在你一个本地空间新建一个文件夹FileReceive</strong></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/a8b1afbf5bbc430bb3b4132767d35975.png" alt="img"></p>
-<span id="more"></span> 
-
-<p><strong>二、右键属性，点击共享</strong></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/be1e6ae5c2c84f1bb3c19ddb4f1d4e5f.png" alt="img"></p>
-<p> <strong>三、选择共享账号为everyone,这之后会有一个窗口提示共享已完成，点击右下角的“完成”按钮</strong></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/928ca4e2ef13437e9c5ff9df90a4354e.png" alt="img"></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/e36c11e7ffcb41c0bad8c815f78ca397.png" alt="img"></p>
-<p> <strong>四、虽然现在共享给了Everyone，但是组和用户那里却没有Everyone，需要另行添加。点击箭头所指处的“编辑”。</strong></p>
-<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1b9e8951ac1c4a6bbf8423b51bf8e5a9.png" alt="img"></p>
-<p> <strong>五、在“FileReceive的权限”窗口中点击箭头所指处的“添加”。</strong></p>
-<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/db762c242f92479fb1d54b29811ec9d3.png" alt="img"></p>
-<p> <strong>六、在“选择组和用户”窗口中点击“高级”。</strong> </p>
-<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/6eb3ea6e500e4c34a5819aa5b3ee1e86.png" alt="img"></p>
-<p>  <strong>七、点击“立即查找”，在搜索结果中找到Everyone，双击添加，然后点击确定。</strong></p>
-<p> <img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/404e1f88728941e58813c17682d28bc6.png" alt="img"></p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/7ca724ffe1054cddaa33d96830dc79ca.png" alt="img"></p>
-<p>  <strong>八、勾选Everyone的所有权限，如下图所示，然后点击“应用”，“确定”。</strong> </p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/d1e03223471b4548ac96e8e7929576e6.png" alt="img"></p>
-<p>  <strong>九、使用win+r快捷键调出运行窗口，输入\+IP地址，连接至电脑B的共享。</strong> </p>
-<p><img src="/2021/11/11/%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%84%91%E9%97%B4%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%92/1bbc15b8aa784bfe8fb8a3faad79768f.png" alt="img"></p>
-]]></content>
-      <categories>
-        <category>效率</category>
-      </categories>
-      <tags>
-        <tag>技巧</tag>
       </tags>
   </entry>
 </search>
