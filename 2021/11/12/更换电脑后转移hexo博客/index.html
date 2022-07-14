@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/photo.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/photo.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/photo.jpg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false,"scrollpercent":"true   //返回顶部按钮的百分比"},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="刚了解hexo的时候就在考虑换电脑怎么转移博客，偶然机会看到了好朋友的博客，感觉很有帮助，然后也在这边做个记录，冲冲博客数量吧，哈哈哈哈~ 毕竟只是有限，只能做个搬运工好朋友的博客；博客搞得相当好，有兴趣可以收藏哈哈哈哈~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="更换电脑后转移hexo博客">
+<meta property="og:url" content="http://example.com/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/index.html">
+<meta property="og:site_name" content="程序小牛">
+<meta property="og:description" content="刚了解hexo的时候就在考虑换电脑怎么转移博客，偶然机会看到了好朋友的博客，感觉很有帮助，然后也在这边做个记录，冲冲博客数量吧，哈哈哈哈~ 毕竟只是有限，只能做个搬运工好朋友的博客；博客搞得相当好，有兴趣可以收藏哈哈哈哈~">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112221829134.png">
+<meta property="og:image" content="http://example.com/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112222236357.png">
+<meta property="og:image" content="http://example.com/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112222828591.png">
+<meta property="og:image" content="http://example.com/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112223130553.png">
+<meta property="og:image" content="http://example.com/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112223510668.png">
+<meta property="og:image" content="http://example.com/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112225520915.png">
+<meta property="og:image" content="http://example.com/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112230449539.png">
+<meta property="og:image" content="http://example.com/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211115013154223.png">
+<meta property="og:image" content="http://example.com/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211115013227999.png">
+<meta property="og:image" content="http://example.com/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211115014102204.png">
+<meta property="article:published_time" content="2021-11-12T14:02:42.000Z">
+<meta property="article:modified_time" content="2021-11-15T01:36:21.622Z">
+<meta property="article:author" content="coder-Man">
+<meta property="article:tag" content="hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112221829134.png">
+
+<link rel="canonical" href="http://example.com/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>更换电脑后转移hexo博客 | 程序小牛</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="程序小牛" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">程序小牛</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">来了就随便看看，虽然没有什么好看的~~</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home           //首页 fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user   //关于 fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags    //标签 fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th    //分类 fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive     //归档 fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/photo.jpg">
+      <meta itemprop="name" content="coder-Man">
+      <meta itemprop="description" content="知识分享，日常记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程序小牛">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          更换电脑后转移hexo博客
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021年11月12号 22:02:42" itemprop="dateCreated datePublished" datetime="2021-11-12T22:02:42+08:00">2021年11月12号</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021年11月15号 09:36:21" itemprop="dateModified" datetime="2021-11-15T09:36:21+08:00">2021年11月15号</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>刚了解hexo的时候就在考虑换电脑怎么转移博客，偶然机会看到了好朋友的博客，感觉很有帮助，然后也在这边做个记录，冲冲博客数量吧，哈哈哈哈~</p>
+<p>毕竟只是有限，只能做个搬运工<a target="_blank" rel="noopener" href="https://small-brilliant.github.io/2021/03/12/%E6%8D%A2%E7%94%B5%E8%84%91%E4%BA%86%E6%88%91%E7%9A%84Bolg%E6%80%8E%E4%B9%88%E5%8A%9E/">好朋友的博客</a>；博客搞得相当好，有兴趣可以收藏哈哈哈哈~</p>
+<span id="more"></span>
+
+<h1 id="一、思路"><a href="#一、思路" class="headerlink" title="一、思路"></a>一、思路</h1><p>备份的大致思路就是</p>
+<ol>
+<li>在原有静态文件的GIt仓库新建一个分支，克隆到本地，然后本地在这个分支的管控下删除所有内容后提交，这样就相当于有了一个干净的分支</li>
+<li>把博客的文件目录复制过来，然后再删除复制过来的版本信息，提交后push到远程分支</li>
+<li>新电脑安装node.js，hexo后拉下该分支，使用该分支开发</li>
+</ol>
+<h1 id="二、具体步骤"><a href="#二、具体步骤" class="headerlink" title="二、具体步骤"></a>二、具体步骤</h1><h2 id="1、建立一个新的分支hexoSrc"><a href="#1、建立一个新的分支hexoSrc" class="headerlink" title="1、建立一个新的分支hexoSrc"></a>1、建立一个新的分支hexoSrc</h2><h4 id="（一）GitHub进入到hexo项目里"><a href="#（一）GitHub进入到hexo项目里" class="headerlink" title="（一）GitHub进入到hexo项目里"></a>（一）GitHub进入到hexo项目里</h4><p><img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112221829134.png" alt="image-20211112221829134"></p>
+<h4 id="（二）新建-分支"><a href="#（二）新建-分支" class="headerlink" title="（二）新建 分支"></a>（二）新建 分支</h4><p>点击master按钮，在弹出的框内输入新的分支名称，例如我的起名<strong>hexoSrc</strong></p>
+<img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112222236357.png" alt="image-20211112222236357" style="zoom: 67%;">
+
+<h2 id="2、将原有的博客内容push到新分支上"><a href="#2、将原有的博客内容push到新分支上" class="headerlink" title="2、将原有的博客内容push到新分支上"></a>2、将原有的博客内容push到新分支上</h2><h4 id="（一）在任意目录下打开Git-Bash命令窗口，克隆新分支内容"><a href="#（一）在任意目录下打开Git-Bash命令窗口，克隆新分支内容" class="headerlink" title="（一）在任意目录下打开Git Bash命令窗口，克隆新分支内容"></a>（一）在任意目录下打开Git Bash命令窗口，克隆新分支内容</h4><p><img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112222828591.png" alt="image-20211112222828591"></p>
+<p><img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112223130553.png" alt="image-20211112223130553"></p>
+<h4 id="（二）清楚拉下来的分支内容提交，然后拷贝一份源文件提交"><a href="#（二）清楚拉下来的分支内容提交，然后拷贝一份源文件提交" class="headerlink" title="（二）清楚拉下来的分支内容提交，然后拷贝一份源文件提交"></a>（二）清楚拉下来的分支内容提交，然后拷贝一份源文件提交</h4><ol>
+<li>第一次新拉下来分支是<code>master</code>，这是我们需要切换到我们创建的新分支上去</li>
+</ol>
+<p><img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112223510668.png" alt="image-20211112223510668"></p>
+<ol start="2">
+<li>执行git <code>checkout -b</code> &lt;新分支名称&gt; &lt;远程分支&gt; 切换到新分支</li>
+</ol>
+<p><img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112225520915.png" alt="image-20211112225520915"></p>
+<ol start="3">
+<li>删除除去.git目录外所有信息，并提交</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add -A</span><br><span class="line">git commit -m &quot;删除该分支内容，准备放源文件&quot;</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>上传源文件。将我们之前写博客的文件夹里面的所有文件复制过来，<strong>除了</strong><code>.deploy_git</code>。<strong>如果你有自定义的主题的话</strong>，一定要删除主题文件中的<code>.git</code>文件夹，因为<code>git</code>不能嵌套上传。然后在这个文件夹打开<code>git bash</code>。输入下面命令，就上传了。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit –m &quot;上传博客源文件&quot;</span><br><span class="line">git push </span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211112230449539.png" alt="image-20211112230449539"></p>
+<h4 id="（三）github将新建的分支hexoSrc设置为默认分支"><a href="#（三）github将新建的分支hexoSrc设置为默认分支" class="headerlink" title="（三）github将新建的分支hexoSrc设置为默认分支"></a>（三）github将新建的分支hexoSrc设置为默认分支</h4><p>依次点击 settings&gt;&gt;Branches&gt;&gt;switch</p>
+<p><img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211115013154223.png" alt="image-20211115013154223"></p>
+<p>在弹出的框内选择新建的分支hexoSrc,点击update</p>
+<p><img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211115013227999.png" alt="image-20211115013227999"></p>
+<h4 id="（四）将博客源码纳入git版本控制"><a href="#（四）将博客源码纳入git版本控制" class="headerlink" title="（四）将博客源码纳入git版本控制"></a>（四）将博客源码纳入git版本控制</h4><p>我们可以在一个空文件夹执行克隆操作，拉下来一份之前提交下来的源码，将文件夹下的.git拷贝到我们现在博客的根目录下即可</p>
+<p>因为博客静态文件在配置里设置的提交分支master,所以我们本地保持分支状态和默认分支一样为hexoSrc即可</p>
+<p><img src="/2021/11/12/%E6%9B%B4%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E%E8%BD%AC%E7%A7%BBhexo%E5%8D%9A%E5%AE%A2/image-20211115014102204.png" alt="image-20211115014102204"></p>
+<p>我们在执行完hexo clean 、hexo g、hexo d后即可通过</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;提交博客源文件&quot;</span><br><span class="line">git push origin hexoSrc</span><br></pre></td></tr></table></figure>
+
+<p>来完成源码的上传</p>
+<h2 id="3、新电脑环境使用新分支继续博客编写"><a href="#3、新电脑环境使用新分支继续博客编写" class="headerlink" title="3、新电脑环境使用新分支继续博客编写"></a>3、新电脑环境使用新分支继续博客编写</h2><ol>
+<li>安装<code>git</code>和<code>node.js</code></li>
+<li>设置<code>git</code>全局邮箱和用户名</li>
+<li>新电脑生成公钥，将公钥配置到Github上</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yourgithubname&quot;</span><br><span class="line">git config --global user.email &quot;yourgithubemail&quot;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>安装<code>hexo</code>但是不需要初始化。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>然后进入克隆到的文件夹。安装环境</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone XXX.git</span><br><span class="line">npm install</span><br><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>验证</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>然后就可以开始写你的新博客了。每次写完都要把源文件上传一下。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit –m &quot;xxxx&quot;</span><br><span class="line">git push </span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>如果是在已经编辑过的电脑上，已经有clone文件夹了，那么，每次只要和远端同步一下就行了。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull --rebase</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/hexo/" rel="tag"># hexo</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/11/%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6/" rel="prev" title="通过指令快速打开软件">
+      <i class="fa fa-chevron-left"></i> 通过指令快速打开软件
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/12/%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%8D%9A%E6%96%87%EF%BC%88%E4%B8%80%EF%BC%89/" rel="next" title="编写脚本一键部署发布博文 (一)">
+      编写脚本一键部署发布博文 (一) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%80%9D%E8%B7%AF"><span class="nav-text">一、思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%85%B7%E4%BD%93%E6%AD%A5%E9%AA%A4"><span class="nav-text">二、具体步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E5%88%86%E6%94%AFhexoSrc"><span class="nav-text">1、建立一个新的分支hexoSrc</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89GitHub%E8%BF%9B%E5%85%A5%E5%88%B0hexo%E9%A1%B9%E7%9B%AE%E9%87%8C"><span class="nav-text">（一）GitHub进入到hexo项目里</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E6%96%B0%E5%BB%BA-%E5%88%86%E6%94%AF"><span class="nav-text">（二）新建 分支</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E5%B0%86%E5%8E%9F%E6%9C%89%E7%9A%84%E5%8D%9A%E5%AE%A2%E5%86%85%E5%AE%B9push%E5%88%B0%E6%96%B0%E5%88%86%E6%94%AF%E4%B8%8A"><span class="nav-text">2、将原有的博客内容push到新分支上</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%9C%A8%E4%BB%BB%E6%84%8F%E7%9B%AE%E5%BD%95%E4%B8%8B%E6%89%93%E5%BC%80Git-Bash%E5%91%BD%E4%BB%A4%E7%AA%97%E5%8F%A3%EF%BC%8C%E5%85%8B%E9%9A%86%E6%96%B0%E5%88%86%E6%94%AF%E5%86%85%E5%AE%B9"><span class="nav-text">（一）在任意目录下打开Git Bash命令窗口，克隆新分支内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B8%85%E6%A5%9A%E6%8B%89%E4%B8%8B%E6%9D%A5%E7%9A%84%E5%88%86%E6%94%AF%E5%86%85%E5%AE%B9%E6%8F%90%E4%BA%A4%EF%BC%8C%E7%84%B6%E5%90%8E%E6%8B%B7%E8%B4%9D%E4%B8%80%E4%BB%BD%E6%BA%90%E6%96%87%E4%BB%B6%E6%8F%90%E4%BA%A4"><span class="nav-text">（二）清楚拉下来的分支内容提交，然后拷贝一份源文件提交</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%88%E4%B8%89%EF%BC%89github%E5%B0%86%E6%96%B0%E5%BB%BA%E7%9A%84%E5%88%86%E6%94%AFhexoSrc%E8%AE%BE%E7%BD%AE%E4%B8%BA%E9%BB%98%E8%AE%A4%E5%88%86%E6%94%AF"><span class="nav-text">（三）github将新建的分支hexoSrc设置为默认分支</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%88%E5%9B%9B%EF%BC%89%E5%B0%86%E5%8D%9A%E5%AE%A2%E6%BA%90%E7%A0%81%E7%BA%B3%E5%85%A5git%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6"><span class="nav-text">（四）将博客源码纳入git版本控制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E6%96%B0%E7%94%B5%E8%84%91%E7%8E%AF%E5%A2%83%E4%BD%BF%E7%94%A8%E6%96%B0%E5%88%86%E6%94%AF%E7%BB%A7%E7%BB%AD%E5%8D%9A%E5%AE%A2%E7%BC%96%E5%86%99"><span class="nav-text">3、新电脑环境使用新分支继续博客编写</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="coder-Man"
+      src="/images/photo.jpg">
+  <p class="site-author-name" itemprop="name">coder-Man</p>
+  <div class="site-description" itemprop="description">知识分享，日常记录</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+    
+    <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+    <div class="widget-wrap">
+        <div id="myCanvasContainer" class="widget tagcloud">
+            <canvas width="250" height="250" id="resCanvas" style="width=100%">
+                <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MyBatisPlus/" rel="tag">MyBatisPlus</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bat/" rel="tag">bat</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hash/" rel="tag">hash</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%88%E7%8E%87/" rel="tag">效率</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95/" rel="tag">索引</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag">脚本</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a><span class="tag-list-count">1</span></li></ul>
+            </canvas>
+        </div>
+    </div>
+    
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">coder-Man</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">141k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:08</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

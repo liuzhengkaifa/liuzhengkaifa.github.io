@@ -295,14 +295,7 @@
 </ul>
 <h2 id="五、实用网站"><a href="#五、实用网站" class="headerlink" title="五、实用网站"></a>五、实用网站</h2><h3 id="1-分秒帧"><a href="#1-分秒帧" class="headerlink" title="1.分秒帧"></a>1.<a href="https://app.mediatrack.cn/">分秒帧</a></h3><p>用这个网站登录之后就相当于有了一块无限制大小的网盘，不限速哦~，如果担心资源安全问题，上传一些软件、学习课程类的相当方便</p>
 <h3 id="2-蓝奏云"><a href="#2-蓝奏云" class="headerlink" title="2.蓝奏云"></a>2.<a href="https://up.woozooo.com/u">蓝奏云</a></h3><p>下载速度块，单个文件大小有限制，只能上传100M以下软件</p>
-<h2 id="六、常用软件安装方法"><a href="#六、常用软件安装方法" class="headerlink" title="六、常用软件安装方法"></a>六、常用软件安装方法</h2>
-
-	<div class="row">
-    <embed src="http://lzcoder.cn/编程环境和软件工具安装手册.pdf" width="100%" height="550" type="application/pdf">
-	</div>
-
-
-
+<h2 id="六、常用软件安装方法"><a href="#六、常用软件安装方法" class="headerlink" title="六、常用软件安装方法"></a>六、常用软件安装方法</h2><div class="pdfobject-container" data-target="http://lzcoder.cn/编程环境和软件工具安装手册.pdf" data-height="500px"></div>
 
 
 
@@ -1658,8 +1651,8 @@
         <category>java</category>
       </categories>
       <tags>
-        <tag>MySQL</tag>
         <tag>java</tag>
+        <tag>MySQL</tag>
         <tag>kafka</tag>
         <tag>SpringBoot</tag>
         <tag>filebeat</tag>
