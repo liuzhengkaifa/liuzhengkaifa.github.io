@@ -8,6 +8,18 @@ abbrlink: 894
 date: 2021-11-11 09:35:35
 ---
 
+```
+防火墙相关：
+1.查看防火墙状态：firewall-cmd --state
+2.查看已经开放的端口: firewall-cmd --list-ports
+3.开放指定端口：firewall-cmd --zone=public --add-port=9527/tcp --permanent
+4.重启防火墙：systemctl restart firewalld.service
+	重新加载防火墙：firewall-cmd --reload
+5.查看端口被哪个进程占用：netstat -lnpt |grep 5672
+```
+
+
+
 # ⽂件查看和处理
 
 <!--more-->
