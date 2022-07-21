@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-07-08T06:51:29.680Z</updated>
+  <updated>2022-07-20T10:12:22.210Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java端实用技术文档汇总</title>
+    <link href="http://example.com/2022/07/20/Java%E7%AB%AF%E5%AE%9E%E7%94%A8%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3%E6%B1%87%E6%80%BB/"/>
+    <id>http://example.com/2022/07/20/Java%E7%AB%AF%E5%AE%9E%E7%94%A8%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3%E6%B1%87%E6%80%BB/</id>
+    <published>2022-07-20T10:11:58.000Z</published>
+    <updated>2022-07-20T10:12:22.210Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;ul&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>远程调用组件</title>
@@ -259,9 +282,9 @@
     <category term="java" scheme="http://example.com/categories/java/"/>
     
     
-    <category term="java" scheme="http://example.com/tags/java/"/>
-    
     <category term="MySQL" scheme="http://example.com/tags/MySQL/"/>
+    
+    <category term="java" scheme="http://example.com/tags/java/"/>
     
     <category term="kafka" scheme="http://example.com/tags/kafka/"/>
     
@@ -288,11 +311,11 @@
     <category term="博客" scheme="http://example.com/categories/%E5%8D%9A%E5%AE%A2/"/>
     
     
-    <category term="博客" scheme="http://example.com/tags/%E5%8D%9A%E5%AE%A2/"/>
-    
     <category term="效率" scheme="http://example.com/tags/%E6%95%88%E7%8E%87/"/>
     
     <category term="hexo" scheme="http://example.com/tags/hexo/"/>
+    
+    <category term="博客" scheme="http://example.com/tags/%E5%8D%9A%E5%AE%A2/"/>
     
   </entry>
   
@@ -427,27 +450,6 @@
     
     
     <category term="SQL" scheme="http://example.com/tags/SQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>多线程学习记录（一）</title>
-    <link href="http://example.com/2021/11/15/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/"/>
-    <id>http://example.com/2021/11/15/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89/</id>
-    <published>2021-11-15T10:54:10.000Z</published>
-    <updated>2021-11-18T12:41:03.890Z</updated>
-    
-    <content type="html"><![CDATA[<p>以往学习多线程总是很零碎，不写就忘，然后一段时间又要翻各种资料，就打算最近写一写多线程内容，当然自己可能了解的都是基础，记录的话呢还是准备以实战为主，理论为辅</p><span id="more"></span><h1 id="一、概念理解"><a href="#一、概念理解" class="headerlink" title="一、概念理解"></a>一、概念理解</h1><h3 id="1-进程："><a href="#1-进程：" class="headerlink" title="1. 进程："></a>1. 进程：</h3><p>进程是资源分配的最小单位，是程序的一次执行过程，或是正在运行的一个程序</p><h3 id="2-线程："><a href="#2-线程：" class="headerlink" title="2. 线程："></a>2. 线程：</h3><p>线程是CPU调度的最小单位，是一个程序内部的一条执行路径，是进程中可独立执行的子任务</p><p>同一个进程中的线程共享该进程申请到的资源</p><h3 id="3-任务"><a href="#3-任务" class="headerlink" title="3.任务"></a>3.任务</h3><p>任务task是一个相对的概念，把线程比作员工的话，任务就是线程要完成的工作，一个文件可以算一个任务，文件中的多个记录也可以算一个任务，多个文件也可以算一个任务</p><h3 id="3-并行、并发"><a href="#3-并行、并发" class="headerlink" title="3. 并行、并发"></a>3. 并行、并发</h3><p>并行：多个任务在同一时间范围内被执行，这些任务往往不是顺序执行的，而是交替执行的</p><p>并发：多个任务在同一时刻被执行</p><h3 id="4-线程上下文切换"><a href="#4-线程上下文切换" class="headerlink" title="4. 线程上下文切换"></a>4. 线程上下文切换</h3><h3 id="5-线程安全"><a href="#5-线程安全" class="headerlink" title="5. 线程安全"></a>5. 线程安全</h3>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;以往学习多线程总是很零碎，不写就忘，然后一段时间又要翻各种资料，就打算最近写一写多线程内容，当然自己可能了解的都是基础，记录的话呢还是准备以实战为主，理论为辅&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="java" scheme="http://example.com/categories/java/"/>
-    
-    
-    <category term="效率" scheme="http://example.com/tags/%E6%95%88%E7%8E%87/"/>
     
   </entry>
   
