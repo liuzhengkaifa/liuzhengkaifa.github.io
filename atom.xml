@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-07-21T01:34:34.258Z</updated>
+  <updated>2022-07-08T06:51:29.680Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,27 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Java端实用技术文档汇总</title>
-    <link href="http://example.com/2022/07/20/Java%E7%AB%AF%E5%AE%9E%E7%94%A8%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3%E6%B1%87%E6%80%BB/"/>
-    <id>http://example.com/2022/07/20/Java%E7%AB%AF%E5%AE%9E%E7%94%A8%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3%E6%B1%87%E6%80%BB/</id>
-    <published>2022-07-20T10:11:58.000Z</published>
-    <updated>2022-07-21T01:34:34.258Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="http://lzcoder.cn/book/java_dev_book.pdf">java开发手册-嵩山版</a></p><p><a href="http://lzcoder.cn/book%2Fsoftware_install_guide.pdf">编程环境和软件工具安装手册</a></p><p><a href="http://lzcoder.cn/book%2Fsjms.pdf">设计模式-小傅哥</a></p><p><a href="http://lzcoder.cn/book/alifacebook.pdf">阿里巴巴Java高级架构师面试题总结（2021）</a></p><p><a href="http://lzcoder.cn/book/project_install.pdf">项目部署知道手册</a></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;&lt;a href=&quot;http://lzcoder.cn/book/java_dev_book.pdf&quot;&gt;java开发手册-嵩山版&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;http://lzcoder.cn/book%2Fsoftware_install_guide.pdf&quot;&gt;</summary>
-      
-    
-    
-    
-    
-  </entry>
   
   <entry>
     <title>远程调用组件</title>
@@ -297,9 +276,9 @@
     <category term="java" scheme="http://example.com/categories/java/"/>
     
     
-    <category term="java" scheme="http://example.com/tags/java/"/>
-    
     <category term="MySQL" scheme="http://example.com/tags/MySQL/"/>
+    
+    <category term="java" scheme="http://example.com/tags/java/"/>
     
     <category term="kafka" scheme="http://example.com/tags/kafka/"/>
     
@@ -326,11 +305,11 @@
     <category term="博客" scheme="http://example.com/categories/%E5%8D%9A%E5%AE%A2/"/>
     
     
+    <category term="博客" scheme="http://example.com/tags/%E5%8D%9A%E5%AE%A2/"/>
+    
     <category term="效率" scheme="http://example.com/tags/%E6%95%88%E7%8E%87/"/>
     
     <category term="hexo" scheme="http://example.com/tags/hexo/"/>
-    
-    <category term="博客" scheme="http://example.com/tags/%E5%8D%9A%E5%AE%A2/"/>
     
   </entry>
   
@@ -444,6 +423,27 @@
     
     
     <category term="Nginx" scheme="http://example.com/tags/Nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Oracle数据库SQL速查</title>
+    <link href="http://example.com/2021/11/16/%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%9A%E7%94%A8%E5%9C%BA%E6%99%AFsql%E8%AE%B0%E5%BD%95/"/>
+    <id>http://example.com/2021/11/16/%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%9A%E7%94%A8%E5%9C%BA%E6%99%AFsql%E8%AE%B0%E5%BD%95/</id>
+    <published>2021-11-16T02:02:13.000Z</published>
+    <updated>2021-12-11T03:44:03.479Z</updated>
+    
+    <content type="html"><![CDATA[<p>记录一些常用的sql，便于以后查询实用</p><span id="more"></span><h1 id="一、查询"><a href="#一、查询" class="headerlink" title="一、查询"></a>一、查询</h1><h2 id="1、查询一张表根据某个字段值有几条重复数据："><a href="#1、查询一张表根据某个字段值有几条重复数据：" class="headerlink" title="1、查询一张表根据某个字段值有几条重复数据："></a>1、查询一张表根据某个字段值有几条重复数据：</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> 字段名,<span class="built_in">count</span>(<span class="number">1</span>) <span class="keyword">from</span> 表名 <span class="keyword">group</span> <span class="keyword">by</span> 字段名 <span class="keyword">having</span> <span class="built_in">count</span>(<span class="number">1</span>)<span class="operator">&gt;</span><span class="number">1</span>;</span><br></pre></td></tr></table></figure><h2 id="2、查询表主键名称"><a href="#2、查询表主键名称" class="headerlink" title="2、查询表主键名称"></a>2、查询表主键名称</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user_cons_columns t where t.table_name = &#x27;[表名]&#x27;</span><br></pre></td></tr></table></figure><h2 id="3、查询表结构以及注释"><a href="#3、查询表结构以及注释" class="headerlink" title="3、查询表结构以及注释"></a>3、查询表结构以及注释</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--1.获取表字段字典</span></span><br><span class="line"><span class="keyword">select</span></span><br><span class="line">t.COLUMN_NAME <span class="keyword">as</span> &quot;字段名&quot;,</span><br><span class="line">decode(c.COMMENTS, <span class="keyword">null</span>, <span class="string">&#x27; &#x27;</span>, c.COMMENTS) <span class="keyword">as</span> &quot;含义&quot;,</span><br><span class="line">decode(t.DATA_TYPE, <span class="string">&#x27;TIMESTAMP(6)&#x27;</span>, t.DATA_TYPE, <span class="string">&#x27;NUMBER&#x27;</span>, (t.DATA_TYPE <span class="operator">||</span> <span class="string">&#x27;(&#x27;</span> <span class="operator">||</span> t.DATA_PRECISION <span class="operator">||</span> <span class="string">&#x27;)&#x27;</span>),</span><br><span class="line">    <span class="string">&#x27;DATE&#x27;</span>, t.DATA_TYPE, (t.DATA_TYPE <span class="operator">||</span> <span class="string">&#x27;(&#x27;</span> <span class="operator">||</span> t.CHAR_LENGTH <span class="operator">||</span> <span class="string">&#x27;)&#x27;</span>)) <span class="keyword">as</span> &quot;长度&quot;,</span><br><span class="line"><span class="comment">-- t.DATA_TYPE || &#x27;(&#x27; || t.CHAR_LENGTH || &#x27;)&#x27; as &quot;类型(长度)&quot;,</span></span><br><span class="line"><span class="comment">--  t.CHAR_LENGTH as &quot;字段长度&quot;,</span></span><br><span class="line">t.NULLABLE <span class="keyword">AS</span> &quot;是否为空&quot;</span><br><span class="line"><span class="keyword">from</span> USER_TAB_COLUMNS t <span class="keyword">join</span> USER_COL_COMMENTS c <span class="keyword">on</span> c.TABLE_NAME <span class="operator">=</span> t.TABLE_NAME <span class="keyword">and</span> t.COLUMN_NAME <span class="operator">=</span> c.COLUMN_NAME</span><br><span class="line"><span class="keyword">where</span> c.TABLE_NAME <span class="operator">=</span> <span class="string">&#x27;SK_COLLECT_INFO&#x27;</span> <span class="comment">--表名应该大写  </span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> t.COLUMN_ID;</span><br></pre></td></tr></table></figure><h2 id="4、查看锁表情况及处理"><a href="#4、查看锁表情况及处理" class="headerlink" title="4、查看锁表情况及处理"></a>4、查看锁表情况及处理</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select b.owner,b.object_name,a.session_id,a.locked_mode from v$locked_object a,dba_objects b where b.object_id = a.object_id;</span><br><span class="line"></span><br><span class="line">select b.username,b.sid,b.serial#,logon_time,b.MACHINE from v$locked_object a,v$session b where a.session_id = b.sid order by b.logon_time;</span><br><span class="line"></span><br><span class="line">-- 清除会话，解锁 两个参数分别为：sid 和 serial</span><br><span class="line">alter system kill session&#x27;5637,62753&#x27;;</span><br></pre></td></tr></table></figure><h1 id="二、增加"><a href="#二、增加" class="headerlink" title="二、增加"></a>二、增加</h1><h2 id="1、增加主键"><a href="#1、增加主键" class="headerlink" title="1、增加主键"></a>1、增加主键</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table 表名 add primary key ([字段名1],[字段名2],...)  --重建主键</span><br><span class="line">alter table 表名 add constraint [主键约束名]  primary key ([字段名1],[字段名2],...) --重建主键约束</span><br></pre></td></tr></table></figure><h2 id="2、新增字段"><a href="#2、新增字段" class="headerlink" title="2、新增字段"></a>2、新增字段</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table 表名 add (字段名 VARCHAR2(500) null);</span><br><span class="line">comment on column 表名.字段名 is &#x27;二维码链接地址&#x27;;</span><br></pre></td></tr></table></figure><h1 id="三、修改"><a href="#三、修改" class="headerlink" title="三、修改"></a>三、修改</h1><h2 id="1、修改表字段属性"><a href="#1、修改表字段属性" class="headerlink" title="1、修改表字段属性"></a>1、修改表字段属性</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table table_name modify (col_name nvarchar2(20));</span><br></pre></td></tr></table></figure><h2 id="2、修改字段名称"><a href="#2、修改字段名称" class="headerlink" title="2、修改字段名称"></a>2、修改字段名称</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table table_name rename column now_col_name to NEW_col_name;</span><br></pre></td></tr></table></figure><h1 id="四、删除"><a href="#四、删除" class="headerlink" title="四、删除"></a>四、删除</h1><h2 id="1、删除主键"><a href="#1、删除主键" class="headerlink" title="1、删除主键"></a>1、删除主键</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table [表名] drop primary key --有主键无主键约束名的情形</span><br><span class="line">alter table [表名] drop constraint [主键约束名] --有主键约束名的情形</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;记录一些常用的sql，便于以后查询实用&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="数据库" scheme="http://example.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    
+    <category term="SQL" scheme="http://example.com/tags/SQL/"/>
     
   </entry>
   
