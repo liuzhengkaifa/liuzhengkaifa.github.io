@@ -2,7 +2,7 @@
 title: RocketMQ学习记录
 abbrlink: 15460
 date: 2022-04-02 15:12:39
-tags
+tags: 
 ---
 
 这篇文章旨在主要记录如何快速上手rocketmq
