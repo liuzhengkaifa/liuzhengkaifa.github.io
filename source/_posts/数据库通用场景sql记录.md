@@ -1,5 +1,5 @@
 ---
-title: Oracle数据库SQL速查
+title: 通用sql速查
 tags:
   - SQL
 categories:
@@ -55,6 +55,18 @@ select b.username,b.sid,b.serial#,logon_time,b.MACHINE from v$locked_object a,v$
 
 -- 清除会话，解锁 两个参数分别为：sid 和 serial
 alter system kill session'5637,62753';
+```
+
+## 5、查询库表内存信息
+
+```sql
+SELECT
+table_schema  AS  '数据库' ,
+SUM(table_rows)  AS  '记录数' ,
+SUM(TRUNCATE(data_length/1024/1024, 2))  AS  '数据容量(MB)' ,
+SUM(TRUNCATE(index_length/1024/1024, 2))  AS  '索引容量(MB)'
+FROM  information_schema.tables
+WHERE  table_schema= 'data_sync' ;
 ```
 
 

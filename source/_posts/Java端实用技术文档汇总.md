@@ -3,11 +3,10 @@ title: Java端实用技术文档汇总
 abbrlink: 49011
 date: 2021-07-20 18:11:58
 tags: 
+top: true
 ---
 
-
-
- 常用手册
+一些有用的技术文档收集，便于查阅学习
 
 <!--more-->
 
@@ -43,3 +42,6 @@ tags:
 
 [项目部署指导手册](http://lzcoder.cn/book/project_install.pdf)
 
+[如何规范有效打印日志](http://lzcoder.cn/book/%E5%A6%82%E4%BD%95%E8%A7%84%E8%8C%83%E6%9C%89%E6%95%88%E6%89%93%E5%8D%B0%E6%97%A5%E5%BF%97.pdf)
+
+[分布式锁的三种实现方式](http://lzcoder.cn/book/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E4%B8%89%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F.pdf)

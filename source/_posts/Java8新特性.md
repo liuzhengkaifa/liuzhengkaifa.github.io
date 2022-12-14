@@ -645,5 +645,19 @@ Stream.of("one", "two", "three", "four")
         employees.stream().forEach(System.out::println);
 ```
 
+# 三、Optional类
 
+## 1、ofNullable
 
+**Optional.ofNullable(..).orElse(..)**  底层是一个包装好的三元运算，避免空指针
+
+示例
+
+> 结果 = Optional.ofNullable(值1).orElse(值2)	
+
+​		值1不空取值1，值1空了取值2
+
+避免踩坑 
+
+1. 字符串不要使用，"" 判定为非空
+2. Optional.ofNullable(m1()).orElse(m2())    即使 m1 非空，也会调用 m2 ,因此当m2方法有大量计算，或数据操作时，避免使用，可以使用 **orElseGet(）**
