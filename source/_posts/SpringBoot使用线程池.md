@@ -238,7 +238,9 @@ public Executor myThreadPool() {
 
 可以看到我们在配置类中配置了两个线程池,如果我们想要指定使用其中一个线程池的需使用如下方式
 
-**当未指明使用哪个线程池的时候会优先使用ThreadPoolTaskExecutor，当定义了多个或未定义ThreadPoolTaskExecutor时，默认使用的是SimpleAsyncTaskExecutor**
+**当未指明使用哪个线程池的时候会优先使用ThreadPoo		lTaskExecutor，当定义了多个或未定义ThreadPoolTaskExecutor时，默认使用的是SimpleAsyncTaskExecutor**
+
+SimpleAsyncTaskExecutor：不是真的线程池，这个类不重用线程，每次调用都会创建一个新的线程。并发大的时候会产生严重的性能问题。
 
 ```java
 @Override
