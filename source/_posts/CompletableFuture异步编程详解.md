@@ -18,6 +18,8 @@ CompletableFuture主要是用于异步调用，内部封装了线程池，可以
 
 <!--more-->
 
+[带你了解了解Future和CompletableFuture](https://blog.csdn.net/qq_42820805/article/details/109635001)
+
 ## 1. get() / join()  
 
 join() 和 get() 方法都是阻塞调用它们的线程（通常为主线程）来获取CompletableFuture异步之后的返回值。

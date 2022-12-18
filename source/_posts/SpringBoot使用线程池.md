@@ -349,4 +349,6 @@ public Executor myThreadPoolTaskExecutor() {
 }
 ```
 
-[参考一](https://blog.csdn.net/qq_24983911/article/details/94722569)
+[[Java 并发编程：线程池的使用](https://my.oschina.net/MyoldTime/blog/3075650)](https://my.oschina.net/MyoldTime/blog/3075650)
+
+[参考二](https://blog.csdn.net/qq_24983911/article/details/94722569)
