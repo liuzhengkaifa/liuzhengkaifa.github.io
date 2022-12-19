@@ -1,9 +1,9 @@
 ---
 title: git常用操作
 tags:
-  - git
+  - 速查
 categories:
-  - 开发辅助
+  - Git
 abbrlink: 33485
 date: 2021-11-11 09:35:56
 ---

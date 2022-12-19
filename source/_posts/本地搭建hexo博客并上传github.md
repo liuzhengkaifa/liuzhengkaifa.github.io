@@ -1,8 +1,7 @@
 ---
 title: 本地搭建hexo博客并上传github
 tags:
-  - 博客
-  - hexo
+  - 教程
 categories:
   - 博客
 abbrlink: 55835

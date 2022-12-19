@@ -3,13 +3,12 @@ title: elasticsearch学习与实用
 abbrlink: 42050
 date: 2022-12-15 10:27:42
 tags:
+  - 教程
+categories:
+  - java
 ---
 
-
-
-
-
-
+学习springboot整合ElasticSearch 7.X版本并通过小demo实现基本的增删改查
 
 <!--more-->
 

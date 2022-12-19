@@ -1,9 +1,9 @@
 ---
 title: linux常用命令使用记录
 tags:
-  - linux
+  - 速查
 categories:
-  - 效率
+  - Linux
 abbrlink: 894
 date: 2021-11-11 09:35:35
 ---

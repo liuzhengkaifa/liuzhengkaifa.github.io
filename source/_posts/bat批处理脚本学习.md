@@ -1,8 +1,7 @@
 ---
 title: bat批处理脚本学习
 tags:
-  - 效率
-  - bat
+  - 教程
 categories:
   - 脚本
 abbrlink: 48322

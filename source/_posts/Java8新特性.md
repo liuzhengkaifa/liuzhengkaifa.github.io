@@ -1,6 +1,9 @@
 ---
 title: Java8新特性
-tags: java
+tags:
+  - 速查
+categories:
+  - java
 abbrlink: 1038
 date: 2021-12-15 14:40:55
 ---

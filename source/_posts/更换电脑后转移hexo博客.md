@@ -1,7 +1,7 @@
 ---
 title: 更换电脑后转移hexo博客
 tags:
-  - hexo
+  - 教程
 categories:
   - 博客
 abbrlink: 36869

@@ -1,8 +1,7 @@
 ---
 title: ant 使用分享
 tags:
-  - java
-  - 效率
+  - 教程
 categories:
   - 脚本
 abbrlink: 54086

@@ -1,9 +1,7 @@
 ---
 title: Typora配合PicGo使用七牛云实现图片云存储
 tags:
-  - 效率
-  - hexo
-  - 博客
+  - 教程
 categories:
   - 博客
 abbrlink: 47623

@@ -1,7 +1,7 @@
 ---
 title: WordPress傻瓜式构建个人动态博客
 tags:
-  - 博客
+  - 教程
 categories:
   - 博客
 abbrlink: 34445

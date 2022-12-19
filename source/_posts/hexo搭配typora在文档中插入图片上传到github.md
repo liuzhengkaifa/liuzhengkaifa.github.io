@@ -1,7 +1,7 @@
 ---
 title: hexo搭配typora在文档中插入图片上传到github
 tags:
-  - hexo
+  - 教程
 categories:
   - 博客
 abbrlink: 47057

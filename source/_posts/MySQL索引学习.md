@@ -1,9 +1,9 @@
 ---
 title: MySQL索引学习
 tags:
-  - MySQL
+  - 教程
 categories:
-  - MySQL
+  - 数据库
 abbrlink: 56555
 date: 2021-12-02 21:43:17
 ---

@@ -1,9 +1,9 @@
 ---
 title: MyBatisPlus使用
 tags:
-  - MyBatisPlus
+  - 教程
 categories:
-  - java
+  - 数据库
 abbrlink: 13718
 date: 2021-12-28 11:21:02
 ---

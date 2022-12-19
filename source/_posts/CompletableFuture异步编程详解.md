@@ -3,6 +3,9 @@ title: CompletableFuture异步编程详解
 abbrlink: 4426
 date: 2022-12-14 17:14:44
 tags:
+  - 教程
+categories:
+  - java
 ---
 
 > CompletableFuture 英 [kəmp'letəbl] 英 [ˈfjuːtʃə(r)] 

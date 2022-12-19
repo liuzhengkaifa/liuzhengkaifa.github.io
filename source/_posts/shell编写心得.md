@@ -3,12 +3,9 @@ title: shell编写心得
 abbrlink: 28455
 date: 2021-11-11 09:36:27
 tags:
-- shell
-- 脚本
-- linux
-- 效率
+  - 教程
 categories:
-- 脚本
+  - shell
 ---
 
 使用shell脚本在linux服务器上可以帮助我们处理很多工作，想要追求效率，会编写shell脚本是非常有必要的

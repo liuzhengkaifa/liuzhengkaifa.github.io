@@ -1,7 +1,7 @@
 ---
 title: SpringBoot使用线程池
 tags:
-  - 效率
+  - 实操
 categories:
   - java
 abbrlink: 48678

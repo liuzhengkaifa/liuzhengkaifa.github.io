@@ -3,6 +3,9 @@ title: springboot整合swagger
 abbrlink: 32019
 date: 2022-09-29 21:55:12
 tags:
+  - 实操
+categories:
+  - java
 ---
 
 基于SpringBoot项目使用Swagger文档

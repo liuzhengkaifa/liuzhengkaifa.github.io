@@ -1,10 +1,9 @@
 ---
 title: MySQL时间查询不走索引了？
 tags:
-  - MySQL
-  - 索引
+  - 教程
 categories:
-  - MySQL
+  - 数据库
 abbrlink: 19588
 date: 2021-11-29 22:53:22
 ---

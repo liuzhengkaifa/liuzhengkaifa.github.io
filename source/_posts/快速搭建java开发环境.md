@@ -1,11 +1,9 @@
 ---
 title: 快速搭建java开发环境
 tags:
-  - 效率
-  - 脚本
-  - bat
+  - 教程
 categories:
-  - java
+  - 脚本
 abbrlink: 23131
 date: 2021-11-13 17:15:16
 ---

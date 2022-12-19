@@ -1,8 +1,7 @@
 ---
 title: MySQL学习记录（一）
 tags:
-  - 数据库
-  - mysql
+  - 教程
 categories:
   - 数据库
 abbrlink: 13178

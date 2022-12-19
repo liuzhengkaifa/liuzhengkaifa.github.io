@@ -1,7 +1,7 @@
 ---
 title: 通用sql速查
 tags:
-  - SQL
+  - 速查
 categories:
   - 数据库
 abbrlink: 13496

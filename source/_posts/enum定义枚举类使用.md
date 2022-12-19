@@ -1,7 +1,7 @@
 ---
 title: enum定义枚举类使用
 tags:
-  - java
+  - 教程
 categories:
   - java
 abbrlink: 33325

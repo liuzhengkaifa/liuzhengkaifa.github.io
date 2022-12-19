@@ -1,7 +1,9 @@
 ---
 title: Nginx学习笔记
 tags:
-  - Nginx
+  - 教程
+categories:
+  - 组件
 abbrlink: 39886
 date: 2021-11-17 13:52:21
 ---

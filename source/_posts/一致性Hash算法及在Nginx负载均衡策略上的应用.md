@@ -1,11 +1,9 @@
 ---
 title: 一致性Hash算法及在Nginx负载均衡策略上的应用
 tags:
-  - 算法
-  - nginx
-  - hash
+  - 教程
 categories:
-  - 算法
+  - java
 abbrlink: 20018
 date: 2021-11-20 08:55:49
 ---
