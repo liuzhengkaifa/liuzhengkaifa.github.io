@@ -38,6 +38,31 @@
   </entry>
   
   <entry>
+    <title>elasticsearch学习与实用</title>
+    <link href="http://example.com/2022/12/15/elasticsearch%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%AE%9E%E7%94%A8/"/>
+    <id>http://example.com/2022/12/15/elasticsearch%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%AE%9E%E7%94%A8/</id>
+    <published>2022-12-15T02:27:42.000Z</published>
+    <updated>2022-12-19T05:52:54.291Z</updated>
+    
+    <content type="html"><![CDATA[<span id="more"></span><ol><li>引入依赖</li></ol><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line"><span class="string">&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span></span><br><span class="line"><span class="string">&lt;artifactId&gt;spring-boot-starter-data-elasticsearch&lt;/artifactId&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br></pre></td></tr></table></figure><ol start="2"><li>修改配置文件</li></ol><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">rest:</span></span><br><span class="line">      <span class="attr">uris:</span> <span class="string">http://xx.XX.XX.XX:9200/</span></span><br></pre></td></tr></table></figure><ol start="3"><li>新增一些实体类、to类</li></ol><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//实体类</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@EqualsAndHashCode(callSuper = false)</span></span><br><span class="line"><span class="meta">@TableName(&quot;t_user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TUser</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@TableId(value = &quot;id&quot;, type = IdType.AUTO)</span></span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> LocalDate birthday;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String gender;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String remark;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String station;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String telephone;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//es实体类</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Document(indexName = &quot;user_info&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserInfoTO</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> LocalDate birthday;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String gender;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String remark;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String station;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String telephone;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><ol start="4"><li>实用es新增用户</li></ol><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.创建一个 elasticsearch 持久层接口，类似MP,内置了 es 增删改查方法</span></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ITUserEsSevice</span> <span class="keyword">extends</span> <span class="title">ElasticsearchRepository</span>&lt;<span class="title">UserInfoTO</span>,<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.定义swagger接口</span></span><br><span class="line"><span class="meta">@ApiOperation(value = &quot;新增用户&quot;)</span></span><br><span class="line"><span class="meta">@PostMapping(&quot;/saveUser&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveUser</span><span class="params">(<span class="meta">@RequestBody</span> TUser tUser)</span></span>&#123;</span><br><span class="line">    itUserService.saveUser(tUser);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3.实现新增接口</span></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">ITUserEsSevice itUserEsSevice;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveUser</span><span class="params">(TUser tUser)</span> </span>&#123;</span><br><span class="line">    UserInfoTO userInfoTO = <span class="keyword">new</span> UserInfoTO();</span><br><span class="line">    BeanUtils.copyProperties(tUser,userInfoTO);</span><br><span class="line">    <span class="comment">//保存到Es上</span></span><br><span class="line">    <span class="comment">// itUserEsSevice.save(userInfoTO);</span></span><br><span class="line">    itUserEsSevice.delete(userInfoTO);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><a href="https://blog.csdn.net/smilehappiness/article/details/118466378">参考一：Linux环境下安装Elasticsearch</a></p><p><a href="https://blog.csdn.net/qq_29917503/article/details/126768884">参考二：Linux安装Kibana详细教程</a></p><p><a href="https://blog.csdn.net/weixin_56995925/article/details/123873580">参考三：springboot整合ElasticSearch实战</a></p><p><a href="https://blog.csdn.net/m0_62866192/article/details/121765083">参考四：Spring Data Elasticsearch 实体类注解说明</a> 此博主包含 Elasticsearch 其它系列博文</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
+
+&lt;ol&gt;
+&lt;li&gt;引入依赖&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure class=&quot;highlight yaml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/sp</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>CompletableFuture异步编程详解</title>
     <link href="http://example.com/2022/12/14/CompletableFuture%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E8%AF%A6%E8%A7%A3/"/>
     <id>http://example.com/2022/12/14/CompletableFuture%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E8%AF%A6%E8%A7%A3/</id>
@@ -60,19 +85,6 @@
 &lt;li&gt;&lt;p&gt;CompletableFuture，所有事情都是可以自动完成，即可以在完成之后，回调通知，也可以自己去等待。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;</summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>springboot使用EasyExcel和线程池实现多线程导入Excel数据</title>
-    <link href="http://example.com/2022/09/30/springboot%E4%BD%BF%E7%94%A8EasyExcel%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AF%BC%E5%85%A5Excel%E6%95%B0%E6%8D%AE/"/>
-    <id>http://example.com/2022/09/30/springboot%E4%BD%BF%E7%94%A8EasyExcel%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AF%BC%E5%85%A5Excel%E6%95%B0%E6%8D%AE/</id>
-    <published>2022-09-30T02:00:45.000Z</published>
-    <updated>2022-12-14T01:57:41.762Z</updated>
-    
     
     
     
@@ -377,9 +389,9 @@
     <category term="java" scheme="http://example.com/categories/java/"/>
     
     
-    <category term="java" scheme="http://example.com/tags/java/"/>
-    
     <category term="MySQL" scheme="http://example.com/tags/MySQL/"/>
+    
+    <category term="java" scheme="http://example.com/tags/java/"/>
     
     <category term="kafka" scheme="http://example.com/tags/kafka/"/>
     
