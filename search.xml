@@ -312,7 +312,7 @@
   <entry>
     <title>Java端实用技术文档汇总</title>
     <url>/2021/07/20/Java%E7%AB%AF%E5%AE%9E%E7%94%A8%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<p>一些有用的技术文档收集，便于查阅学习</p>
+    <content><![CDATA[<p>一些有用的技术文档、博文收集，便于查阅学习</p>
 <span id="more"></span>
 
 <h2 id="分布式架构、微服务"><a href="#分布式架构、微服务" class="headerlink" title="分布式架构、微服务"></a>分布式架构、微服务</h2><p><a href="http://lzcoder.cn/book/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8E%9F%E7%90%86.pdf">分布式原理</a></p>
@@ -329,12 +329,362 @@
 <p><a href="http://lzcoder.cn/book/project_install.pdf">项目部署指导手册</a></p>
 <p><a href="http://lzcoder.cn/book/%E5%A6%82%E4%BD%95%E8%A7%84%E8%8C%83%E6%9C%89%E6%95%88%E6%89%93%E5%8D%B0%E6%97%A5%E5%BF%97.pdf">如何规范有效打印日志</a></p>
 <p><a href="http://lzcoder.cn/book/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E4%B8%89%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F.pdf">分布式锁的三种实现方式</a></p>
+<h2 id="技术文章"><a href="#技术文章" class="headerlink" title="技术文章"></a>技术文章</h2><p><a href="https://www.jianshu.com/p/fc1c97eb109c?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes">RAP一种更高效的前后端接口对接解决方案</a></p>
 ]]></content>
       <categories>
         <category>文档</category>
       </categories>
       <tags>
         <tag>速查</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringBoot单元测试类编写</title>
+    <url>/2022/12/20/SpringBoot%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%B1%BB%E7%BC%96%E5%86%99/</url>
+    <content><![CDATA[<p>基于springboot项目编写简单单元测试类</p>
+<span id="more"></span>
+
+<h1 id="1-编写简单单元测试类"><a href="#1-编写简单单元测试类" class="headerlink" title="1. 编写简单单元测试类"></a>1. 编写简单单元测试类</h1><ol>
+<li>实用idea 生成测试类</li>
+</ol>
+<p><img src="http://lzcoder.cn/image-20221220152828884.png" alt="image-20221220152828884"></p>
+<p><img src="http://lzcoder.cn/image-20221220153003683.png" alt="image-20221220153003683"></p>
+<ol start="2">
+<li>编写代码：</li>
+</ol>
+<p><code>@SpringBootTest</code>：获取启动类，加载配置，寻找主配置启动类（被 @SpringBootApplication 注解的）</p>
+<p><code>@RunWith(SpringRunner.class)</code>：让JUnit运行Spring的测试环境,获得Spring环境的上下文的支持</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.coder.lion.demo.service.user.service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.coder.lion.CoderLionApplication;</span><br><span class="line"><span class="keyword">import</span> org.junit.jupiter.api.Test;</span><br><span class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringRunner;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RunWith(SpringRunner.class)</span></span><br><span class="line"><span class="meta">@SpringBootTest(classes = CoderLionApplication.class,webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ITUserServiceTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    ITUserService itUserService;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">getAllUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        itUserService.getAllUser();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-Assert-用法示例"><a href="#2-Assert-用法示例" class="headerlink" title="2.Assert 用法示例"></a>2.Assert 用法示例</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Assert.notNull(Object object, “object is required”) - 对象非空</span><br><span class="line">Assert.isTrue(Object object, “object must be <span class="keyword">true</span>”) - 对象必须为<span class="keyword">true</span></span><br><span class="line">Assert.notEmpty(Collection collection, “collection must not be empty”) - 集合非空</span><br><span class="line">Assert.hasLength(String text, “text must be specified”) - 字符不为<span class="keyword">null</span>且字符长度不为<span class="number">0</span></span><br><span class="line">Assert.hasText(String text, “text must not be empty”) - text 不为<span class="keyword">null</span>且必须至少包含一个非空格的字符</span><br><span class="line">Assert.isInstanceOf(Class clazz, Object obj, “clazz must be of type [clazz]”) - obj必须能被正确造型成为clazz 指定的类</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://blog.csdn.net/u011550710/article/details/76638893">参考：Springboot+Junit测试Http请求实例包括Get,Post,Put和Delete已及断言Assert的使用</a></p>
+<p><a href="https://blog.csdn.net/neweastsun/article/details/80152756">参考：Spring Assert教程</a></p>
+<p><a href="https://mp.weixin.qq.com/s/T8jDFRncLb6C0_tPsu88xA">插件：自动生成单元测试，太爽了！</a></p>
+<h1 id="3-阿里开发文档-单元测试规范"><a href="#3-阿里开发文档-单元测试规范" class="headerlink" title="3.阿里开发文档_单元测试规范"></a>3.阿里开发文档_单元测试规范</h1><ol>
+<li>【强制】好的单元测试必须遵守 AIR 原则。<br>说明：单元测试在线上运行时，感觉像空气（AIR）一样感觉不到，但在测试质量的保障上，却是非常关键<br>的。好的单元测试宏观上来说，具有自动化、独立性、可重复执行的特点。<br>⚫ A：Automatic（自动化）<br>⚫ I：Independent（独立性）<br>⚫ R：Repeatable（可重复）</li>
+<li>【强制】单元测试应该是全自动执行的，并且非交互式的。测试用例通常是被定期执行的，执<br>行过程必须完全自动化才有意义。输出结果需要人工检查的测试不是一个好的单元测试。单元<br>测试中不准使用 System.out 来进行人肉验证，必须使用 assert 来验证。</li>
+<li>【强制】保持单元测试的独立性。为了保证单元测试稳定可靠且便于维护，单元测试用例之间<br>决不能互相调用，也不能依赖执行的先后次序。<br>反例：method2 需要依赖 method1 的执行，将执行结果作为 method2 的输入。</li>
+<li>【强制】单元测试是可以重复执行的，不能受到外界环境的影响。<br>说明：单元测试通常会被放到持续集成中，每次有代码 check in 时单元测试都会被执行。如果单测对外部<br>环境（网络、服务、中间件等）有依赖，容易导致持续集成机制的不可用。<br>正例：为了不受外界环境影响，要求设计代码时就把 SUT 的依赖改成注入，在测试时用 spring 这样的 DI<br>框架注入一个本地（内存）实现或者 Mock 实现。</li>
+<li>【强制】对于单元测试，要保证测试粒度足够小，有助于精确定位问题。单测粒度至多是类级<br>别，一般是方法级别。<br>说明：只有测试粒度小才能在出错时尽快定位到出错位置。单测不负责检查跨类或者跨系统的交互逻辑，<br>那是集成测试的领域。</li>
+<li>【强制】核心业务、核心应用、核心模块的增量代码确保单元测试通过。<br>说明：新增代码及时补充单元测试，如果新增代码影响了原有单元测试，请及时修正。</li>
+<li>【强制】单元测试代码必须写在如下工程目录：src/test/java，不允许写在业务代码目录下。<br>说明：源码编译时会跳过此目录，而单元测试框架默认是扫描此目录。</li>
+<li>【推荐】单元测试的基本目标：语句覆盖率达到 70%；核心模块的语句覆盖率和分支覆盖率都<br>要达到 100%<br>说明：在工程规约的应用分层中提到的 DAO 层，Manager 层，可重用度高的 Service，都应该进行单元测<br>试。</li>
+<li>【推荐】编写单元测试代码遵守 BCDE 原则，以保证被测试模块的交付质量。<br>⚫ B：Border，边界值测试，包括循环边界、特殊取值、特殊时间点、数据顺序等。<br>⚫ C：Correct，正确的输入，并得到预期的结果。<br>⚫ D：Design，与设计文档相结合，来编写单元测试。<br>⚫ E：Error，强制错误信息输入（如：非法数据、异常流程、业务允许外等），并得到预期的结果。</li>
+<li>【推荐】对于数据库相关的查询，更新，删除等操作，不能假设数据库里的数据是存在的，或<br>者直接操作数据库把数据插入进去，请使用程序插入或者导入数据的方式来准备数据。<br>反例：删除某一行数据的单元测试，在数据库中，先直接手动增加一行作为删除目标，但是这一行新增数<br>据并不符合业务插入规则，导致测试结果异常。</li>
+<li>【推荐】和数据库相关的单元测试，可以设定自动回滚机制，不给数据库造成脏数据。或者对<br>单元测试产生的数据有明确的前后缀标识。<br>正例：在阿里巴巴企业智能事业部的内部单元测试中，使用 ENTERPRISE_INTELLIGENCE <em>UNIT_TEST</em><br>的前缀来标识单元测试相关代码。</li>
+<li>【推荐】对于不可测的代码在适当的时机做必要的重构，使代码变得可测，避免为了达到测试<br>要求而书写不规范测试代码。</li>
+<li>【推荐】在设计评审阶段，开发人员需要和测试人员一起确定单元测试范围，单元测试最好覆<br>盖所有测试用例（UC）。</li>
+<li>【推荐】单元测试作为一种质量保障手段，在项目提测前完成单元测试，不建议项目发布后补<br>充单元测试用例。</li>
+<li>【参考】为了更方便地进行单元测试，业务代码应避免以下情况：<br>⚫ 构造方法中做的事情过多。<br>⚫ 存在过多的全局变量和静态方法。<br>⚫ 存在过多的外部依赖。<br>⚫ 存在过多的条件语句。<br>说明：多层条件语句建议使用卫语句、策略模式、状态模式等方式重构。</li>
+<li>【参考】不要对单元测试存在如下误解：<br>⚫ 那是测试同学干的事情。本文是开发手册，凡是本文内容都是与开发同学强相关的。<br>⚫ 单元测试代码是多余的。系统的整体功能与各单元部件的测试正常与否是强相关的。<br>⚫ 单元测试代码不需要维护。一年半载后，那么单元测试几乎处于废弃状态。<br>⚫ 单元测试与线上故障没有辩证关系。好的单元测试能够最大限度地规避线上故障。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>实操</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据库表设计</title>
+    <url>/2022/12/20/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%AE%BE%E8%AE%A1/</url>
+    <content><![CDATA[<p>系统中收集到用户的核心数据，为了安全性，我们一般会存储到数据库，比如：mysql，oracle等。</p>
+<p>后端开发的日常工作，需要不断的建库和建表，来满足业务需求。</p>
+<p>通常情况下，建库的频率比建表要低很多，所以，我们这篇文章主要讨论建表相关的内容。</p>
+<p>如果我们在建表的时候不注意细节，等后面系统上线之后，表的维护成本变得非常高，而且很容易踩坑。</p>
+<span id="more"></span>
+
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> user_account_info</span><br><span class="line">(</span><br><span class="line">    id                     <span class="type">bigint</span> unsigned auto_increment comment <span class="string">&#x27;主键&#x27;</span> ,</span><br><span class="line">    acccount              <span class="type">varchar</span>(<span class="number">50</span>)  <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;身份/用户名&#x27;</span>,</span><br><span class="line">    passworld             <span class="type">varchar</span>(<span class="number">100</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;凭证/密码&#x27;</span>,</span><br><span class="line">    login_type             tinyint      <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;登录认证类型.0:本系统,2:微信登录&#x27;</span>,</span><br><span class="line">    login_id               <span class="type">varchar</span>(<span class="number">100</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;第三方登录的Id&#x27;</span>,</span><br><span class="line">    user_info_id           <span class="type">bigint</span>          <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;用户信息Id&#x27;</span>,</span><br><span class="line">    principal_valid_time   datetime     <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span>     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;身份/用户有效时间&#x27;</span>,</span><br><span class="line">    principal_expire_time  datetime     <span class="keyword">default</span> <span class="string">&#x27;9999-12-31 23:59:59&#x27;</span> <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;身份/用户失效时间&#x27;</span>,</span><br><span class="line">    credential_expire_time datetime     <span class="keyword">default</span> <span class="string">&#x27;9999-12-31 23:59:59&#x27;</span> <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;凭证/密码失效时间&#x27;</span>,</span><br><span class="line">    last_login_time        datetime                                   <span class="keyword">null</span> comment <span class="string">&#x27;最后登录时间&#x27;</span>,</span><br><span class="line">    status                 tinyint      <span class="keyword">default</span> <span class="number">1</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;有效状态(1-有效,0-失效)&#x27;</span>,</span><br><span class="line">    create_time            datetime     <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span>     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建时间&#x27;</span>,</span><br><span class="line">    create_user_id         <span class="type">int</span>          <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建人ID&#x27;</span>,</span><br><span class="line">    create_user_name       <span class="type">varchar</span>(<span class="number">30</span>)  <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建人名称&#x27;</span>,</span><br><span class="line">    update_time            datetime     <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span>     <span class="keyword">not</span> <span class="keyword">null</span> <span class="keyword">on</span> update <span class="built_in">CURRENT_TIMESTAMP</span> comment <span class="string">&#x27;修改时间&#x27;</span>,</span><br><span class="line">    update_user_id         <span class="type">int</span>          <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;修改人ID&#x27;</span>,</span><br><span class="line">    update_user_name       <span class="type">varchar</span>(<span class="number">30</span>)  <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;修改人名称&#x27;</span>,</span><br><span class="line">    is_deleted             tinyint      <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;删除标记 0未删除 1已删除&#x27;</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (`id`) <span class="keyword">USING</span> BTREE,</span><br><span class="line">  INDEX `idx_principal`(`principal`) <span class="keyword">USING</span> BTREE </span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB CHARSET<span class="operator">=</span>utf8mb4 <span class="keyword">COLLATE</span><span class="operator">=</span>utf8mb4_bin comment <span class="string">&#x27;用户账号信息表&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="一-阿里开发文档-建表规约"><a href="#一-阿里开发文档-建表规约" class="headerlink" title="(一) 阿里开发文档 建表规约"></a>(一) 阿里开发文档 建表规约</h3><ol>
+<li><strong>【强制】</strong>表达是与否概念的字段，必须使用 is_xxx 的方式命名，数据类型是 unsigned tinyint（1 表示是，0 表示否）。</li>
+</ol>
+<p>说明：任何字段如果为非负数，必须是 unsigned。</p>
+<p>注意：POJO 类中的任何布尔类型的变量，都不要加 is 前缀，所以，需要在<resultMap>设置从 is_xxx 到</p>
+<p>Xxx 的映射关系。数据库表示是与否的值，使用 tinyint 类型，坚持 is_xxx 的命名方式是为了明确其取值含</p>
+<p>义与取值范围。</p>
+<p>正例：表达逻辑删除的字段名 is_deleted，1 表示删除，0 表示未删除。</p>
+<ol start="2">
+<li><strong>【强制】</strong>表名、字段名必须使用小写字母或数字，禁止出现数字开头，禁止两个下划线中间只</li>
+</ol>
+<p>出现数字。数据库字段名的修改代价很大，因为无法进行预发布，所以字段名称需要慎重考虑。</p>
+<p>说明：MySQL 在 Windows 下不区分大小写，但在 Linux 下默认是区分大小写。因此，数据库名、表名、</p>
+<p>字段名，都不允许出现任何大写字母，避免节外生枝。</p>
+<p>​            正例：aliyun_admin，rdc_config，level3_name</p>
+<p>​            反例：AliyunAdmin，rdcConfig，level_3_name</p>
+<ol start="3">
+<li><strong>【强制】</strong>表名不使用复数名词。</li>
+</ol>
+<p>说明：表名应该仅仅表示表里面的实体内容，不应该表示实体数量，对应于 DO 类名也是单数形式，符合</p>
+<p>表达习惯。</p>
+<ol start="4">
+<li><p><strong>【强制】</strong>禁用保留字，如 desc、range、match、delayed 等，请参考 MySQL 官方保留字。</p>
+</li>
+<li><p><strong>【强制】</strong>主键索引名为 pk_字段名；唯一索引名为 uk_字段名；普通索引名则为 idx_字段名。</p>
+</li>
+</ol>
+<p>说明：pk_ 即 primary key；uk_ 即 unique key；idx_ 即 index 的简称。</p>
+<ol start="6">
+<li><strong>【强制】</strong>小数类型为 decimal，禁止使用 float 和 double。</li>
+</ol>
+<p>说明：在存储的时候，float 和 double 都存在精度损失的问题，很可能在比较值的时候，得到不正确的</p>
+<p>结果。如果存储的数据范围超过 decimal 的范围，建议将数据拆成整数和小数并分开存储。</p>
+<ol start="7">
+<li><p><strong>【强制】</strong>如果存储的字符串长度几乎相等，使用 char 定长字符串类型。</p>
+</li>
+<li><p><strong>【强制】</strong>varchar 是可变长字符串，不预先分配存储空间，长度不要超过 5000，如果存储长度</p>
+</li>
+</ol>
+<p>大于此值，定义字段类型为 text，独立出来一张表，用主键来对应，避免影响其它字段索引效</p>
+<p>率。</p>
+<ol start="9">
+<li><strong>【强制】</strong>表必备三字段：id, create_time, update_time。</li>
+</ol>
+<p>说明：其中 id 必为主键，类型为 bigint unsigned、单表时自增、步长为 1。create_time, update_time</p>
+<p>的类型均为 datetime 类型，前者现在时表示主动式创建，后者过去分词表示被动式更新。</p>
+<p>10.【推荐】表的命名最好是遵循“业务名称_表的作用”。</p>
+<p>正例：alipay_task / force_project / trade_config</p>
+<p>11.【推荐】库名与应用名称尽量一致。</p>
+<p>12.【推荐】如果修改字段含义或对字段表示的状态追加时，需要及时更新字段注释。</p>
+<p>13.【推荐】字段允许适当冗余，以提高查询性能，但必须考虑数据一致。冗余字段应遵循：</p>
+<p>​        1） 不是频繁修改的字段。</p>
+<p>​        2） 不是唯一索引的字段。</p>
+<pre><code>     3） 不是 varchar 超长字段，更不能是 text 字段。
+</code></pre>
+<p> 正例：各业务线经常冗余存储商品名称，避免查询时需要调用 IC 服务获取。</p>
+<p>14.【推荐】单表行数超过 500 万行或者单表容量超过 2GB，才推荐进行分库分表。</p>
+<p>说明：如果预计三年后的数据量根本达不到这个级别，请不要在创建表时就分库分表。</p>
+<p>15.【参考】合适的字符存储长度，不但节约数据库表空间、节约索引存储，更重要的是提升检索速度。</p>
+<p>正例：无符号值可以避免误存负数，且扩大了表示范围。</p>
+<p><img src="http://lzcoder.cn/image-20221220103833871.png" alt="image-20221220103833871"></p>
+<p>接着跟大家一起聊聊数据库建表的15个小技巧，同时做一个梳理和总结，希望能对大家有所帮助。</p>
+<img src="http://lzcoder.cn/image-20221220095117751.png" alt="image-20221220095117751" style="zoom:67%;" />
+
+
+
+<h2 id="1-名字"><a href="#1-名字" class="headerlink" title="1.名字"></a>1.名字</h2><p>建表的时候，给<code>表</code>、<code>字段</code>和<code>索引</code>起个好名字，真的太重要了。</p>
+<h3 id="1-1-见名知意"><a href="#1-1-见名知意" class="headerlink" title="1.1 见名知意"></a>1.1 见名知意</h3><p>名字就像<code>表</code>、<code>字段</code>和<code>索引</code>的一张脸，可以给人留下第一印象。</p>
+<p>好的名字，言简意赅，见名知意，让人心情愉悦，能够提高沟通和维护成本。</p>
+<p>坏的名字，模拟两可，不知所云。而且显得杂乱无章，看得让人抓狂。</p>
+<p><strong>反例：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">用户名称字段定义成：yong_hu_ming、用户_name、name、user_name_123456789</span><br></pre></td></tr></table></figure>
+
+<p>你看了可能会一脸懵逼，这是什么骚操作？</p>
+<p><strong>正例：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">用户名称字段定义成：user_name</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>温馨提醒一下，名字也不宜过长，尽量控制在<code>30</code>个字符以内。</p>
+</blockquote>
+<h3 id="1-2-大小写"><a href="#1-2-大小写" class="headerlink" title="1.2 大小写"></a>1.2 大小写</h3><p>名字可以用<code>小写字母</code>，因为从视觉上，小写字母更容易让人读懂。</p>
+<p><strong>反例：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">字段名：PRODUCT_NAME、PRODUCT_name</span><br></pre></td></tr></table></figure>
+
+<p>全部大写，看起来有点不太直观。而一部分大写，一部分小写，让人看着更不爽。</p>
+<p><strong>正例：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">字段名：product_name</span><br></pre></td></tr></table></figure>
+
+<p>名字还是使用全小写字母，看着更舒服。</p>
+<h3 id="1-3-分隔符"><a href="#1-3-分隔符" class="headerlink" title="1.3 分隔符"></a>1.3 分隔符</h3><p>很多时候，名字为了让人好理解，有可能会包含多个单词。</p>
+<p>那么，多个单词间的<code>分隔符</code>该用什么呢？</p>
+<p><strong>反例：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">字段名：productname、productName、product name、product@name</span><br></pre></td></tr></table></figure>
+
+<p>单词间没有分隔，或者单词间用驼峰标识，或者单词间用空格分隔，或者单词间用@分隔，这几种方式都不太建议。</p>
+<p><strong>正例：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">字段名：product_name</span><br></pre></td></tr></table></figure>
+
+<p>可以考虑在单词间用<code>_</code>分隔。</p>
+<h3 id="1-4-表名"><a href="#1-4-表名" class="headerlink" title="1.4 表名"></a>1.4 表名</h3><p>对于表名，在言简意赅，见名知意的基础之上，建议带上<code>业务前缀</code>。</p>
+<p>如果是订单相关的业务表，可以在表名前面加个前缀：<code>order_</code>。</p>
+<p>例如：order_pay、order_pay_detail等。</p>
+<p>如果是商品相关的业务表，可以在表名前面加个前缀：<code>product_</code>。</p>
+<p>例如：product_spu，product_sku等。</p>
+<p>这样做的好处是为了方便归类，把相同业务的表，可以非常快速的聚集到一起。</p>
+<p>另外，还有有个好处是，如果哪天有非订单的业务，比如：金融业务，也需要建一个名字叫做pay的表，可以取名：finance_pay，就能非常轻松的区分。</p>
+<p>这样就不会出现<code>同名表</code>的情况。</p>
+<h3 id="1-5-字段名称"><a href="#1-5-字段名称" class="headerlink" title="1.5 字段名称"></a>1.5 字段名称</h3><p><code>字段名称</code>是开发人员发挥空间最大，但也最容易发生混乱的地方。</p>
+<p>比如有些表，使用flag表示状态，另外的表用status表示状态。</p>
+<p>可以统一一下，使用status表示状态。</p>
+<p>如果一个表使用了另一个表的主键，可以在另一张表的名后面，加<code>_id</code>或<code>_sys_no</code>，例如：</p>
+<p>在product_sku表中有个字段，是product_spu表的主键，这时候可以取名：product_spu_id或product_spu_sys_no。</p>
+<p>还有创建时间，可以统一成：create_time，修改时间统一成：update_time。</p>
+<p>删除状态固定为：delete_status。</p>
+<p>其实还有很多公共字段，在不同的表之间，可以使用全局统一的命名规则，定义成相同的名称，以便于大家好理解。</p>
+<h3 id="1-6-索引名"><a href="#1-6-索引名" class="headerlink" title="1.6 索引名"></a>1.6 索引名</h3><p>在数据库中，索引有很多种，包括：主键、普通索引、唯一索引、联合索引等。</p>
+<p>主键索引名为 pk_字段名；</p>
+<p>唯一索引名为 uk_字段名；</p>
+<p>普通索引名则为 idx_字段名。</p>
+<p>说明：pk_ 即 primary key；uk_ 即 unique key；idx_ 即 index 的简称。</p>
+<h2 id="2-字段类型"><a href="#2-字段类型" class="headerlink" title="2.字段类型"></a>2.字段类型</h2><p>在设计表时，我们在选择<code>字段类型</code>时，可发挥空间很大。</p>
+<p>时间格式的数据有：date、datetime和timestamp等等可以选择。</p>
+<p>字符类型的数据有：varchar、char、text等可以选择。</p>
+<p>数字类型的数据有：int、bigint、smallint、tinyint等可以选择。</p>
+<p>说实话，选择很多，有时候是一件好事，也可能是一件坏事。</p>
+<p>如何选择一个<code>合适</code>的字段类型，变成了我们不得不面对的问题。</p>
+<p>如果字段类型选大了，比如：原本只有1-10之间的10个数字，结果选了<code>bigint</code>，它占<code>8</code>个字节。</p>
+<p>其实，1-10之间的10个数字，每个数字<code>1</code>个字节就能保存，选择<code>tinyint</code>更为合适。</p>
+<p>这样会白白浪费7个字节的空间。</p>
+<p>如果字段类型择小了，比如：一个18位的id字段，选择了<code>int</code>类型，最终数据会保存失败。</p>
+<p>所以选择一个合适的字段类型，还是非常重要的一件事情。</p>
+<p>以下原则可以参考一下：</p>
+<ol>
+<li>尽可能选择占用存储空间小的字段类型，在满足正常业务需求的情况下，从小到大，往上选。</li>
+<li>如果字符串长度固定，或者差别不大，可以选择char类型。如果字符串长度差别较大，可以选择varchar类型。</li>
+<li>是否字段，可以选择bit类型。</li>
+<li>枚举字段，可以选择tinyint类型。</li>
+<li>主键字段，可以选择bigint类型。</li>
+<li>金额字段，可以选择decimal类型。</li>
+<li>时间字段，可以选择timestamp或datetime类型。</li>
+</ol>
+<h2 id="3-字段长度"><a href="#3-字段长度" class="headerlink" title="3.字段长度"></a>3.字段长度</h2><p>前面我们已经定义好了<code>字段名称</code>，选择了合适的<code>字段类型</code>，接下来，需要重点关注的是<code>字段长度</code>了。</p>
+<p>比如：varchar(20)，biginit(20)等。</p>
+<p>那么问题来了，<code>varchar</code>代表的是<code>字节</code>长度，还是<code>字符</code>长度呢？</p>
+<p>答：在mysql中除了<code>varchar</code>和<code>char</code>是代表<code>字符</code>长度之外，其余的类型都是代表<code>字节</code>长度。</p>
+<p>biginit(n) 这个<code>n</code>表示什么意思呢？</p>
+<p>假如我们定义的字段类型和长度是：bigint(4)，bigint实际长度是<code>8</code>个字节。</p>
+<p>现在有个数据a=1，a显示4个字节，所以在不满4个字节时前面填充0（前提是该字段设置了zerofill属性），比如：0001。</p>
+<p>当满了4个字节时，比如现在数据是a=123456，它会按照实际的长度显示，比如：123456。</p>
+<p>但需要注意的是，有些mysql客户端即使满了4个字节，也可能只显示4个字节的内容，比如会显示成：1234。</p>
+<p>所以bigint(4)，这里的4表示显示的长度为4个字节，实际长度还是占8个字节。</p>
+<h2 id="4-字段个数"><a href="#4-字段个数" class="headerlink" title="4.字段个数"></a>4.字段个数</h2><p>我们在建表的时候，一定要对<code>字段个数</code>做一些限制。</p>
+<p>我之前见过有人创建的表，有几十个，甚至上百个字段，表中保存的数据非常大，查询效率很低。</p>
+<p>如果真有这种情况，可以将一张<code>大表</code>拆成多张<code>小表</code>，这几张表的主键相同。</p>
+<p>建议每表的字段个数，不要超过<code>20</code>个。</p>
+<h2 id="5-主键"><a href="#5-主键" class="headerlink" title="5. 主键"></a>5. 主键</h2><p>在创建表时，一定要创建<code>主键</code>。</p>
+<p>因为主键自带了主键索引，相比于其他索引，主键索引的查询效率最高，因为它不需要回表。</p>
+<p>此外，主键还是天然的<code>唯一索引</code>，可以根据它来判重。</p>
+<p>在<code>单个</code>数据库中，主键可以通过<code>AUTO_INCREMENT</code>，设置成<code>自动增长</code>的。</p>
+<p>但在<code>分布式</code>数据库中，特别是做了分库分表的业务库中，主键最好由外部算法(比如：雪花算法）生成，它能够保证生成的id是全局唯一的。</p>
+<p>除此之外，主键建议保存跟业务无关的值，减少业务耦合性，方便今后的扩展。</p>
+<p>不过我也见过，有些一对一的表关系，比如：用户表和用户扩展表，在保存数据时是一对一的关系。</p>
+<p>这样，用户扩展表的主键，可以直接保存用户表的主键。</p>
+<h2 id="6-存储引擎"><a href="#6-存储引擎" class="headerlink" title="6.存储引擎"></a>6.存储引擎</h2><p>在<code>mysql5.1</code>以前的版本，默认的存储引擎是<code>myslam</code>，而<code>mysql5.1</code>以后的版本，默认的存储引擎变成了<code>innodb</code>。</p>
+<p>之前我们还在创建表时，还一直纠结要选哪种存储引擎？</p>
+<p><code>myslam</code>的索引和数据分开存储，而有利于查询，但它不支持事务和外键等功能。</p>
+<p>而<code>innodb</code>虽说查询性能，稍微弱一点，但它支持事务和外键等，功能更强大一些。</p>
+<p>以前的建议是：读多写少的表，用myslam存储引擎。而写多读多的表，用innodb。</p>
+<p>但虽说mysql对innodb存储引擎性能的不断优化，现在myslam和innodb查询性能相差已经越来越小。</p>
+<p><strong>所以，建议我们在使用<code>mysql8</code>以后的版本时，直接使用默认的<code>innodb</code>存储引擎即可，无需额外修改存储引擎。</strong></p>
+<h2 id="7-NOT-NULL"><a href="#7-NOT-NULL" class="headerlink" title="7. NOT NULL"></a>7. NOT NULL</h2><p>在创建字段时，需要选择该字段是否允许为<code>NULL</code>。</p>
+<p>我们在定义字段时，应该尽可能明确该字段<code>NOT NULL</code>。</p>
+<p>为什么呢？</p>
+<p>我们主要以innodb存储引擎为例，myslam存储引擎没啥好说的。</p>
+<p>主要有以下原因：</p>
+<ol>
+<li>在innodb中，需要额外的空间存储null值，需要占用更多的空间。</li>
+<li>null值可能会导致索引失效。</li>
+<li>null值只能用<code>is null</code>或者<code>is not null</code>判断，用<code>=号</code>判断永远返回false。</li>
+</ol>
+<p>因此，建议我们在定义字段时，能定义成NOT NULL，就定义成NOT NULL。</p>
+<p>但如果某个字段直接定义成NOT NULL，万一有些地方忘了给该字段写值，就会<code>insert</code>不了数据。</p>
+<p>这也算合理的情况。</p>
+<p>但有一种情况是，系统有新功能上线，新增了字段。上线时一般会先执行sql脚本，再部署代码。</p>
+<p>由于老代码中，不会给新字段赋值，则insert数据时，也会报错。</p>
+<p>由此，非常有必要给NOT NULL的字段设置默认值，特别是后面新增的字段。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table product_sku add column  brand_id int(10) not null default 0;</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-外键"><a href="#8-外键" class="headerlink" title="8.外键"></a>8.外键</h2><p>在mysql中，是存在<code>外键</code>的。</p>
+<p>外键存在的主要作用是：保证数据的<code>一致性</code>和<code>完整性</code>。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table class (</span><br><span class="line">  id int(10) primary key auto_increment,</span><br><span class="line">  cname varchar(15)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>有个班级表class。</p>
+<p>然后有个student表：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table student(</span><br><span class="line">  id int(10) primary key auto_increment,</span><br><span class="line">  name varchar(15) not null,</span><br><span class="line">  gender varchar(10) not null,</span><br><span class="line">  cid int,</span><br><span class="line">  foreign key(cid) references class(id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>其中student表中的cid字段，保存的class表的id，这时通过<code>foreign key</code>增加了一个外键。</p>
+<p>这时，如果你直接通过student表的id删除数据，会报异常：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a foreign key constraint fails</span><br></pre></td></tr></table></figure>
+
+<p>必须要先删除class表对于的cid那条数据，再删除student表的数据才行，这样能够保证数据的一致性和完整性。</p>
+<blockquote>
+<p>顺便说一句：只有存储引擎是innodb时，才能使用外键。</p>
+</blockquote>
+<p>如果只有两张表的关联还好，但如果有十几张表都建了外键关联，每删除一次主表，都需要同步删除十几张子表，很显然性能会非常差。</p>
+<p><strong>因此，互联网系统中，一般建议不使用外键。因为这类系统更多的是为了性能考虑，宁可牺牲一点数据一致性和完整性。</strong></p>
+<p><strong>除了<code>外键</code>之外，<code>存储过程</code>和<code>触发器</code>也不太建议使用，他们都会影响性能。</strong></p>
+<h2 id="9-索引"><a href="#9-索引" class="headerlink" title="9. 索引"></a>9. 索引</h2><p>在建表时，除了指定<code>主键索引</code>之外，还需要创建一些<code>普通索引</code>。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table product_sku(</span><br><span class="line">  id int(10) primary key auto_increment,</span><br><span class="line">  spu_id int(10) not null,</span><br><span class="line">  brand_id int(10) not null,</span><br><span class="line">  name varchar(15) not null</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>在创建商品表时，使用spu_id（商品组表）和brand_id（品牌表）的id。</p>
+<p>像这类保存其他表id的情况，可以增加普通索引：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table product_sku (</span><br><span class="line">  id int(10) primary key auto_increment,</span><br><span class="line">  spu_id int(10) not null,</span><br><span class="line">  brand_id int(10) not null,</span><br><span class="line">  name varchar(15) not null,</span><br><span class="line">  KEY `ix_spu_id` (`spu_id`) USING BTREE,</span><br><span class="line">  KEY `ix_brand_id` (`brand_id`) USING BTREE</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>后面查表的时候，效率更高。</p>
+<p>但索引字段也不能建的太多，可能会影响保存数据的效率，因为索引需要额外的存储空间。</p>
+<p>建议单表的索引个数不要超过：<code>5</code>个。</p>
+<p>如果在建表时，发现索引个数超过5个了，可以删除部分<code>普通索引</code>，改成<code>联合索引</code>。</p>
+<p>顺便说一句：在创建联合索引的时候，需要使用注意<code>最左匹配原则</code>，不然，建的联合索引效率可能不高。</p>
+<p>对于数据重复率非常高的字段，比如：状态，不建议单独创建普通索引。因为即使加了索引，如果mysql发现<code>全表扫描</code>效率更高，可能会导致索引失效。</p>
+<h2 id="10-时间字段"><a href="#10-时间字段" class="headerlink" title="10.时间字段"></a>10.时间字段</h2><p><code>时间字段</code>的类型，我们可以选择的范围还是比较多的，目前mysql支持：date、datetime、timestamp、varchar等。</p>
+<p><code>varchar</code>类型可能是为了跟接口保持一致，接口中的时间类型是String。</p>
+<p>但如果哪天我们要通过时间范围查询数据，效率会非常低，因为这种情况没法走索引。</p>
+<p><code>date</code>类型主要是为了保存<code>日期</code>，比如：2020-08-20，不适合保存<code>日期和时间</code>，比如：2020-08-20 12:12:20。</p>
+<p>而<code>datetime</code>和<code>timestamp</code>类型更适合我们保存<code>日期和时间</code>。</p>
+<p>但它们有略微区别。</p>
+<ul>
+<li><code>timestamp</code>：用4个字节来保存数据，它的取值范围为<code>1970-01-01 00:00:01</code> UTC ~ <code>2038-01-19 03:14:07</code>。此外，它还跟时区有关。</li>
+<li><code>datetime</code>：用8个字节来保存数据，它的取值范围为<code>1000-01-01 00:00:00</code> ~ <code>9999-12-31 23:59:59</code>。它跟时区无关。</li>
+</ul>
+<p>优先推荐使用<code>datetime</code>类型保存日期和时间，可以保存的时间范围更大一些。</p>
+<blockquote>
+<p>温馨提醒一下，在给时间字段设置默认值时，建议不要设置成：<code>0000-00-00 00:00:00</code>，不然查询表时可能会因为转换不了，而直接报错。</p>
+</blockquote>
+<h2 id="11-金额字段"><a href="#11-金额字段" class="headerlink" title="11.金额字段"></a>11.金额字段</h2><p>mysql中有多个字段可以表示浮点数：float、double、decimal等。</p>
+<p>而<code>float</code>和<code>double</code>可能会丢失精度，因此推荐大家使用<code>decimal</code>类型保存金额。</p>
+<p>一般我们是这样定义浮点数的：decimal(m,n)。</p>
+<p>其中<code>n</code>是指<code>小数</code>的长度，而<code>m</code>是指<code>整数加小数</code>的总长度。</p>
+<p>假如我们定义的金额类型是这样的：decimal(10,2)，则表示整数长度是8位，并且保留2位小数。</p>
+<h2 id="12-唯一索引"><a href="#12-唯一索引" class="headerlink" title="12.唯一索引"></a>12.唯一索引</h2><p><code>唯一索引</code>在我们实际工作中，使用频率相当高。</p>
+<p>你可以给单个字段，加唯一索引，比如：组织机构code。</p>
+<p>也可以给多个字段，加一个联合的唯一索引，比如：分类编号、单位、规格等。</p>
+<p>单个的唯一索引还好，但如果是联合的唯一索引，字段值出现null时，则唯一性约束可能会失效。</p>
+<blockquote>
+<p>创建唯一索引时，相关字段一定不能包含null值，否则唯一性会失效。</p>
+</blockquote>
+<h2 id="13-字符集"><a href="#13-字符集" class="headerlink" title="13.字符集"></a>13.字符集</h2><p>mysql中支持的<code>字符集</code>有很多，常用的有：latin1、utf-8、utf8mb4、GBK等。</p>
+<p>这4种字符集情况如下：<img src="http://lzcoder.cn/640" alt="图片"></p>
+<p><code>latin1</code>容易出现乱码问题，在实际项目中使用比较少。</p>
+<p>而<code>GBK</code>支持中文，但不支持国际通用字符，在实际项目中使用也不多。</p>
+<p>从目前来看，mysql的字符集使用最多的还是：<code>utf-8</code>和<code>utf8mb4</code>。</p>
+<p>其中<code>utf-8</code>占用3个字节，比<code>utf8mb4</code>的4个字节，占用更小的存储空间。</p>
+<p>但utf-8有个问题：即无法存储emoji表情，因为emoji表情一般需要4个字节。</p>
+<p>由此，使用utf-8字符集，保存emoji表情时，数据库会直接报错。</p>
+<p>所以，建议在建表时字符集设置成：<code>utf8mb4</code>，会省去很多不必要的麻烦。</p>
+<h2 id="14-排序规则"><a href="#14-排序规则" class="headerlink" title="14. 排序规则"></a>14. 排序规则</h2><p>不知道，你关注过没，在mysql中创建表时，有个<code>COLLATE</code>参数可以设置。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE TABLE `order` (</span><br><span class="line">  `id` bigint NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `code` varchar(20) COLLATE utf8mb4_bin NOT NULL,</span><br><span class="line">  `name` varchar(30) COLLATE utf8mb4_bin NOT NULL,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  UNIQUE KEY `un_code` (`code`),</span><br><span class="line">  KEY `un_code_name` (`code`,`name`) USING BTREE,</span><br><span class="line">  KEY `idx_name` (`name`)</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin</span><br></pre></td></tr></table></figure>
+
+<p>它是用来设置<code>排序规则</code>的。</p>
+<p>字符排序规则跟字符集有关，比如：字符集如果是<code>utf8mb4</code>，则字符排序规则也是以：<code>utf8mb4_</code>开头的，常用的有：<code>utf8mb4_general_ci</code>、<code>utf8mb4_bin</code>等。</p>
+<p>其中utf8mb4_general_ci排序规则，对字母的大小写不敏感。说得更直白一点，就是不区分大小写。</p>
+<p>而utf8mb4_bin排序规则，对字符大小写敏感，也就是区分大小写。</p>
+<p>说实话，这一点还是非常重要的。</p>
+<p>假如order表中现在有一条记录，name的值是大写的YOYO，但我们用小写的yoyo去查，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from order where name=&#x27;yoyo&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>如果字符排序规则是utf8mb4_general_ci，则可以查出大写的YOYO的那条数据。</p>
+<p>如果字符排序规则是utf8mb4_bin，则查不出来。</p>
+<p>由此，字符排序规则一定要根据实际的业务场景选择，否则容易出现问题。</p>
+<h2 id="15-大字段"><a href="#15-大字段" class="headerlink" title="15.大字段"></a>15.大字段</h2><p>我们在创建表时，对一些特殊字段，要额外关注，比如：<code>大字段</code>，即占用较多存储空间的字段。</p>
+<p>比如：用户的评论，这就属于一个大字段，但这个字段可长可短。</p>
+<p>但一般会对评论的总长度做限制，比如：最多允许输入500个字符。</p>
+<p>如果直接定义成<code>text</code>类型，可能会浪费存储空间，所以建议将这类字段定义成<code>varchar</code>类型的存储效率更高。</p>
+<p>当然，我还见过更大的字段，即该字段直接保存合同数据。</p>
+<p>一个合同可能会占<code>几Mb</code>。</p>
+<p>在mysql中保存这种数据，从系统设计的角度来说，本身就不太合理。</p>
+<p>像合同这种非常大的数据，可以保存到<code>mongodb</code>中，然后在mysql的业务表中，保存mongodb表的id。</p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>教程</tag>
       </tags>
   </entry>
   <entry>
@@ -398,6 +748,77 @@
 
 <p><a href="https://my.oschina.net/MyoldTime/blog/3075650"><a href="https://my.oschina.net/MyoldTime/blog/3075650">Java 并发编程：线程池的使用</a></a></p>
 <p><a href="https://blog.csdn.net/qq_24983911/article/details/94722569">参考二</a></p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>实操</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringBoot整合JWT增加token检验</title>
+    <url>/2022/12/15/SpringBoot%E6%95%B4%E5%90%88JWT%E5%A2%9E%E5%8A%A0token%E6%A3%80%E9%AA%8C/</url>
+    <content><![CDATA[<p>SpringBoot项目整合JWT对拦截器放过的请求生成token，拦截的请求校验token。达到对接口校验拦截目的。</p>
+<span id="more"></span>
+
+<h3 id="1-增加配置"><a href="#1-增加配置" class="headerlink" title="1.增加配置"></a>1.增加配置</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/com.auth0/java-jwt --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.auth0<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>java-jwt<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.9.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-增加拦截器"><a href="#2-增加拦截器" class="headerlink" title="2.增加拦截器"></a>2.增加拦截器</h3><h4 id="1-web请求拦截器"><a href="#1-web请求拦截器" class="headerlink" title="1. web请求拦截器"></a>1. web请求拦截器</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.coder.lion.demo.config.interceptor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.CorsRegistry;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.InterceptorRegistry;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.WebMvcConfigurer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> liuzheng</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2022年12月20日 16:32</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> web请求拦截器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebConfiguration</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> TokenInterceptor tokenInterceptor;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 解决跨域请求</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> registry</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addCorsMappings</span><span class="params">(CorsRegistry registry)</span> </span>&#123;</span><br><span class="line">        registry.addMapping(<span class="string">&quot;/**&quot;</span>)</span><br><span class="line">                .allowedHeaders(<span class="string">&quot;*&quot;</span>)</span><br><span class="line">                .allowedMethods(<span class="string">&quot;*&quot;</span>)</span><br><span class="line"><span class="comment">//                .allowedOrigins(&quot;*&quot;)</span></span><br><span class="line">                .allowedOriginPatterns(<span class="string">&quot;*&quot;</span>)</span><br><span class="line">                .allowCredentials(<span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 异步请求配置</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> configurer</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configureAsyncSupport</span><span class="params">(AsyncSupportConfigurer configurer)</span> </span>&#123;</span><br><span class="line">        configurer.setTaskExecutor(<span class="keyword">new</span> ConcurrentTaskExecutor(Executors.newFixedThreadPool(<span class="number">3</span>)));</span><br><span class="line">        configurer.setDefaultTimeout(<span class="number">30000</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 配置拦截器、拦截路径</span></span><br><span class="line"><span class="comment">     * 每次请求到拦截的路径，就会去执行拦截器中的方法</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> registry</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">        List&lt;String&gt; excludePath = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">//排除拦截，除了注册登录(此时还没token)，其他都拦截</span></span><br><span class="line">        excludePath.add(<span class="string">&quot;/userinfo/login&quot;</span>);  <span class="comment">//登录</span></span><br><span class="line">        excludePath.add(<span class="string">&quot;/userinfo/register&quot;</span>);     <span class="comment">//注册</span></span><br><span class="line">        excludePath.add(<span class="string">&quot;/doc.html&quot;</span>);     <span class="comment">//swagger</span></span><br><span class="line">        excludePath.add(<span class="string">&quot;/swagger-ui.html&quot;</span>);     <span class="comment">//swagger</span></span><br><span class="line">        excludePath.add(<span class="string">&quot;/swagger-resources/**&quot;</span>);     <span class="comment">//swagger</span></span><br><span class="line">        excludePath.add(<span class="string">&quot;/v2/api-docs&quot;</span>);     <span class="comment">//swagger</span></span><br><span class="line">        excludePath.add(<span class="string">&quot;/webjars/**&quot;</span>);     <span class="comment">//swagger</span></span><br><span class="line"><span class="comment">//        excludePath.add(&quot;/static/**&quot;);  //静态资源</span></span><br><span class="line"><span class="comment">//        excludePath.add(&quot;/assets/**&quot;);  //静态资源</span></span><br><span class="line">        registry.addInterceptor(tokenInterceptor)</span><br><span class="line">                .addPathPatterns(<span class="string">&quot;/**&quot;</span>)</span><br><span class="line">                .excludePathPatterns(excludePath);</span><br><span class="line">        WebMvcConfigurer.<span class="keyword">super</span>.addInterceptors(registry);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 注意：addInterceptors方法里面需要按自己情况进行修改，excludePath集合add的是需要放行的接口路径，前几章整合了swagger，所以此处需要放行swagger相关的路径，swagger-ui.html、doc.html、swagger-resources、等等，你再加上自己想要放行的接口路径即可，一般是首页请求的接口以及登录注册的接口（不需要进行token效验的接口）。</p>
+<h4 id="2-token-拦截器"><a href="#2-token-拦截器" class="headerlink" title="2. token 拦截器"></a>2. token 拦截器</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.coder.lion.demo.config.interceptor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSONObject;</span><br><span class="line"><span class="keyword">import</span> com.coder.lion.demo.utils.TokenUtils;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.HandlerInterceptor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> liuzheng</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2022年12月20日 16:30</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> token 拦截器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TokenInterceptor</span> <span class="keyword">implements</span> <span class="title">HandlerInterceptor</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//跨域请求会首先发一个option请求，直接返回正常状态并通过拦截器</span></span><br><span class="line">        <span class="keyword">if</span>(request.getMethod().equals(<span class="string">&quot;OPTIONS&quot;</span>))&#123;</span><br><span class="line">            response.setStatus(HttpServletResponse.SC_OK);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        response.setCharacterEncoding(<span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">        String token = request.getHeader(<span class="string">&quot;token&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (token!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">boolean</span> result= TokenUtils.verify(token);</span><br><span class="line">            <span class="keyword">if</span> (result)&#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;通过拦截器&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        response.setContentType(<span class="string">&quot;application/json; charset=utf-8&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            JSONObject json=<span class="keyword">new</span> JSONObject();</span><br><span class="line">            json.put(<span class="string">&quot;msg&quot;</span>,<span class="string">&quot;token verify fail&quot;</span>);</span><br><span class="line">            json.put(<span class="string">&quot;code&quot;</span>,<span class="string">&quot;500&quot;</span>);</span><br><span class="line">            response.getWriter().append(json.toString());</span><br><span class="line">            System.out.println(<span class="string">&quot;认证失败，未通过拦截器&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 还可以在此处检验用户存不存在等操作</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：此处token从request里面获取header里面的key值是token，你要根据自己的情况来，你在前端header里面传的token叫什么名称，这里就取什么名字。</strong> </p>
+<h4 id="3-token-工具类"><a href="#3-token-工具类" class="headerlink" title="3. token 工具类"></a>3. token 工具类</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.coder.lion.demo.utils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.auth0.jwt.JWT;</span><br><span class="line"><span class="keyword">import</span> com.auth0.jwt.JWTVerifier;</span><br><span class="line"><span class="keyword">import</span> com.auth0.jwt.algorithms.Algorithm;</span><br><span class="line"><span class="keyword">import</span> com.auth0.jwt.exceptions.JWTCreationException;</span><br><span class="line"><span class="keyword">import</span> com.auth0.jwt.exceptions.JWTVerificationException;</span><br><span class="line"><span class="keyword">import</span> com.auth0.jwt.interfaces.DecodedJWT;</span><br><span class="line"><span class="keyword">import</span> com.coder.lion.demo.model.entity.TUser;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> liuzheng</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2022年12月20日 16:35</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> TODO</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TokenUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//token到期时间10小时</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> EXPIRE_TIME= <span class="number">10</span>*<span class="number">60</span>*<span class="number">60</span>*<span class="number">1000</span>;</span><br><span class="line">    <span class="comment">//密钥盐</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TOKEN_SECRET=<span class="string">&quot;ljdyaishijin**3nkjnj??&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 生成token</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> user</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">sign</span><span class="params">(TUser user)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        String token=<span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Date expireAt=<span class="keyword">new</span> Date(System.currentTimeMillis()+EXPIRE_TIME);</span><br><span class="line">            token = JWT.create()</span><br><span class="line">                    <span class="comment">//发行人</span></span><br><span class="line">                    .withIssuer(<span class="string">&quot;auth0&quot;</span>)</span><br><span class="line">                    <span class="comment">//存放数据</span></span><br><span class="line">                    .withClaim(<span class="string">&quot;username&quot;</span>,user.getUsername())</span><br><span class="line">                    <span class="comment">//过期时间</span></span><br><span class="line">                    .withExpiresAt(expireAt)</span><br><span class="line">                    .sign(Algorithm.HMAC256(TOKEN_SECRET));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalArgumentException| JWTCreationException je) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> token;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * token验证</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> token</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Boolean <span class="title">verify</span><span class="params">(String token)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//创建token验证器</span></span><br><span class="line">            JWTVerifier jwtVerifier=JWT.require(Algorithm.HMAC256(TOKEN_SECRET)).withIssuer(<span class="string">&quot;auth0&quot;</span>).build();</span><br><span class="line">            DecodedJWT decodedJWT=jwtVerifier.verify(token);</span><br><span class="line">            System.out.println(<span class="string">&quot;认证通过：&quot;</span>);</span><br><span class="line">            System.out.println(<span class="string">&quot;username: &quot;</span> + decodedJWT.getClaim(<span class="string">&quot;username&quot;</span>).asString());</span><br><span class="line">            System.out.println(<span class="string">&quot;过期时间：      &quot;</span> + decodedJWT.getExpiresAt());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalArgumentException | JWTVerificationException e) &#123;</span><br><span class="line">            <span class="comment">//抛出错误即为验证不通过</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：此处到期时间可以自定义按情况进行设置，1000是1秒。此处token的生成方法以及效验方法可以根据具体情况进行更改，生成token1是使用的jwt，此处验证方法存在一个用户有多个token的情况（可以同时多次登陆同一账号，重新请求token之后，前一次的token只要没有过期也能使用。），可以整合redis后进行改造（后面会讲到），可以达到一个用户只有一个token的效果（重新请求token之后，前一次的token即使没有过期也不能使用。）</p>
+<h3 id="3-验证"><a href="#3-验证" class="headerlink" title="3. 验证"></a>3. 验证</h3><ol>
+<li>未携带token，或token不正确 拦截器拦截，请求失败</li>
+</ol>
+<p><img src="http://lzcoder.cn/image-20221220170539694.png" alt="image-20221220170539694"></p>
+<ol start="2">
+<li>使用web拦截器放开的接口，获取token</li>
+</ol>
+<p><img src="http://lzcoder.cn/image-20221220170800574.png" alt="image-20221220170800574"></p>
+<ol start="3">
+<li>使用获取的token重新请求接口</li>
+</ol>
+<p><img src="http://lzcoder.cn/image-20221220170840273.png" alt="image-20221220170840273"></p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>实操</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringBoot整合Redis使用</title>
+    <url>/2022/12/15/SpringBoot%E6%95%B4%E5%90%88Redis%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<ol>
+<li><p>SpringBoot整合redis，用redis存储token，实现一个用户只保存一个token，登录接口再次获取一个新的token后，前一个token则无法使用，解决一个用户可以多次登录的问题。</p>
+</li>
+<li><p>实现用户登录3次就锁定用户账户，无法再请求登录接口。</p>
+</li>
+</ol>
+<span id="more"></span>
+
+<h3 id="1-增加配置文件"><a href="#1-增加配置文件" class="headerlink" title="1. 增加配置文件"></a>1. 增加配置文件</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">99</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">profiles:</span></span><br><span class="line">    <span class="attr">active:</span> <span class="string">dev</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">database:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">lzrm</span></span><br><span class="line">    <span class="attr">host:</span> <span class="string">XX.XX.XX.XX</span></span><br><span class="line">    <span class="attr">post:</span> <span class="number">6379</span></span><br><span class="line">    <span class="attr">timeout:</span> <span class="number">5000</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-redis工具类"><a href="#2-redis工具类" class="headerlink" title="2.redis工具类"></a>2.redis工具类</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.coder.lion.demo.utils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.RedisTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate&lt;String, String&gt; redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 读取缓存</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">get</span><span class="params">(<span class="keyword">final</span> String key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForValue().get(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 写入缓存</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">set</span><span class="params">(<span class="keyword">final</span> String key, String value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> result = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            redisTemplate.opsForValue().set(key, value);</span><br><span class="line">            result = <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 写入缓存,并设置过期时间</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> timeout</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> unit</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">set</span><span class="params">(<span class="keyword">final</span> String key, String value, <span class="keyword">long</span> timeout, TimeUnit unit)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> result = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            redisTemplate.opsForValue().set(key, value, timeout, unit);</span><br><span class="line">            result = <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 更新缓存</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">getAndSet</span><span class="params">(<span class="keyword">final</span> String key, String value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> result = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            redisTemplate.opsForValue().getAndSet(key, value);</span><br><span class="line">            result = <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除缓存</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">delete</span><span class="params">(<span class="keyword">final</span> String key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> result = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            redisTemplate.delete(key);</span><br><span class="line">            result = <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-改造之前的拦截器，从redis中获取"><a href="#3-改造之前的拦截器，从redis中获取" class="headerlink" title="3.改造之前的拦截器，从redis中获取"></a>3.改造之前的拦截器，从redis中获取</h3><p><img src="http://lzcoder.cn/image-20221220174953530.png" alt="image-20221220174953530"></p>
+<h3 id="4-改造登录实现类"><a href="#4-改造登录实现类" class="headerlink" title="4. 改造登录实现类"></a>4. 改造登录实现类</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">RedisUtils redisUtils;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> BaseResponse&lt;HashMap&gt; <span class="title">login</span><span class="params">(String userName, String passWord)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//包装token</span></span><br><span class="line">    TUser user = <span class="keyword">new</span> TUser();</span><br><span class="line">    user.setUsername(userName);</span><br><span class="line">    user.setPassword(passWord);</span><br><span class="line">    <span class="comment">//校验用户密码等逻辑</span></span><br><span class="line">    String token= TokenUtils.sign(user);</span><br><span class="line">    redisUtils.set(token,userName,<span class="number">5</span>, TimeUnit.MINUTES);</span><br><span class="line">    HashMap&lt;String,Object&gt; hs=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    hs.put(<span class="string">&quot;token&quot;</span>,token);</span><br><span class="line">    <span class="keyword">return</span> RespGenerator.returnOK(hs);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-验证效果"><a href="#5-验证效果" class="headerlink" title="5.验证效果"></a>5.验证效果</h3><ol>
+<li>登录时，将token和有效时间存入redis</li>
+</ol>
+<p><img src="http://lzcoder.cn/image-20221220174801967.png" alt="image-20221220174801967"></p>
+<ol start="2">
+<li>当redis中存在未过期的token数据时，通过拦截器</li>
+</ol>
+<p><img src="http://lzcoder.cn/image-20221220174846383.png" alt="image-20221220174846383"></p>
 ]]></content>
       <categories>
         <category>java</category>
@@ -1295,306 +1716,6 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@DS(&quot;master&quot;)</span> <span class="comment">//指定所操作的数据源,也可以使用在方法上</span></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserServiceImpl</span> <span class="keyword">extends</span> <span class="title">ServiceImpl</span>&lt;<span class="title">UserMapper</span>, <span class="title">User</span>&gt; <span class="keyword">implements</span></span></span><br><span class="line"><span class="class"><span class="title">UserService</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="十、MyBatisX插件"><a href="#十、MyBatisX插件" class="headerlink" title="十、MyBatisX插件"></a>十、MyBatisX插件</h1><p><a href="https://baomidou.com/pages/ba5b24/">用法</a></p>
-]]></content>
-      <categories>
-        <category>数据库</category>
-      </categories>
-      <tags>
-        <tag>教程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>数据库表设计</title>
-    <url>/2021/12/22/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%AE%BE%E8%AE%A1/</url>
-    <content><![CDATA[<p>系统中收集到用户的核心数据，为了安全性，我们一般会存储到数据库，比如：mysql，oracle等。</p>
-<p>后端开发的日常工作，需要不断的建库和建表，来满足业务需求。</p>
-<p>通常情况下，建库的频率比建表要低很多，所以，我们这篇文章主要讨论建表相关的内容。</p>
-<p>如果我们在建表的时候不注意细节，等后面系统上线之后，表的维护成本变得非常高，而且很容易踩坑。</p>
-<span id="more"></span>
-
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> user_account_info</span><br><span class="line">(</span><br><span class="line">    id                     <span class="type">bigint</span> unsigned auto_increment comment <span class="string">&#x27;主键&#x27;</span> ,</span><br><span class="line">    acccount              <span class="type">varchar</span>(<span class="number">50</span>)  <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;身份/用户名&#x27;</span>,</span><br><span class="line">    passworld             <span class="type">varchar</span>(<span class="number">100</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;凭证/密码&#x27;</span>,</span><br><span class="line">    login_type             tinyint      <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;登录认证类型.0:本系统,2:微信登录&#x27;</span>,</span><br><span class="line">    login_id               <span class="type">varchar</span>(<span class="number">100</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;第三方登录的Id&#x27;</span>,</span><br><span class="line">    user_info_id           <span class="type">bigint</span>          <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;用户信息Id&#x27;</span>,</span><br><span class="line">    principal_valid_time   datetime     <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span>     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;身份/用户有效时间&#x27;</span>,</span><br><span class="line">    principal_expire_time  datetime     <span class="keyword">default</span> <span class="string">&#x27;9999-12-31 23:59:59&#x27;</span> <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;身份/用户失效时间&#x27;</span>,</span><br><span class="line">    credential_expire_time datetime     <span class="keyword">default</span> <span class="string">&#x27;9999-12-31 23:59:59&#x27;</span> <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;凭证/密码失效时间&#x27;</span>,</span><br><span class="line">    last_login_time        datetime                                   <span class="keyword">null</span> comment <span class="string">&#x27;最后登录时间&#x27;</span>,</span><br><span class="line">    status                 tinyint      <span class="keyword">default</span> <span class="number">1</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;有效状态(1-有效,0-失效)&#x27;</span>,</span><br><span class="line">    create_time            datetime     <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span>     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建时间&#x27;</span>,</span><br><span class="line">    create_user_id         <span class="type">int</span>          <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建人ID&#x27;</span>,</span><br><span class="line">    create_user_name       <span class="type">varchar</span>(<span class="number">30</span>)  <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建人名称&#x27;</span>,</span><br><span class="line">    update_time            datetime     <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span>     <span class="keyword">not</span> <span class="keyword">null</span> <span class="keyword">on</span> update <span class="built_in">CURRENT_TIMESTAMP</span> comment <span class="string">&#x27;修改时间&#x27;</span>,</span><br><span class="line">    update_user_id         <span class="type">int</span>          <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;修改人ID&#x27;</span>,</span><br><span class="line">    update_user_name       <span class="type">varchar</span>(<span class="number">30</span>)  <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;修改人名称&#x27;</span>,</span><br><span class="line">    is_deleted             tinyint      <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;删除标记 0未删除 1已删除&#x27;</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (`id`) <span class="keyword">USING</span> BTREE,</span><br><span class="line">  INDEX `idx_principal`(`principal`) <span class="keyword">USING</span> BTREE </span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB CHARSET<span class="operator">=</span>utf8mb4 <span class="keyword">COLLATE</span><span class="operator">=</span>utf8mb4_bin comment <span class="string">&#x27;用户账号信息表&#x27;</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="一-阿里开发文档-建表规约"><a href="#一-阿里开发文档-建表规约" class="headerlink" title="(一) 阿里开发文档 建表规约"></a>(一) 阿里开发文档 建表规约</h3><ol>
-<li><strong>【强制】</strong>表达是与否概念的字段，必须使用 is_xxx 的方式命名，数据类型是 unsigned tinyint（1 表示是，0 表示否）。</li>
-</ol>
-<p>说明：任何字段如果为非负数，必须是 unsigned。</p>
-<p>注意：POJO 类中的任何布尔类型的变量，都不要加 is 前缀，所以，需要在<resultMap>设置从 is_xxx 到</p>
-<p>Xxx 的映射关系。数据库表示是与否的值，使用 tinyint 类型，坚持 is_xxx 的命名方式是为了明确其取值含</p>
-<p>义与取值范围。</p>
-<p>正例：表达逻辑删除的字段名 is_deleted，1 表示删除，0 表示未删除。</p>
-<ol start="2">
-<li><strong>【强制】</strong>表名、字段名必须使用小写字母或数字，禁止出现数字开头，禁止两个下划线中间只</li>
-</ol>
-<p>出现数字。数据库字段名的修改代价很大，因为无法进行预发布，所以字段名称需要慎重考虑。</p>
-<p>说明：MySQL 在 Windows 下不区分大小写，但在 Linux 下默认是区分大小写。因此，数据库名、表名、</p>
-<p>字段名，都不允许出现任何大写字母，避免节外生枝。</p>
-<p>​            正例：aliyun_admin，rdc_config，level3_name</p>
-<p>​            反例：AliyunAdmin，rdcConfig，level_3_name</p>
-<ol start="3">
-<li><strong>【强制】</strong>表名不使用复数名词。</li>
-</ol>
-<p>说明：表名应该仅仅表示表里面的实体内容，不应该表示实体数量，对应于 DO 类名也是单数形式，符合</p>
-<p>表达习惯。</p>
-<ol start="4">
-<li><p><strong>【强制】</strong>禁用保留字，如 desc、range、match、delayed 等，请参考 MySQL 官方保留字。</p>
-</li>
-<li><p><strong>【强制】</strong>主键索引名为 pk_字段名；唯一索引名为 uk_字段名；普通索引名则为 idx_字段名。</p>
-</li>
-</ol>
-<p>说明：pk_ 即 primary key；uk_ 即 unique key；idx_ 即 index 的简称。</p>
-<ol start="6">
-<li><strong>【强制】</strong>小数类型为 decimal，禁止使用 float 和 double。</li>
-</ol>
-<p>说明：在存储的时候，float 和 double 都存在精度损失的问题，很可能在比较值的时候，得到不正确的</p>
-<p>结果。如果存储的数据范围超过 decimal 的范围，建议将数据拆成整数和小数并分开存储。</p>
-<ol start="7">
-<li><p><strong>【强制】</strong>如果存储的字符串长度几乎相等，使用 char 定长字符串类型。</p>
-</li>
-<li><p><strong>【强制】</strong>varchar 是可变长字符串，不预先分配存储空间，长度不要超过 5000，如果存储长度</p>
-</li>
-</ol>
-<p>大于此值，定义字段类型为 text，独立出来一张表，用主键来对应，避免影响其它字段索引效</p>
-<p>率。</p>
-<ol start="9">
-<li><strong>【强制】</strong>表必备三字段：id, create_time, update_time。</li>
-</ol>
-<p>说明：其中 id 必为主键，类型为 bigint unsigned、单表时自增、步长为 1。create_time, update_time</p>
-<p>的类型均为 datetime 类型，前者现在时表示主动式创建，后者过去分词表示被动式更新。</p>
-<p>10.【推荐】表的命名最好是遵循“业务名称_表的作用”。</p>
-<p>正例：alipay_task / force_project / trade_config</p>
-<p>11.【推荐】库名与应用名称尽量一致。</p>
-<p>12.【推荐】如果修改字段含义或对字段表示的状态追加时，需要及时更新字段注释。</p>
-<p>13.【推荐】字段允许适当冗余，以提高查询性能，但必须考虑数据一致。冗余字段应遵循：</p>
-<p>​        1） 不是频繁修改的字段。</p>
-<p>​        2） 不是唯一索引的字段。</p>
-<pre><code>     3） 不是 varchar 超长字段，更不能是 text 字段。
-</code></pre>
-<p> 正例：各业务线经常冗余存储商品名称，避免查询时需要调用 IC 服务获取。</p>
-<p>14.【推荐】单表行数超过 500 万行或者单表容量超过 2GB，才推荐进行分库分表。</p>
-<p>说明：如果预计三年后的数据量根本达不到这个级别，请不要在创建表时就分库分表。</p>
-<p>15.【参考】合适的字符存储长度，不但节约数据库表空间、节约索引存储，更重要的是提升检索速度。</p>
-<p>正例：无符号值可以避免误存负数，且扩大了表示范围。</p>
-<p><img src="http://lzcoder.cn/image-20221220103833871.png" alt="image-20221220103833871"></p>
-<p>接着跟大家一起聊聊数据库建表的15个小技巧，同时做一个梳理和总结，希望能对大家有所帮助。</p>
-<img src="http://lzcoder.cn/image-20221220095117751.png" alt="image-20221220095117751" style="zoom:67%;" />
-
-
-
-<h2 id="1-名字"><a href="#1-名字" class="headerlink" title="1.名字"></a>1.名字</h2><p>建表的时候，给<code>表</code>、<code>字段</code>和<code>索引</code>起个好名字，真的太重要了。</p>
-<h3 id="1-1-见名知意"><a href="#1-1-见名知意" class="headerlink" title="1.1 见名知意"></a>1.1 见名知意</h3><p>名字就像<code>表</code>、<code>字段</code>和<code>索引</code>的一张脸，可以给人留下第一印象。</p>
-<p>好的名字，言简意赅，见名知意，让人心情愉悦，能够提高沟通和维护成本。</p>
-<p>坏的名字，模拟两可，不知所云。而且显得杂乱无章，看得让人抓狂。</p>
-<p><strong>反例：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">用户名称字段定义成：yong_hu_ming、用户_name、name、user_name_123456789</span><br></pre></td></tr></table></figure>
-
-<p>你看了可能会一脸懵逼，这是什么骚操作？</p>
-<p><strong>正例：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">用户名称字段定义成：user_name</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>温馨提醒一下，名字也不宜过长，尽量控制在<code>30</code>个字符以内。</p>
-</blockquote>
-<h3 id="1-2-大小写"><a href="#1-2-大小写" class="headerlink" title="1.2 大小写"></a>1.2 大小写</h3><p>名字可以用<code>小写字母</code>，因为从视觉上，小写字母更容易让人读懂。</p>
-<p><strong>反例：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">字段名：PRODUCT_NAME、PRODUCT_name</span><br></pre></td></tr></table></figure>
-
-<p>全部大写，看起来有点不太直观。而一部分大写，一部分小写，让人看着更不爽。</p>
-<p><strong>正例：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">字段名：product_name</span><br></pre></td></tr></table></figure>
-
-<p>名字还是使用全小写字母，看着更舒服。</p>
-<h3 id="1-3-分隔符"><a href="#1-3-分隔符" class="headerlink" title="1.3 分隔符"></a>1.3 分隔符</h3><p>很多时候，名字为了让人好理解，有可能会包含多个单词。</p>
-<p>那么，多个单词间的<code>分隔符</code>该用什么呢？</p>
-<p><strong>反例：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">字段名：productname、productName、product name、product@name</span><br></pre></td></tr></table></figure>
-
-<p>单词间没有分隔，或者单词间用驼峰标识，或者单词间用空格分隔，或者单词间用@分隔，这几种方式都不太建议。</p>
-<p><strong>正例：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">字段名：product_name</span><br></pre></td></tr></table></figure>
-
-<p>可以考虑在单词间用<code>_</code>分隔。</p>
-<h3 id="1-4-表名"><a href="#1-4-表名" class="headerlink" title="1.4 表名"></a>1.4 表名</h3><p>对于表名，在言简意赅，见名知意的基础之上，建议带上<code>业务前缀</code>。</p>
-<p>如果是订单相关的业务表，可以在表名前面加个前缀：<code>order_</code>。</p>
-<p>例如：order_pay、order_pay_detail等。</p>
-<p>如果是商品相关的业务表，可以在表名前面加个前缀：<code>product_</code>。</p>
-<p>例如：product_spu，product_sku等。</p>
-<p>这样做的好处是为了方便归类，把相同业务的表，可以非常快速的聚集到一起。</p>
-<p>另外，还有有个好处是，如果哪天有非订单的业务，比如：金融业务，也需要建一个名字叫做pay的表，可以取名：finance_pay，就能非常轻松的区分。</p>
-<p>这样就不会出现<code>同名表</code>的情况。</p>
-<h3 id="1-5-字段名称"><a href="#1-5-字段名称" class="headerlink" title="1.5 字段名称"></a>1.5 字段名称</h3><p><code>字段名称</code>是开发人员发挥空间最大，但也最容易发生混乱的地方。</p>
-<p>比如有些表，使用flag表示状态，另外的表用status表示状态。</p>
-<p>可以统一一下，使用status表示状态。</p>
-<p>如果一个表使用了另一个表的主键，可以在另一张表的名后面，加<code>_id</code>或<code>_sys_no</code>，例如：</p>
-<p>在product_sku表中有个字段，是product_spu表的主键，这时候可以取名：product_spu_id或product_spu_sys_no。</p>
-<p>还有创建时间，可以统一成：create_time，修改时间统一成：update_time。</p>
-<p>删除状态固定为：delete_status。</p>
-<p>其实还有很多公共字段，在不同的表之间，可以使用全局统一的命名规则，定义成相同的名称，以便于大家好理解。</p>
-<h3 id="1-6-索引名"><a href="#1-6-索引名" class="headerlink" title="1.6 索引名"></a>1.6 索引名</h3><p>在数据库中，索引有很多种，包括：主键、普通索引、唯一索引、联合索引等。</p>
-<p>主键索引名为 pk_字段名；</p>
-<p>唯一索引名为 uk_字段名；</p>
-<p>普通索引名则为 idx_字段名。</p>
-<p>说明：pk_ 即 primary key；uk_ 即 unique key；idx_ 即 index 的简称。</p>
-<h2 id="2-字段类型"><a href="#2-字段类型" class="headerlink" title="2.字段类型"></a>2.字段类型</h2><p>在设计表时，我们在选择<code>字段类型</code>时，可发挥空间很大。</p>
-<p>时间格式的数据有：date、datetime和timestamp等等可以选择。</p>
-<p>字符类型的数据有：varchar、char、text等可以选择。</p>
-<p>数字类型的数据有：int、bigint、smallint、tinyint等可以选择。</p>
-<p>说实话，选择很多，有时候是一件好事，也可能是一件坏事。</p>
-<p>如何选择一个<code>合适</code>的字段类型，变成了我们不得不面对的问题。</p>
-<p>如果字段类型选大了，比如：原本只有1-10之间的10个数字，结果选了<code>bigint</code>，它占<code>8</code>个字节。</p>
-<p>其实，1-10之间的10个数字，每个数字<code>1</code>个字节就能保存，选择<code>tinyint</code>更为合适。</p>
-<p>这样会白白浪费7个字节的空间。</p>
-<p>如果字段类型择小了，比如：一个18位的id字段，选择了<code>int</code>类型，最终数据会保存失败。</p>
-<p>所以选择一个合适的字段类型，还是非常重要的一件事情。</p>
-<p>以下原则可以参考一下：</p>
-<ol>
-<li>尽可能选择占用存储空间小的字段类型，在满足正常业务需求的情况下，从小到大，往上选。</li>
-<li>如果字符串长度固定，或者差别不大，可以选择char类型。如果字符串长度差别较大，可以选择varchar类型。</li>
-<li>是否字段，可以选择bit类型。</li>
-<li>枚举字段，可以选择tinyint类型。</li>
-<li>主键字段，可以选择bigint类型。</li>
-<li>金额字段，可以选择decimal类型。</li>
-<li>时间字段，可以选择timestamp或datetime类型。</li>
-</ol>
-<h2 id="3-字段长度"><a href="#3-字段长度" class="headerlink" title="3.字段长度"></a>3.字段长度</h2><p>前面我们已经定义好了<code>字段名称</code>，选择了合适的<code>字段类型</code>，接下来，需要重点关注的是<code>字段长度</code>了。</p>
-<p>比如：varchar(20)，biginit(20)等。</p>
-<p>那么问题来了，<code>varchar</code>代表的是<code>字节</code>长度，还是<code>字符</code>长度呢？</p>
-<p>答：在mysql中除了<code>varchar</code>和<code>char</code>是代表<code>字符</code>长度之外，其余的类型都是代表<code>字节</code>长度。</p>
-<p>biginit(n) 这个<code>n</code>表示什么意思呢？</p>
-<p>假如我们定义的字段类型和长度是：bigint(4)，bigint实际长度是<code>8</code>个字节。</p>
-<p>现在有个数据a=1，a显示4个字节，所以在不满4个字节时前面填充0（前提是该字段设置了zerofill属性），比如：0001。</p>
-<p>当满了4个字节时，比如现在数据是a=123456，它会按照实际的长度显示，比如：123456。</p>
-<p>但需要注意的是，有些mysql客户端即使满了4个字节，也可能只显示4个字节的内容，比如会显示成：1234。</p>
-<p>所以bigint(4)，这里的4表示显示的长度为4个字节，实际长度还是占8个字节。</p>
-<h2 id="4-字段个数"><a href="#4-字段个数" class="headerlink" title="4.字段个数"></a>4.字段个数</h2><p>我们在建表的时候，一定要对<code>字段个数</code>做一些限制。</p>
-<p>我之前见过有人创建的表，有几十个，甚至上百个字段，表中保存的数据非常大，查询效率很低。</p>
-<p>如果真有这种情况，可以将一张<code>大表</code>拆成多张<code>小表</code>，这几张表的主键相同。</p>
-<p>建议每表的字段个数，不要超过<code>20</code>个。</p>
-<h2 id="5-主键"><a href="#5-主键" class="headerlink" title="5. 主键"></a>5. 主键</h2><p>在创建表时，一定要创建<code>主键</code>。</p>
-<p>因为主键自带了主键索引，相比于其他索引，主键索引的查询效率最高，因为它不需要回表。</p>
-<p>此外，主键还是天然的<code>唯一索引</code>，可以根据它来判重。</p>
-<p>在<code>单个</code>数据库中，主键可以通过<code>AUTO_INCREMENT</code>，设置成<code>自动增长</code>的。</p>
-<p>但在<code>分布式</code>数据库中，特别是做了分库分表的业务库中，主键最好由外部算法(比如：雪花算法）生成，它能够保证生成的id是全局唯一的。</p>
-<p>除此之外，主键建议保存跟业务无关的值，减少业务耦合性，方便今后的扩展。</p>
-<p>不过我也见过，有些一对一的表关系，比如：用户表和用户扩展表，在保存数据时是一对一的关系。</p>
-<p>这样，用户扩展表的主键，可以直接保存用户表的主键。</p>
-<h2 id="6-存储引擎"><a href="#6-存储引擎" class="headerlink" title="6.存储引擎"></a>6.存储引擎</h2><p>在<code>mysql5.1</code>以前的版本，默认的存储引擎是<code>myslam</code>，而<code>mysql5.1</code>以后的版本，默认的存储引擎变成了<code>innodb</code>。</p>
-<p>之前我们还在创建表时，还一直纠结要选哪种存储引擎？</p>
-<p><code>myslam</code>的索引和数据分开存储，而有利于查询，但它不支持事务和外键等功能。</p>
-<p>而<code>innodb</code>虽说查询性能，稍微弱一点，但它支持事务和外键等，功能更强大一些。</p>
-<p>以前的建议是：读多写少的表，用myslam存储引擎。而写多读多的表，用innodb。</p>
-<p>但虽说mysql对innodb存储引擎性能的不断优化，现在myslam和innodb查询性能相差已经越来越小。</p>
-<p><strong>所以，建议我们在使用<code>mysql8</code>以后的版本时，直接使用默认的<code>innodb</code>存储引擎即可，无需额外修改存储引擎。</strong></p>
-<h2 id="7-NOT-NULL"><a href="#7-NOT-NULL" class="headerlink" title="7. NOT NULL"></a>7. NOT NULL</h2><p>在创建字段时，需要选择该字段是否允许为<code>NULL</code>。</p>
-<p>我们在定义字段时，应该尽可能明确该字段<code>NOT NULL</code>。</p>
-<p>为什么呢？</p>
-<p>我们主要以innodb存储引擎为例，myslam存储引擎没啥好说的。</p>
-<p>主要有以下原因：</p>
-<ol>
-<li>在innodb中，需要额外的空间存储null值，需要占用更多的空间。</li>
-<li>null值可能会导致索引失效。</li>
-<li>null值只能用<code>is null</code>或者<code>is not null</code>判断，用<code>=号</code>判断永远返回false。</li>
-</ol>
-<p>因此，建议我们在定义字段时，能定义成NOT NULL，就定义成NOT NULL。</p>
-<p>但如果某个字段直接定义成NOT NULL，万一有些地方忘了给该字段写值，就会<code>insert</code>不了数据。</p>
-<p>这也算合理的情况。</p>
-<p>但有一种情况是，系统有新功能上线，新增了字段。上线时一般会先执行sql脚本，再部署代码。</p>
-<p>由于老代码中，不会给新字段赋值，则insert数据时，也会报错。</p>
-<p>由此，非常有必要给NOT NULL的字段设置默认值，特别是后面新增的字段。</p>
-<p>例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table product_sku add column  brand_id int(10) not null default 0;</span><br></pre></td></tr></table></figure>
-
-<h2 id="8-外键"><a href="#8-外键" class="headerlink" title="8.外键"></a>8.外键</h2><p>在mysql中，是存在<code>外键</code>的。</p>
-<p>外键存在的主要作用是：保证数据的<code>一致性</code>和<code>完整性</code>。</p>
-<p>例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table class (</span><br><span class="line">  id int(10) primary key auto_increment,</span><br><span class="line">  cname varchar(15)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<p>有个班级表class。</p>
-<p>然后有个student表：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table student(</span><br><span class="line">  id int(10) primary key auto_increment,</span><br><span class="line">  name varchar(15) not null,</span><br><span class="line">  gender varchar(10) not null,</span><br><span class="line">  cid int,</span><br><span class="line">  foreign key(cid) references class(id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<p>其中student表中的cid字段，保存的class表的id，这时通过<code>foreign key</code>增加了一个外键。</p>
-<p>这时，如果你直接通过student表的id删除数据，会报异常：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a foreign key constraint fails</span><br></pre></td></tr></table></figure>
-
-<p>必须要先删除class表对于的cid那条数据，再删除student表的数据才行，这样能够保证数据的一致性和完整性。</p>
-<blockquote>
-<p>顺便说一句：只有存储引擎是innodb时，才能使用外键。</p>
-</blockquote>
-<p>如果只有两张表的关联还好，但如果有十几张表都建了外键关联，每删除一次主表，都需要同步删除十几张子表，很显然性能会非常差。</p>
-<p><strong>因此，互联网系统中，一般建议不使用外键。因为这类系统更多的是为了性能考虑，宁可牺牲一点数据一致性和完整性。</strong></p>
-<p><strong>除了<code>外键</code>之外，<code>存储过程</code>和<code>触发器</code>也不太建议使用，他们都会影响性能。</strong></p>
-<h2 id="9-索引"><a href="#9-索引" class="headerlink" title="9. 索引"></a>9. 索引</h2><p>在建表时，除了指定<code>主键索引</code>之外，还需要创建一些<code>普通索引</code>。</p>
-<p>例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table product_sku(</span><br><span class="line">  id int(10) primary key auto_increment,</span><br><span class="line">  spu_id int(10) not null,</span><br><span class="line">  brand_id int(10) not null,</span><br><span class="line">  name varchar(15) not null</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<p>在创建商品表时，使用spu_id（商品组表）和brand_id（品牌表）的id。</p>
-<p>像这类保存其他表id的情况，可以增加普通索引：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table product_sku (</span><br><span class="line">  id int(10) primary key auto_increment,</span><br><span class="line">  spu_id int(10) not null,</span><br><span class="line">  brand_id int(10) not null,</span><br><span class="line">  name varchar(15) not null,</span><br><span class="line">  KEY `ix_spu_id` (`spu_id`) USING BTREE,</span><br><span class="line">  KEY `ix_brand_id` (`brand_id`) USING BTREE</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<p>后面查表的时候，效率更高。</p>
-<p>但索引字段也不能建的太多，可能会影响保存数据的效率，因为索引需要额外的存储空间。</p>
-<p>建议单表的索引个数不要超过：<code>5</code>个。</p>
-<p>如果在建表时，发现索引个数超过5个了，可以删除部分<code>普通索引</code>，改成<code>联合索引</code>。</p>
-<p>顺便说一句：在创建联合索引的时候，需要使用注意<code>最左匹配原则</code>，不然，建的联合索引效率可能不高。</p>
-<p>对于数据重复率非常高的字段，比如：状态，不建议单独创建普通索引。因为即使加了索引，如果mysql发现<code>全表扫描</code>效率更高，可能会导致索引失效。</p>
-<h2 id="10-时间字段"><a href="#10-时间字段" class="headerlink" title="10.时间字段"></a>10.时间字段</h2><p><code>时间字段</code>的类型，我们可以选择的范围还是比较多的，目前mysql支持：date、datetime、timestamp、varchar等。</p>
-<p><code>varchar</code>类型可能是为了跟接口保持一致，接口中的时间类型是String。</p>
-<p>但如果哪天我们要通过时间范围查询数据，效率会非常低，因为这种情况没法走索引。</p>
-<p><code>date</code>类型主要是为了保存<code>日期</code>，比如：2020-08-20，不适合保存<code>日期和时间</code>，比如：2020-08-20 12:12:20。</p>
-<p>而<code>datetime</code>和<code>timestamp</code>类型更适合我们保存<code>日期和时间</code>。</p>
-<p>但它们有略微区别。</p>
-<ul>
-<li><code>timestamp</code>：用4个字节来保存数据，它的取值范围为<code>1970-01-01 00:00:01</code> UTC ~ <code>2038-01-19 03:14:07</code>。此外，它还跟时区有关。</li>
-<li><code>datetime</code>：用8个字节来保存数据，它的取值范围为<code>1000-01-01 00:00:00</code> ~ <code>9999-12-31 23:59:59</code>。它跟时区无关。</li>
-</ul>
-<p>优先推荐使用<code>datetime</code>类型保存日期和时间，可以保存的时间范围更大一些。</p>
-<blockquote>
-<p>温馨提醒一下，在给时间字段设置默认值时，建议不要设置成：<code>0000-00-00 00:00:00</code>，不然查询表时可能会因为转换不了，而直接报错。</p>
-</blockquote>
-<h2 id="11-金额字段"><a href="#11-金额字段" class="headerlink" title="11.金额字段"></a>11.金额字段</h2><p>mysql中有多个字段可以表示浮点数：float、double、decimal等。</p>
-<p>而<code>float</code>和<code>double</code>可能会丢失精度，因此推荐大家使用<code>decimal</code>类型保存金额。</p>
-<p>一般我们是这样定义浮点数的：decimal(m,n)。</p>
-<p>其中<code>n</code>是指<code>小数</code>的长度，而<code>m</code>是指<code>整数加小数</code>的总长度。</p>
-<p>假如我们定义的金额类型是这样的：decimal(10,2)，则表示整数长度是8位，并且保留2位小数。</p>
-<h2 id="12-唯一索引"><a href="#12-唯一索引" class="headerlink" title="12.唯一索引"></a>12.唯一索引</h2><p><code>唯一索引</code>在我们实际工作中，使用频率相当高。</p>
-<p>你可以给单个字段，加唯一索引，比如：组织机构code。</p>
-<p>也可以给多个字段，加一个联合的唯一索引，比如：分类编号、单位、规格等。</p>
-<p>单个的唯一索引还好，但如果是联合的唯一索引，字段值出现null时，则唯一性约束可能会失效。</p>
-<blockquote>
-<p>创建唯一索引时，相关字段一定不能包含null值，否则唯一性会失效。</p>
-</blockquote>
-<h2 id="13-字符集"><a href="#13-字符集" class="headerlink" title="13.字符集"></a>13.字符集</h2><p>mysql中支持的<code>字符集</code>有很多，常用的有：latin1、utf-8、utf8mb4、GBK等。</p>
-<p>这4种字符集情况如下：<img src="http://lzcoder.cn/640" alt="图片"></p>
-<p><code>latin1</code>容易出现乱码问题，在实际项目中使用比较少。</p>
-<p>而<code>GBK</code>支持中文，但不支持国际通用字符，在实际项目中使用也不多。</p>
-<p>从目前来看，mysql的字符集使用最多的还是：<code>utf-8</code>和<code>utf8mb4</code>。</p>
-<p>其中<code>utf-8</code>占用3个字节，比<code>utf8mb4</code>的4个字节，占用更小的存储空间。</p>
-<p>但utf-8有个问题：即无法存储emoji表情，因为emoji表情一般需要4个字节。</p>
-<p>由此，使用utf-8字符集，保存emoji表情时，数据库会直接报错。</p>
-<p>所以，建议在建表时字符集设置成：<code>utf8mb4</code>，会省去很多不必要的麻烦。</p>
-<h2 id="14-排序规则"><a href="#14-排序规则" class="headerlink" title="14. 排序规则"></a>14. 排序规则</h2><p>不知道，你关注过没，在mysql中创建表时，有个<code>COLLATE</code>参数可以设置。</p>
-<p>例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE TABLE `order` (</span><br><span class="line">  `id` bigint NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `code` varchar(20) COLLATE utf8mb4_bin NOT NULL,</span><br><span class="line">  `name` varchar(30) COLLATE utf8mb4_bin NOT NULL,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  UNIQUE KEY `un_code` (`code`),</span><br><span class="line">  KEY `un_code_name` (`code`,`name`) USING BTREE,</span><br><span class="line">  KEY `idx_name` (`name`)</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin</span><br></pre></td></tr></table></figure>
-
-<p>它是用来设置<code>排序规则</code>的。</p>
-<p>字符排序规则跟字符集有关，比如：字符集如果是<code>utf8mb4</code>，则字符排序规则也是以：<code>utf8mb4_</code>开头的，常用的有：<code>utf8mb4_general_ci</code>、<code>utf8mb4_bin</code>等。</p>
-<p>其中utf8mb4_general_ci排序规则，对字母的大小写不敏感。说得更直白一点，就是不区分大小写。</p>
-<p>而utf8mb4_bin排序规则，对字符大小写敏感，也就是区分大小写。</p>
-<p>说实话，这一点还是非常重要的。</p>
-<p>假如order表中现在有一条记录，name的值是大写的YOYO，但我们用小写的yoyo去查，例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from order where name=&#x27;yoyo&#x27;;</span><br></pre></td></tr></table></figure>
-
-<p>如果字符排序规则是utf8mb4_general_ci，则可以查出大写的YOYO的那条数据。</p>
-<p>如果字符排序规则是utf8mb4_bin，则查不出来。</p>
-<p>由此，字符排序规则一定要根据实际的业务场景选择，否则容易出现问题。</p>
-<h2 id="15-大字段"><a href="#15-大字段" class="headerlink" title="15.大字段"></a>15.大字段</h2><p>我们在创建表时，对一些特殊字段，要额外关注，比如：<code>大字段</code>，即占用较多存储空间的字段。</p>
-<p>比如：用户的评论，这就属于一个大字段，但这个字段可长可短。</p>
-<p>但一般会对评论的总长度做限制，比如：最多允许输入500个字符。</p>
-<p>如果直接定义成<code>text</code>类型，可能会浪费存储空间，所以建议将这类字段定义成<code>varchar</code>类型的存储效率更高。</p>
-<p>当然，我还见过更大的字段，即该字段直接保存合同数据。</p>
-<p>一个合同可能会占<code>几Mb</code>。</p>
-<p>在mysql中保存这种数据，从系统设计的角度来说，本身就不太合理。</p>
-<p>像合同这种非常大的数据，可以保存到<code>mongodb</code>中，然后在mysql的业务表中，保存mongodb表的id。</p>
 ]]></content>
       <categories>
         <category>数据库</category>

@@ -22,21 +22,21 @@
   <meta name="description" content="系统中收集到用户的核心数据，为了安全性，我们一般会存储到数据库，比如：mysql，oracle等。 后端开发的日常工作，需要不断的建库和建表，来满足业务需求。 通常情况下，建库的频率比建表要低很多，所以，我们这篇文章主要讨论建表相关的内容。 如果我们在建表的时候不注意细节，等后面系统上线之后，表的维护成本变得非常高，而且很容易踩坑。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据库表设计">
-<meta property="og:url" content="http://example.com/2021/12/22/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:url" content="http://example.com/2022/12/20/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%AE%BE%E8%AE%A1/index.html">
 <meta property="og:site_name" content="程序小牛">
 <meta property="og:description" content="系统中收集到用户的核心数据，为了安全性，我们一般会存储到数据库，比如：mysql，oracle等。 后端开发的日常工作，需要不断的建库和建表，来满足业务需求。 通常情况下，建库的频率比建表要低很多，所以，我们这篇文章主要讨论建表相关的内容。 如果我们在建表的时候不注意细节，等后面系统上线之后，表的维护成本变得非常高，而且很容易踩坑。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://lzcoder.cn/image-20221220103833871.png">
 <meta property="og:image" content="http://lzcoder.cn/image-20221220095117751.png">
 <meta property="og:image" content="http://lzcoder.cn/640">
-<meta property="article:published_time" content="2021-12-22T05:51:34.727Z">
-<meta property="article:modified_time" content="2022-12-20T02:47:46.169Z">
+<meta property="article:published_time" content="2022-12-20T05:51:34.000Z">
+<meta property="article:modified_time" content="2022-12-20T07:59:45.849Z">
 <meta property="article:author" content="coder-Man">
 <meta property="article:tag" content="教程">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://lzcoder.cn/image-20221220103833871.png">
 
-<link rel="canonical" href="http://example.com/2021/12/22/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%AE%BE%E8%AE%A1/">
+<link rel="canonical" href="http://example.com/2022/12/20/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%AE%BE%E8%AE%A1/">
 
 
 <script id="page-configurations">
@@ -195,7 +195,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/22/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%AE%BE%E8%AE%A1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/20/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%AE%BE%E8%AE%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/photo.jpg">
@@ -219,16 +219,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021年12月22号 13:51:34" itemprop="dateCreated datePublished" datetime="2021-12-22T13:51:34+08:00">2021年12月22号</time>
+              <time title="创建时间：2022年12月20号 13:51:34 / 修改时间：15:59:45" itemprop="dateCreated datePublished" datetime="2022-12-20T13:51:34+08:00">2022年12月20号</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022年12月20号 10:47:46" itemprop="dateModified" datetime="2022-12-20T10:47:46+08:00">2022年12月20号</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -578,12 +572,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/12/16/%E5%B7%A5%E5%85%B7%E6%96%B9%E6%B3%95%E9%9B%86%E5%90%88/" rel="prev" title="工具方法集合">
-      <i class="fa fa-chevron-left"></i> 工具方法集合
+    <a href="/2022/12/15/SpringBoot%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="prev" title="SpringBoot使用线程池">
+      <i class="fa fa-chevron-left"></i> SpringBoot使用线程池
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/12/28/MyBatisPlus%E4%BD%BF%E7%94%A8/" rel="next" title="MyBatisPlus使用">
-      MyBatisPlus使用 <i class="fa fa-chevron-right"></i>
+    <a href="/2022/12/20/SpringBoot%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%B1%BB%E7%BC%96%E5%86%99/" rel="next" title="SpringBoot单元测试类编写">
+      SpringBoot单元测试类编写 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -659,7 +653,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -689,7 +683,7 @@
     <div class="widget-wrap">
         <div id="myCanvasContainer" class="widget tagcloud">
             <canvas width="250" height="250" id="resCanvas" style="width=100%">
-                <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%87%E5%BF%98/" rel="tag">备忘</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%93%8D/" rel="tag">实操</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a><span class="tag-list-count">28</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag">脚本</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9F%E6%9F%A5/" rel="tag">速查</a><span class="tag-list-count">7</span></li></ul>
+                <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%87%E5%BF%98/" rel="tag">备忘</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%93%8D/" rel="tag">实操</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a><span class="tag-list-count">28</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag">脚本</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9F%E6%9F%A5/" rel="tag">速查</a><span class="tag-list-count">7</span></li></ul>
             </canvas>
         </div>
     </div>
@@ -727,13 +721,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">204k</span>
+    <span title="站点总字数">216k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">3:06</span>
+    <span title="站点阅读时长">3:17</span>
 </div>
 
         
