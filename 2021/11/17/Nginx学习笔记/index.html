@@ -26,31 +26,31 @@
 <meta property="og:site_name" content="程序小牛">
 <meta property="og:description" content="这篇博文比较清晰的介绍了Nginx的相关概念和应用，主要包括动静分离、反向代理、负载均衡等相关功能实现">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117143711172.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117144945239.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117145049890.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100118368.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100354343.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100415321.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100438064.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100459886.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100520447.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105028881.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105211960.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105355992.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105737970.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105825319.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110231915.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110300079.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110348867.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110524659.png">
-<meta property="og:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110627187.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117143711172.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117144945239.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117145049890.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100118368.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100354343.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100415321.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100438064.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100459886.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100520447.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105028881.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105211960.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105355992.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105737970.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105825319.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110231915.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110300079.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110348867.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110524659.png">
+<meta property="og:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110627187.png">
 <meta property="article:published_time" content="2021-11-17T05:52:21.000Z">
 <meta property="article:modified_time" content="2022-12-19T09:19:01.033Z">
 <meta property="article:author" content="coder-Man">
 <meta property="article:tag" content="教程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117143711172.png">
+<meta name="twitter:image" content="http://example.com/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117143711172.png">
 
 <link rel="canonical" href="http://example.com/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
 
@@ -300,9 +300,9 @@
 <p>Nginx做Web服务器性能非常高，非常注重效率，能够经受高负载的考研</p>
 <p>⽀持50000个并发连接数，不仅如此， CPU和内存的占⽤也⾮常的低， 10000个没有活动的连<br>接才占⽤2.5M的内存。  </p>
 <h3 id="（二）反向代理服务器"><a href="#（二）反向代理服务器" class="headerlink" title="（二）反向代理服务器"></a>（二）反向代理服务器</h3><h4 id="1、正向代理"><a href="#1、正向代理" class="headerlink" title="1、正向代理"></a>1、正向代理</h4><p>​        在浏览器中配置代理服务器的相关信息，通过代理服务器访问⽬标⽹站，代理服务器收<br>到⽬标⽹站的响应之后，会把响应信息返回给我们⾃⼰的浏览器客户端  </p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117143711172.png" alt="image-20211117143711172"></p>
+<p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117143711172.png" alt="image-20211117143711172"></p>
 <h4 id="2、反向代理"><a href="#2、反向代理" class="headerlink" title="2、反向代理"></a>2、反向代理</h4><p>​    浏览器客户端发送请求到反向代理服务器（⽐如Nginx），由反向代理服务器选择原始<br>服务器提供服务获取结果响应，最终再返回给客户端浏览器  </p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117144945239.png" alt="image-20211117144945239"></p>
+<p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117144945239.png" alt="image-20211117144945239"></p>
 <h4 id="3、正向代理和反向代理的区别"><a href="#3、正向代理和反向代理的区别" class="headerlink" title="3、正向代理和反向代理的区别"></a>3、正向代理和反向代理的区别</h4><blockquote>
 <p>维基百科：正向代理是客户端和其他所有服务器（重点：所有）的代理者，而反向代理是客户端和<strong>所要</strong>代理的服务器之间的代理</p>
 </blockquote>
@@ -312,7 +312,7 @@
 <p>总结：<strong>正向代理对客户端负责，反向代理对代理的服务器负责，一正一反。</strong></p>
 <h3 id="（三）负载均衡服务器"><a href="#（三）负载均衡服务器" class="headerlink" title="（三）负载均衡服务器"></a>（三）负载均衡服务器</h3><p>负载均衡，当⼀个请求到来的时候（结合上图）， Nginx反向代理服务器根据请求去找到⼀个<br>原始服务器来处理当前请求，那么这叫做反向代理。那么，如果⽬标服务器有多台（⽐如上<br>图中的tomcat1， tomcat2， tomcat3…），找哪⼀个⽬标服务器来处理当前请求呢，这样⼀<br>个寻找确定的过程就叫做负载均衡。<br>⽣活中也有很多这样的例⼦，⽐如，我们去银⾏，可以处理业务的窗⼝有多个，那么我们会<br>被分配到哪个窗⼝呢到底，这样的⼀个过程就叫做负载均衡。  </p>
 <p>负载均衡就是为了解决⾼负载的问题。  </p>
-<h4 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h4><p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117145049890.png" alt="image-20211117145049890"></p>
+<h4 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h4><p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211117145049890.png" alt="image-20211117145049890"></p>
 <h2 id="3、Nginx的特点"><a href="#3、Nginx的特点" class="headerlink" title="3、Nginx的特点"></a>3、Nginx的特点</h2><h3 id="（一）跨平台"><a href="#（一）跨平台" class="headerlink" title="（一）跨平台"></a>（一）跨平台</h3><p>Nginx可以在⼤多数类unix操作系统上编译运⾏，⽽且也有windows版本  </p>
 <h3 id="（二）操作简单"><a href="#（二）操作简单" class="headerlink" title="（二）操作简单"></a>（二）操作简单</h3><p>Nginx的上⼿⾮常容易，配置也⽐较简单  </p>
 <h3 id="（三）性能强"><a href="#（三）性能强" class="headerlink" title="（三）性能强"></a>（三）性能强</h3><p>⾼并发，性能好 ，稳定性也特别好，宕机概率很低  </p>
@@ -330,20 +330,20 @@
 <p>进⼊sbin⽬录中，执⾏启动nginx命令  </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/</span><br><span class="line">cd nginx/sbin</span><br><span class="line">./nginx</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100118368.png" alt="image-20211118100118368"></p>
+<p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100118368.png" alt="image-20211118100118368"></p>
 <p>然后访问服务器的80端⼝（nginx默认监听80端⼝）  </p>
 <h3 id="（四）Nginx的主要命令"><a href="#（四）Nginx的主要命令" class="headerlink" title="（四）Nginx的主要命令"></a>（四）Nginx的主要命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./nginx 启动nginx</span><br><span class="line">./nginx -s stop 终⽌nginx（当然也可以找到nginx进程号，然后使⽤kill -9 杀掉nginx进程）</span><br><span class="line">./nginx -s reload (重新加载nginx.conf配置⽂件)</span><br></pre></td></tr></table></figure>
 
 <h1 id="三、核心配置文件解读"><a href="#三、核心配置文件解读" class="headerlink" title="三、核心配置文件解读"></a>三、核心配置文件解读</h1><p>Nginx的核⼼配置⽂件conf/nginx.conf包含三块内容：全局块、 events块、 http块  </p>
 <h2 id="1、全局块"><a href="#1、全局块" class="headerlink" title="1、全局块"></a>1、全局块</h2><p>从配置⽂件开始到events块之间的内容，此处的配置影响nginx服务器整体的运⾏，⽐如worker进<br>程的数量、错误⽇志的位置等  </p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100354343.png" alt="image-20211118100354343"></p>
+<p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100354343.png" alt="image-20211118100354343"></p>
 <h2 id="2、events块"><a href="#2、events块" class="headerlink" title="2、events块"></a>2、events块</h2><p>events块主要影响nginx服务器与⽤户的⽹络连接，⽐如worker_connections 1024，标识每个<br>workderprocess⽀持的最⼤连接数为1024  </p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100415321.png" alt="image-20211118100415321"></p>
+<p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100415321.png" alt="image-20211118100415321"></p>
 <h2 id="3、http块"><a href="#3、http块" class="headerlink" title="3、http块"></a>3、http块</h2><p>http块是配置最频繁的部分，虚拟主机的配置，监听端⼝的配置，请求转发、反向代理、负载均衡<br>等  </p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100438064.png" alt="image-20211118100438064"></p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100459886.png" alt="image-20211118100459886"></p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100520447.png" alt="image-20211118100520447"></p>
-<h1 id="四、Nginx应用场景之反向代理"><a href="#四、Nginx应用场景之反向代理" class="headerlink" title="四、Nginx应用场景之反向代理"></a>四、Nginx应用场景之反向代理</h1><h2 id="1、需求一"><a href="#1、需求一" class="headerlink" title="1、需求一"></a>1、需求一</h2><h3 id="（一）需求描述"><a href="#（一）需求描述" class="headerlink" title="（一）需求描述"></a>（一）需求描述</h3><p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105028881.png" alt="image-20211118105028881"></p>
+<p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100438064.png" alt="image-20211118100438064"></p>
+<p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100459886.png" alt="image-20211118100459886"></p>
+<p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118100520447.png" alt="image-20211118100520447"></p>
+<h1 id="四、Nginx应用场景之反向代理"><a href="#四、Nginx应用场景之反向代理" class="headerlink" title="四、Nginx应用场景之反向代理"></a>四、Nginx应用场景之反向代理</h1><h2 id="1、需求一"><a href="#1、需求一" class="headerlink" title="1、需求一"></a>1、需求一</h2><h3 id="（一）需求描述"><a href="#（一）需求描述" class="headerlink" title="（一）需求描述"></a>（一）需求描述</h3><p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105028881.png" alt="image-20211118105028881"></p>
 <h3 id="（二）需求实现"><a href="#（二）需求实现" class="headerlink" title="（二）需求实现"></a>（二）需求实现</h3><ol>
 <li><p>部署tomcat，保持默认监听8080端⼝  </p>
 </li>
@@ -352,7 +352,7 @@
 <li><p>修改nginx配置  </p>
 </li>
 </ol>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105211960.png" alt="image-20211118105211960"></p>
+<p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105211960.png" alt="image-20211118105211960"></p>
 <ol start="4">
 <li>重新加载nginx配置  </li>
 </ol>
@@ -361,12 +361,12 @@
 <ol start="5">
 <li>测试，访问<a href="http://111.229.248.243:9003,返回tomcat的⻚⾯">http://111.229.248.243:9003,返回tomcat的⻚⾯</a>  </li>
 </ol>
-<h2 id="2、需求二"><a href="#2、需求二" class="headerlink" title="2、需求二"></a>2、需求二</h2><h3 id="（一）需求描述-1"><a href="#（一）需求描述-1" class="headerlink" title="（一）需求描述"></a>（一）需求描述</h3><p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105355992.png" alt="image-20211118105355992"></p>
+<h2 id="2、需求二"><a href="#2、需求二" class="headerlink" title="2、需求二"></a>2、需求二</h2><h3 id="（一）需求描述-1"><a href="#（一）需求描述-1" class="headerlink" title="（一）需求描述"></a>（一）需求描述</h3><p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105355992.png" alt="image-20211118105355992"></p>
 <h3 id="（二）需求实现-1"><a href="#（二）需求实现-1" class="headerlink" title="（二）需求实现"></a>（二）需求实现</h3><ol>
 <li>再部署⼀台tomcat，保持默认监听8081端⼝  </li>
 <li>修改nginx配置，并重新加载  </li>
 </ol>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105737970.png" alt="image-20211118105737970"></p>
+<p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105737970.png" alt="image-20211118105737970"></p>
 <ol>
 <li><p><strong>这⾥主要就是多location的使⽤，这⾥的nginx中server/location就好⽐tomcat中的 Host/Context</strong>  </p>
 </li>
@@ -384,7 +384,7 @@
 <li>普通路径前缀匹配 location /lagou { }</li>
 <li>优先级<br>4 &gt; 3 &gt; 2 &gt; 1 &gt; 5  </li>
 </ol>
-<h1 id="五、Nginx应用场景之负载均衡"><a href="#五、Nginx应用场景之负载均衡" class="headerlink" title="五、Nginx应用场景之负载均衡"></a>五、Nginx应用场景之负载均衡</h1><h2 id="1、需求描述"><a href="#1、需求描述" class="headerlink" title="1、需求描述"></a>1、需求描述</h2><p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105825319.png" alt="image-20211118105825319"></p>
+<h1 id="五、Nginx应用场景之负载均衡"><a href="#五、Nginx应用场景之负载均衡" class="headerlink" title="五、Nginx应用场景之负载均衡"></a>五、Nginx应用场景之负载均衡</h1><h2 id="1、需求描述"><a href="#1、需求描述" class="headerlink" title="1、需求描述"></a>1、需求描述</h2><p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118105825319.png" alt="image-20211118105825319"></p>
 <h2 id="2、Nginx负载均衡策略"><a href="#2、Nginx负载均衡策略" class="headerlink" title="2、Nginx负载均衡策略"></a>2、Nginx负载均衡策略</h2><h3 id="（一）轮询"><a href="#（一）轮询" class="headerlink" title="（一）轮询"></a>（一）轮询</h3><p>默认策略，每个请求按时间顺序逐⼀分配到不同的服务器，如果某⼀个服务器下线，能⾃动剔除  </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">upstream lagouServer&#123;</span><br><span class="line">	server 111.229.248.243:8080;</span><br><span class="line">	server 111.229.248.243:8082;</span><br><span class="line">&#125;</span><br><span class="line">location /abc &#123;</span><br><span class="line">	proxy_pass http://lagouServer/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -397,18 +397,18 @@
 <h1 id="六、Nginx应⽤场景之动静分离"><a href="#六、Nginx应⽤场景之动静分离" class="headerlink" title="六、Nginx应⽤场景之动静分离"></a>六、Nginx应⽤场景之动静分离</h1><h2 id="1、思想"><a href="#1、思想" class="headerlink" title="1、思想"></a>1、思想</h2><p>动静分离就是讲动态资源和静态资源的请求处理分配到不同的服务器上，⽐较经典的组合就是<br>Nginx+Tomcat架构（Nginx处理静态资源请求， Tomcat处理动态资源请求），</p>
 <p>那么其实之前的讲解中， Nginx反向代理⽬标服务器Tomcat，我们能看到⽬标服务器ROOT项⽬的index.jsp，这本身就是Tomcat在处理动态资源请求了。  </p>
 <p>所以，我们只需要配置静态资源访问即可。  </p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110231915.png" alt="image-20211118110231915"></p>
+<p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110231915.png" alt="image-20211118110231915"></p>
 <h2 id="2、Nginx配置"><a href="#2、Nginx配置" class="headerlink" title="2、Nginx配置"></a>2、Nginx配置</h2><p>注意：statticDeata 根目录指的是nginx服务器的目录，和nginx同层级，而不是linux服务器的目录，否则会报404</p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110300079.png" alt="image-20211118110300079"></p>
+<p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110300079.png" alt="image-20211118110300079"></p>
 <h1 id="七、Nginx底层进程机制剖析"><a href="#七、Nginx底层进程机制剖析" class="headerlink" title="七、Nginx底层进程机制剖析"></a>七、Nginx底层进程机制剖析</h1><p>Nginx启动后，以daemon多进程⽅式在后台运⾏，包括⼀个Master进程和多个Worker进程， Master<br>进程是领导，是⽼⼤， Worker进程是⼲活的⼩弟。  </p>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110348867.png" alt="image-20211118110348867"></p>
+<p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110348867.png" alt="image-20211118110348867"></p>
 <h2 id="1、Master进程"><a href="#1、Master进程" class="headerlink" title="1、Master进程"></a>1、Master进程</h2><p>主要是管理worker进程，⽐如：  </p>
 <ol>
 <li>接收外界信号向各worker进程发送信号(./nginx -s reload)  </li>
 <li>监控worker进程的运⾏状态，当worker进程异常退出后Master进程会⾃动重新启动新的<br>worker进程等  </li>
 </ol>
 <h2 id="2、Worker进程"><a href="#2、Worker进程" class="headerlink" title="2、Worker进程"></a>2、Worker进程</h2><p>worker进程具体处理⽹络请求。多个worker进程之间是对等的，他们同等竞争来⾃客户端的请<br>求， <strong>各进程互相之间是独⽴的</strong>。⼀个请求，只可能在⼀个worker进程中处理，⼀个worker进程，<br>不可能处理其它进程的请求。 worker进程的个数是可以设置的，⼀般设置与机器cpu核数⼀致。  </p>
-<h2 id="3、Nginx进程模型示意图如下"><a href="#3、Nginx进程模型示意图如下" class="headerlink" title="3、Nginx进程模型示意图如下"></a>3、Nginx进程模型示意图如下</h2><p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110524659.png" alt="image-20211118110524659"></p>
+<h2 id="3、Nginx进程模型示意图如下"><a href="#3、Nginx进程模型示意图如下" class="headerlink" title="3、Nginx进程模型示意图如下"></a>3、Nginx进程模型示意图如下</h2><p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110524659.png" alt="image-20211118110524659"></p>
 <h4 id="一、以-nginx-s-reload-来说明nginx信号处理这部分-："><a href="#一、以-nginx-s-reload-来说明nginx信号处理这部分-：" class="headerlink" title="一、以 ./nginx -s reload 来说明nginx信号处理这部分  ："></a>一、以 ./nginx -s reload 来说明nginx信号处理这部分  ：</h4><ol>
 <li>以 ./nginx -s reload 来说明nginx信号处理这部分  </li>
 <li>尝试配置（⽐如修改了监听端⼝，那就尝试分配新的监听端⼝）  </li>
@@ -416,7 +416,7 @@
 <li>新建成功，给旧的worker进程发送关闭消息  </li>
 <li>旧的worker进程收到信号会继续服务，直到把当前进程接收到的请求处理完毕后关闭<br>所以reload之后worker进程pid是发⽣了变化的  </li>
 </ol>
-<p><img src="/2021/11/17/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110627187.png" alt="image-20211118110627187"></p>
+<p><img src="/Nginx%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211118110627187.png" alt="image-20211118110627187"></p>
 <h4 id="二、worker进程处理请求部分的说明"><a href="#二、worker进程处理请求部分的说明" class="headerlink" title="二、worker进程处理请求部分的说明"></a>二、worker进程处理请求部分的说明</h4><p>例如，我们监听9003端⼝，⼀个请求到来时，如果有多个worker进程，那么每个worker进程都有<br>可能处理这个链接。  </p>
 <ol>
 <li>master进程创建之后，会建⽴好需要监听的的socket，然后从master进程再fork出多个<br>worker进程。所以，所有worker进程的监听描述符listenfd在新连接到来时都变得可读。  </li>
@@ -594,13 +594,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">194k</span>
+    <span title="站点总字数">203k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:57</span>
+    <span title="站点阅读时长">3:05</span>
 </div>
 
         

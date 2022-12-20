@@ -353,7 +353,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">    druid:</span><br><span class="line">      stat-view-servlet:</span><br><span class="line">        loginUsername: admin</span><br><span class="line">        loginPassword: 123456</span><br><span class="line">    dynamic:</span><br><span class="line">      druid: #以下是全局默认值，可以全局更改</span><br><span class="line">        minIdle: 5</span><br><span class="line">        maxActive: 20</span><br><span class="line">        filters: stat,wall # 注意这个值和druid原生不一致，默认启动了stat,wall</span><br><span class="line">        stat:</span><br><span class="line">          merge-sql: true</span><br><span class="line">          log-slow-sql: true</span><br><span class="line">      datasource:</span><br><span class="line">        log:</span><br><span class="line">          url: jdbc:mysql://101.132.XXX.XX:3306/XXX</span><br><span class="line">          username: root</span><br><span class="line">          password: XXX</span><br><span class="line">          driverClassName: com.mysql.jdbc.Driver</span><br></pre></td></tr></table></figure>
 
 <h4 id="3-使用-mybatis-generator-逆向工程生成文件"><a href="#3-使用-mybatis-generator-逆向工程生成文件" class="headerlink" title="3. 使用 mybatis-generator 逆向工程生成文件"></a>3. 使用 <code>mybatis-generator</code> 逆向工程生成文件</h4><p>将生成的文件转移到新的Module中去，注意MyBatis-plus配置在SpringBoot启动类上的Mapper的扫描路径，那么在转移文件的时候，新的Module也要新建这样一层包路径，将相关的mapper文件放进去</p>
-<img src="http://lzcoder.cn/image-20211129114914329.png" alt="image-20211129114914329" style="zoom:67%;">
+<img src="http://lzcoder.cn/image-20211129114914329.png" alt="image-20211129114914329" style="zoom:67%;" />
 
 <p><img src="http://lzcoder.cn/image-20211129115109503.png" alt="image-20211129115109503"></p>
 <h4 id="4-业务代码编写"><a href="#4-业务代码编写" class="headerlink" title="4. 业务代码编写"></a>4. 业务代码编写</h4><h5 id="1-编写kafka消费者监听类"><a href="#1-编写kafka消费者监听类" class="headerlink" title="1.  编写kafka消费者监听类"></a>1.  编写kafka消费者监听类</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class ErrorMsgCollect &#123; </span><br><span class="line">    @Autowired</span><br><span class="line">    ParseErrorInfoMessage parseErrorInfoMessage;</span><br><span class="line">    </span><br><span class="line">    @KafkaListener(topics = &quot;error_log_collect_topic&quot;)</span><br><span class="line">    public void onMessage(ConsumerRecord&lt;Integer,String&gt; record)&#123;</span><br><span class="line">        ErrorLogInfo errorLogInfo = new ErrorLogInfo();</span><br><span class="line">        System.out.println(&quot;消费者收到的消息==&quot;+record.topic()+&quot;\t&quot;+record.partition()+&quot;\t&quot;+record.offset()+&quot;\t&quot;+record.key()+&quot;\t&quot;+record.value());</span><br><span class="line">        parseErrorInfoMessage.parseMessage(record.value(), errorLogInfo);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -599,13 +599,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">194k</span>
+    <span title="站点总字数">203k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:57</span>
+    <span title="站点阅读时长">3:05</span>
 </div>
 
         

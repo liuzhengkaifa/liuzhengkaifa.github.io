@@ -26,23 +26,23 @@
 <meta property="og:site_name" content="程序小牛">
 <meta property="og:description" content="博文介绍了普通hash算法、一致性hash算法、一致性hash算法在Nginx负载均衡策略中的应用，文章主要来源拉钩高薪训练营相关内容+自己的理解，条理清晰，能够帮助理解hash算法到底在查询和存储过程或者是负载均衡中到底起了什么样的作用，为什么会有那么高的效率?有兴趣的小伙伴可以了解下">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120092911825.png">
-<meta property="og:image" content="http://example.com/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120093204024.png">
-<meta property="og:image" content="http://example.com/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120093237536.png">
-<meta property="og:image" content="http://example.com/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120094829847.png">
-<meta property="og:image" content="http://example.com/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120101023499.png">
-<meta property="og:image" content="http://example.com/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120101639305.png">
-<meta property="og:image" content="http://example.com/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120102036135.png">
-<meta property="og:image" content="http://example.com/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120102153533.png">
-<meta property="og:image" content="http://example.com/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120102503565.png">
-<meta property="og:image" content="http://example.com/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120110523081.png">
-<meta property="og:image" content="http://example.com/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120110556554.png">
+<meta property="og:image" content="http://example.com/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120092911825.png">
+<meta property="og:image" content="http://example.com/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120093204024.png">
+<meta property="og:image" content="http://example.com/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/一致性Hash算法及在Nginx负载均衡策略上的应用/image-20211120093237536.png">
+<meta property="og:image" content="http://example.com/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120094829847.png">
+<meta property="og:image" content="http://example.com/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120101023499.png">
+<meta property="og:image" content="http://example.com/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120101639305.png">
+<meta property="og:image" content="http://example.com/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120102036135.png">
+<meta property="og:image" content="http://example.com/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120102153533.png">
+<meta property="og:image" content="http://example.com/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120102503565.png">
+<meta property="og:image" content="http://example.com/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120110523081.png">
+<meta property="og:image" content="http://example.com/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120110556554.png">
 <meta property="article:published_time" content="2021-11-20T00:55:49.000Z">
 <meta property="article:modified_time" content="2022-12-19T09:25:58.439Z">
 <meta property="article:author" content="coder-Man">
 <meta property="article:tag" content="教程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120092911825.png">
+<meta name="twitter:image" content="http://example.com/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120092911825.png">
 
 <link rel="canonical" href="http://example.com/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/">
 
@@ -291,7 +291,7 @@
 <p>hash算法：就是将这个数对数组长度进行求模（即求余数），得到的结果就是哈希值</p>
 <p>那么这个数和这个哈希值就建立了一一对应的关系，将这个数即可存放在数组下标值为它的哈希值的数组中，因此，判断这个数组有没有这个值时，只需要计算出这个值的hash值，直接根据数组下标查询是否为空即可得出结论。</p>
 <p><strong>问题</strong>：上面是最简单的hash算法，肯定会有问题出现，如多个数据通过求余数得到的结果一直，怎么都存在一个下标处，这就产生了hash冲突，解决的方法有开发寻址法，和拉链法，后面会讲到。这只是个示例，实际的hash算法要复杂很多，而且hash算法的研究一直在持续~</p>
-<p><img src="/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120092911825.png" alt="image-20211120092911825"></p>
+<p><img src="/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120092911825.png" alt="image-20211120092911825"></p>
 <ol>
 <li>开发寻址法</li>
 </ol>
@@ -304,14 +304,14 @@
 <li>拉链法</li>
 </ol>
 <p>数据⻓度定义好了，怎么存储更多内容呢，算好Hash值，在数组元素存储位置放了⼀个链表  </p>
-<p><img src="/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120093204024.png" alt="image-20211120093204024"></p>
+<p><img src="/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120093204024.png" alt="image-20211120093204024"></p>
 <p>如果Hash算法设计的⽐较好的话，那么查询效率会更接近于O(1)，如果Hash算法设计的⽐较low，那么<br>查询效率就会很低了  </p>
-<img src="/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120093237536.png" alt="image-20211120093237536" style="zoom:50%;">
+<img src="一致性Hash算法及在Nginx负载均衡策略上的应用/image-20211120093237536.png" alt="image-20211120093237536" style="zoom:50%;" />
 
 <p>因此，Hahs表的查询效率高不高取决于Hash算法，Hash算法能够让数据平均分布，既能够节省空间，又能够提高查询效率。Hash算法的研究是一门很高深的学问，甚至很多数学见也在研究中。</p>
 <p>HashCode就是通过一种hash算法得出的。</p>
 <h1 id="二、一致性哈希算法"><a href="#二、一致性哈希算法" class="headerlink" title="二、一致性哈希算法"></a>二、一致性哈希算法</h1><h2 id="1、普通Hash算法的弊端"><a href="#1、普通Hash算法的弊端" class="headerlink" title="1、普通Hash算法的弊端"></a>1、普通Hash算法的弊端</h2><p>例如Nginx自带的负载均衡策略ip_hash来说，根据IP地址的局域网段通过hash算法，将访问同一网段的客户端请求转发到同一台实现负载均衡的服务器上，虽然这样会避免session一致性问题，但是当其中一台服务器宕机了，根据求模得到的hash值便要重新计算，重新得到的hash值会将之前部分客户端请求转发到其它服务器上，从而会丢失sesssion登录信息等。</p>
-<p><img src="/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120094829847.png" alt="image-20211120094829847"></p>
+<p><img src="/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120094829847.png" alt="image-20211120094829847"></p>
 <p>因为搭建了集群的服务器生产情况下，后台服务器很多，访问的客户端也有很多，所以一台宕机或者新增一台服务器影响会是很大的。缩容和扩容都会存在这样的问题，大量的用户请求会被转发到其它服务器上，保存在之前服务器中的会话信息便会丢失。</p>
 <h2 id="2、应用场景"><a href="#2、应用场景" class="headerlink" title="2、应用场景"></a>2、应用场景</h2><h3 id="（一）Hash算法在分布式架构中的应用场景："><a href="#（一）Hash算法在分布式架构中的应用场景：" class="headerlink" title="（一）Hash算法在分布式架构中的应用场景："></a>（一）Hash算法在分布式架构中的应用场景：</h3><p>​        hash算法在分布式集群产品中都有应用，比如分布式集群架构Redis,Hadoop,ElasticSearch，Mysql分库分表， Nginx负载均衡等 </p>
 <h3 id="（二）应用场景归纳"><a href="#（二）应用场景归纳" class="headerlink" title="（二）应用场景归纳"></a>（二）应用场景归纳</h3><ol>
@@ -331,13 +331,13 @@
 </ol>
 <p>以分布式内存数据库Redis为例,集群中有redis1， redis2， redis3 三台Redis服务器那么,在进⾏数据存储时,&lt;key1,value1&gt;数据存储到哪个服务器当中呢？针对key进⾏hash处理hash(key1)%3=index, 使⽤余数index锁定存储的具体服务器节点  </p>
 <h3 id="（三）什么是一致性Hash算法"><a href="#（三）什么是一致性Hash算法" class="headerlink" title="（三）什么是一致性Hash算法"></a>（三）什么是一致性Hash算法</h3><p>一致性hash算法的思路：</p>
-<p><img src="/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120101023499.png" alt="image-20211120101023499"></p>
+<p><img src="/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120101023499.png" alt="image-20211120101023499"></p>
 <p>有这样一条直线，起始从0开始，结束为2的32次方-1，这也是Integer整数的取值范围，我们把它相当于地址，我们将这样一条线弯曲闭成一个环形，这样一个圆环我们就称之为<strong>hash环</strong>，我们把服务器的ip地址或者主机名求hash值然后对应到hash环上，那么针对客户端ip地址进行hash求值，对应到环上的某个位置，然后如何确定一个客户端的请求该由那一台服务器处理呢，即可按照hash环的顺时针方向，最近的服务器即处理来自hash环上的客户端请求</p>
-<p><img src="/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120101639305.png" alt="image-20211120101639305"></p>
+<p><img src="/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120101639305.png" alt="image-20211120101639305"></p>
 <p>这样的话，当hash环上的服务区3宕机下线，原来请求路由到3上的客户端会被转发到服务器4，而其它客户端请求则不会收到影响，使得请求的迁移达到了最小，对客户端的影响也降低了，这样的算法对于分布式来说是非常合适的</p>
-<p><img src="/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120102036135.png" alt="image-20211120102036135"></p>
+<p><img src="/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120102036135.png" alt="image-20211120102036135"></p>
 <p>增加服务器5之后，原来路由到3的部分客户端路由到新增服务器5上，对于其他客户端没有影响只是这⼀⼩部分受影响（请求的迁移达到了最⼩，这样的算法对分布式集群来说⾮常合适的，避免了⼤量请求迁移 ）  </p>
-<p><img src="/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120102153533.png" alt="image-20211120102153533"></p>
+<p><img src="/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120102153533.png" alt="image-20211120102153533"></p>
 <ol>
 <li>优势</li>
 </ol>
@@ -348,7 +348,7 @@
 <p>但是，⼀致性哈希算法在服务节点太少时，容易因为节点分部不均匀⽽造成数据倾斜问题。例如系统中只有两台服务器，其环分布如下，节点2只能负责⾮常⼩的⼀段，⼤量的客户端请求落在了节点1上，这就是数据（请求）倾斜问题  </p>
 <h4 id="1、增加虚拟节点"><a href="#1、增加虚拟节点" class="headerlink" title="1、增加虚拟节点"></a>1、增加虚拟节点</h4><p>为了解决这种数据倾斜问题，⼀致性哈希算法引⼊了虚拟节点机制，即对每⼀个服务节点计算多个哈希，每个计算结果位置都放置⼀个此服务节点，称为虚拟节点  </p>
 <p>具体做法可以在服务器ip或主机名的后⾯增加编号来实现。⽐如，可以为每台服务器计算三个虚拟节点，于是可以分别计算 “节点1的ip#1”、 “节点1的ip#2”、 “节点1的ip#3”、 “节点2的ip#1”、 “节点2的ip#2”、 “节点2的ip#3”的哈希值，于是形成六个虚拟节点，当客户端被路由到虚拟节点的时候其实是被路由到该虚拟节点所对应的真实节点  </p>
-<p><img src="/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120102503565.png" alt="image-20211120102503565"></p>
+<p><img src="/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120102503565.png" alt="image-20211120102503565"></p>
 <h2 id="3、手写实现简单hash算法和一致性hash算法"><a href="#3、手写实现简单hash算法和一致性hash算法" class="headerlink" title="3、手写实现简单hash算法和一致性hash算法"></a>3、手写实现简单hash算法和一致性hash算法</h2><h3 id="（一）普通hash算法实现"><a href="#（一）普通hash算法实现" class="headerlink" title="（一）普通hash算法实现"></a>（一）普通hash算法实现</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class GeneralHash &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //1.定义客户端IP</span><br><span class="line">        String[] clients = new String[]&#123;&quot;192.168.0.1&quot;,&quot;192.168.0.2&quot;,&quot;192.168.0.3&quot;&#125;;</span><br><span class="line"></span><br><span class="line">        //2.定义服务器数量</span><br><span class="line">        int serverCount = 5;</span><br><span class="line"></span><br><span class="line">        //使用hash(ip)%serverCount = index 根据index索引锁定应该路由到的tomcat服务器</span><br><span class="line">        for (String client:clients) &#123;</span><br><span class="line">            int client_hash = Math.abs(client.hashCode());</span><br><span class="line">            int index = client_hash%serverCount;</span><br><span class="line">            System.out.println(client+&quot;请求被转发到了服务器：&quot;+index);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="（二）一致性hash算法不带虚拟节点"><a href="#（二）一致性hash算法不带虚拟节点" class="headerlink" title="（二）一致性hash算法不带虚拟节点"></a>（二）一致性hash算法不带虚拟节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">public class ConsistentHashNoVirtual &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //step1 初始化：把服务器节点IP的哈希值对应到哈希环上</span><br><span class="line">        // 定义服务器ip</span><br><span class="line">        String[] tomcatServers = new String[]&#123;&quot;123.111.0.0&quot;,&quot;123.101.3.1&quot;,&quot;111.20.35.2&quot;,&quot;123.98.26.3&quot;&#125;;</span><br><span class="line"></span><br><span class="line">        SortedMap&lt;Integer,String&gt; hashServerMap = new TreeMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        for(String tomcatServer: tomcatServers) &#123;</span><br><span class="line">            // 求出每一个ip的hash值，对应到hash环上，存储hash值与ip的对应关系</span><br><span class="line">            int serverHash = Math.abs(tomcatServer.hashCode());</span><br><span class="line">            // 存储hash值与ip的对应关系</span><br><span class="line">            hashServerMap.put(serverHash,tomcatServer);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //step2 针对客户端IP求出hash值</span><br><span class="line">        // 定义客户端IP</span><br><span class="line">        String[] clients = new String[]&#123;&quot;10.78.12.3&quot;,&quot;113.25.63.1&quot;,&quot;126.12.3.8&quot;&#125;;</span><br><span class="line">        for(String client : clients) &#123;</span><br><span class="line">            int clientHash = Math.abs(client.hashCode());</span><br><span class="line">            //step3 针对客户端,找到能够处理当前客户端请求的服务器（哈希环上顺时针最近）</span><br><span class="line">            // 根据客户端ip的哈希值去找出哪一个服务器节点能够处理（）</span><br><span class="line">            SortedMap&lt;Integer, String&gt; integerStringSortedMap = hashServerMap.tailMap(clientHash);</span><br><span class="line">            if(integerStringSortedMap.isEmpty()) &#123;</span><br><span class="line">                // 取哈希环上的顺时针第一台服务器</span><br><span class="line">                Integer firstKey = hashServerMap.firstKey();</span><br><span class="line">                System.out.println(&quot;==========&gt;&gt;&gt;&gt;客户端：&quot; + client + &quot; 被路由到服务器：&quot; + hashServerMap.get(firstKey));</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                Integer firstKey = integerStringSortedMap.firstKey();</span><br><span class="line">                System.out.println(&quot;==========&gt;&gt;&gt;&gt;客户端：&quot; + client + &quot; 被路由到服务器：&quot; + hashServerMap.get(firstKey));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -366,10 +366,10 @@
 </ol>
 <h2 id="1、下载"><a href="#1、下载" class="headerlink" title="1、下载"></a>1、下载</h2><p>ngx_http_upstream_consistent_hash 模块是⼀个第三⽅模块，需要我们下载安装后使⽤  </p>
 <p>github下载nginx⼀致性hash负载均衡模块 <a target="_blank" rel="noopener" href="https://github.com/replay/ngx_http_consistent_hash">https://github.com/replay/ngx_http_consistent_hash</a>  </p>
-<p><img src="/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120110523081.png" alt="image-20211120110523081"></p>
+<p><img src="/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120110523081.png" alt="image-20211120110523081"></p>
 <h2 id="2、将下载的压缩包上传到nginx服务器，并解压"><a href="#2、将下载的压缩包上传到nginx服务器，并解压" class="headerlink" title="2、将下载的压缩包上传到nginx服务器，并解压"></a>2、将下载的压缩包上传到nginx服务器，并解压</h2><h2 id="3）我们已经编译安装过nginx，此时进⼊当时nginx的源码⽬录，执⾏如下命令"><a href="#3）我们已经编译安装过nginx，此时进⼊当时nginx的源码⽬录，执⾏如下命令" class="headerlink" title="3）我们已经编译安装过nginx，此时进⼊当时nginx的源码⽬录，执⾏如下命令"></a>3）我们已经编译安装过nginx，此时进⼊当时nginx的源码⽬录，执⾏如下命令</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure —add-module=/root/ngx_http_consistent_hash-master</span><br><span class="line">make</span><br><span class="line">make install  </span><br></pre></td></tr></table></figure>
 
-<h2 id="4）-Nginx就可以使⽤啦，在nginx-conf⽂件中配置"><a href="#4）-Nginx就可以使⽤啦，在nginx-conf⽂件中配置" class="headerlink" title="4） Nginx就可以使⽤啦，在nginx.conf⽂件中配置"></a>4） Nginx就可以使⽤啦，在nginx.conf⽂件中配置</h2><p><img src="/2021/11/20/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120110556554.png" alt="image-20211120110556554"></p>
+<h2 id="4）-Nginx就可以使⽤啦，在nginx-conf⽂件中配置"><a href="#4）-Nginx就可以使⽤啦，在nginx-conf⽂件中配置" class="headerlink" title="4） Nginx就可以使⽤啦，在nginx.conf⽂件中配置"></a>4） Nginx就可以使⽤啦，在nginx.conf⽂件中配置</h2><p><img src="/%E4%B8%80%E8%87%B4%E6%80%A7Hash%E7%AE%97%E6%B3%95%E5%8F%8A%E5%9C%A8Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/image-20211120110556554.png" alt="image-20211120110556554"></p>
 
     </div>
 
@@ -537,13 +537,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">194k</span>
+    <span title="站点总字数">203k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:57</span>
+    <span title="站点阅读时长">3:05</span>
 </div>
 
         
