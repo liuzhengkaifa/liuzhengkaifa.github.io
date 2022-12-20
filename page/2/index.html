@@ -381,7 +381,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/22/MySQL%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/22/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%AE%BE%E8%AE%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/photo.jpg">
@@ -395,7 +395,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/12/22/MySQL%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81/" class="post-title-link" itemprop="url">数据库表设计</a>
+            <a href="/2021/12/22/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%AE%BE%E8%AE%A1/" class="post-title-link" itemprop="url">数据库表设计</a>
         </h2>
 
         <div class="post-meta">
@@ -414,7 +414,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022年12月20号 10:13:08" itemprop="dateModified" datetime="2022-12-20T10:13:08+08:00">2022年12月20号</time>
+                <time title="修改时间：2022年12月20号 10:47:46" itemprop="dateModified" datetime="2022-12-20T10:47:46+08:00">2022年12月20号</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -432,14 +432,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>8.8k</span>
+              <span>10k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>8 分钟</span>
+              <span>9 分钟</span>
             </span>
 
         </div>
@@ -451,16 +451,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> user_account_info</span><br><span class="line">(</span><br><span class="line">    id                     <span class="type">bigint</span> auto_increment comment <span class="string">&#x27;主键&#x27;</span> ,</span><br><span class="line">    principal              <span class="type">varchar</span>(<span class="number">50</span>)  <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;身份/用户名&#x27;</span>,</span><br><span class="line">    credential             <span class="type">varchar</span>(<span class="number">100</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;凭证/密码&#x27;</span>,</span><br><span class="line">    login_type             tinyint      <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;登录认证类型.0:本系统,2:微信登录&#x27;</span>,</span><br><span class="line">    login_id               <span class="type">varchar</span>(<span class="number">100</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;第三方登录的Id&#x27;</span>,</span><br><span class="line">    user_info_id           <span class="type">bigint</span>          <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;用户信息Id&#x27;</span>,</span><br><span class="line">    principal_valid_time   datetime     <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span>     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;身份/用户有效时间&#x27;</span>,</span><br><span class="line">    principal_expire_time  datetime     <span class="keyword">default</span> <span class="string">&#x27;9999-12-31 23:59:59&#x27;</span> <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;身份/用户失效时间&#x27;</span>,</span><br><span class="line">    credential_expire_time datetime     <span class="keyword">default</span> <span class="string">&#x27;9999-12-31 23:59:59&#x27;</span> <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;凭证/密码失效时间&#x27;</span>,</span><br><span class="line">    last_login_time        datetime                                   <span class="keyword">null</span> comment <span class="string">&#x27;最后登录时间&#x27;</span>,</span><br><span class="line">    status                 tinyint      <span class="keyword">default</span> <span class="number">1</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;有效状态(1-有效,0-失效)&#x27;</span>,</span><br><span class="line">    create_time            datetime     <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span>     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建时间&#x27;</span>,</span><br><span class="line">    create_user_id         <span class="type">int</span>          <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建人ID&#x27;</span>,</span><br><span class="line">    create_user_name       <span class="type">varchar</span>(<span class="number">30</span>)  <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建人名称&#x27;</span>,</span><br><span class="line">    update_time            datetime     <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span>     <span class="keyword">not</span> <span class="keyword">null</span> <span class="keyword">on</span> update <span class="built_in">CURRENT_TIMESTAMP</span> comment <span class="string">&#x27;修改时间&#x27;</span>,</span><br><span class="line">    update_user_id         <span class="type">int</span>          <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;修改人ID&#x27;</span>,</span><br><span class="line">    update_user_name       <span class="type">varchar</span>(<span class="number">30</span>)  <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;修改人名称&#x27;</span>,</span><br><span class="line">    del_flag               tinyint      <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;删除标记 0未删除 1已删除&#x27;</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (`id`) <span class="keyword">USING</span> BTREE,</span><br><span class="line">  INDEX `idx_principal`(`principal`) <span class="keyword">USING</span> BTREE </span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB CHARSET<span class="operator">=</span>utf8mb4 <span class="keyword">COLLATE</span><span class="operator">=</span>utf8mb4_bin comment <span class="string">&#x27;用户账号信息表&#x27;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>对于后端开发同学来说，访问数据库，是代码中必不可少的一个环节。</p>
-<p>系统中收集到用户的核心数据，为了安全性，我们一般会存储到数据库，比如：mysql，oracle等。</p>
+          <p>系统中收集到用户的核心数据，为了安全性，我们一般会存储到数据库，比如：mysql，oracle等。</p>
 <p>后端开发的日常工作，需要不断的建库和建表，来满足业务需求。</p>
 <p>通常情况下，建库的频率比建表要低很多，所以，我们这篇文章主要讨论建表相关的内容。</p>
 <p>如果我们在建表的时候不注意细节，等后面系统上线之后，表的维护成本变得非常高，而且很容易踩坑。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/12/22/MySQL%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81/#more" rel="contents">
+              <a class="btn" href="/2021/12/22/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%AE%BE%E8%AE%A1/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1297,13 +1294,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">203k</span>
+    <span title="站点总字数">204k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">3:05</span>
+    <span title="站点阅读时长">3:06</span>
 </div>
 
         

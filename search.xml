@@ -1305,18 +1305,80 @@
   </entry>
   <entry>
     <title>数据库表设计</title>
-    <url>/2021/12/22/MySQL%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81/</url>
-    <content><![CDATA[<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> user_account_info</span><br><span class="line">(</span><br><span class="line">    id                     <span class="type">bigint</span> auto_increment comment <span class="string">&#x27;主键&#x27;</span> ,</span><br><span class="line">    principal              <span class="type">varchar</span>(<span class="number">50</span>)  <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;身份/用户名&#x27;</span>,</span><br><span class="line">    credential             <span class="type">varchar</span>(<span class="number">100</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;凭证/密码&#x27;</span>,</span><br><span class="line">    login_type             tinyint      <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;登录认证类型.0:本系统,2:微信登录&#x27;</span>,</span><br><span class="line">    login_id               <span class="type">varchar</span>(<span class="number">100</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;第三方登录的Id&#x27;</span>,</span><br><span class="line">    user_info_id           <span class="type">bigint</span>          <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;用户信息Id&#x27;</span>,</span><br><span class="line">    principal_valid_time   datetime     <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span>     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;身份/用户有效时间&#x27;</span>,</span><br><span class="line">    principal_expire_time  datetime     <span class="keyword">default</span> <span class="string">&#x27;9999-12-31 23:59:59&#x27;</span> <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;身份/用户失效时间&#x27;</span>,</span><br><span class="line">    credential_expire_time datetime     <span class="keyword">default</span> <span class="string">&#x27;9999-12-31 23:59:59&#x27;</span> <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;凭证/密码失效时间&#x27;</span>,</span><br><span class="line">    last_login_time        datetime                                   <span class="keyword">null</span> comment <span class="string">&#x27;最后登录时间&#x27;</span>,</span><br><span class="line">    status                 tinyint      <span class="keyword">default</span> <span class="number">1</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;有效状态(1-有效,0-失效)&#x27;</span>,</span><br><span class="line">    create_time            datetime     <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span>     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建时间&#x27;</span>,</span><br><span class="line">    create_user_id         <span class="type">int</span>          <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建人ID&#x27;</span>,</span><br><span class="line">    create_user_name       <span class="type">varchar</span>(<span class="number">30</span>)  <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建人名称&#x27;</span>,</span><br><span class="line">    update_time            datetime     <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span>     <span class="keyword">not</span> <span class="keyword">null</span> <span class="keyword">on</span> update <span class="built_in">CURRENT_TIMESTAMP</span> comment <span class="string">&#x27;修改时间&#x27;</span>,</span><br><span class="line">    update_user_id         <span class="type">int</span>          <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;修改人ID&#x27;</span>,</span><br><span class="line">    update_user_name       <span class="type">varchar</span>(<span class="number">30</span>)  <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;修改人名称&#x27;</span>,</span><br><span class="line">    del_flag               tinyint      <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;删除标记 0未删除 1已删除&#x27;</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (`id`) <span class="keyword">USING</span> BTREE,</span><br><span class="line">  INDEX `idx_principal`(`principal`) <span class="keyword">USING</span> BTREE </span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB CHARSET<span class="operator">=</span>utf8mb4 <span class="keyword">COLLATE</span><span class="operator">=</span>utf8mb4_bin comment <span class="string">&#x27;用户账号信息表&#x27;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>对于后端开发同学来说，访问数据库，是代码中必不可少的一个环节。</p>
-<p>系统中收集到用户的核心数据，为了安全性，我们一般会存储到数据库，比如：mysql，oracle等。</p>
+    <url>/2021/12/22/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%AE%BE%E8%AE%A1/</url>
+    <content><![CDATA[<p>系统中收集到用户的核心数据，为了安全性，我们一般会存储到数据库，比如：mysql，oracle等。</p>
 <p>后端开发的日常工作，需要不断的建库和建表，来满足业务需求。</p>
 <p>通常情况下，建库的频率比建表要低很多，所以，我们这篇文章主要讨论建表相关的内容。</p>
 <p>如果我们在建表的时候不注意细节，等后面系统上线之后，表的维护成本变得非常高，而且很容易踩坑。</p>
 <span id="more"></span>
 
-<p>今天就跟大家一起聊聊数据库建表的15个小技巧，同时做一个梳理和总结，希望能对大家有所帮助。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> user_account_info</span><br><span class="line">(</span><br><span class="line">    id                     <span class="type">bigint</span> unsigned auto_increment comment <span class="string">&#x27;主键&#x27;</span> ,</span><br><span class="line">    acccount              <span class="type">varchar</span>(<span class="number">50</span>)  <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;身份/用户名&#x27;</span>,</span><br><span class="line">    passworld             <span class="type">varchar</span>(<span class="number">100</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;凭证/密码&#x27;</span>,</span><br><span class="line">    login_type             tinyint      <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;登录认证类型.0:本系统,2:微信登录&#x27;</span>,</span><br><span class="line">    login_id               <span class="type">varchar</span>(<span class="number">100</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;第三方登录的Id&#x27;</span>,</span><br><span class="line">    user_info_id           <span class="type">bigint</span>          <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;用户信息Id&#x27;</span>,</span><br><span class="line">    principal_valid_time   datetime     <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span>     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;身份/用户有效时间&#x27;</span>,</span><br><span class="line">    principal_expire_time  datetime     <span class="keyword">default</span> <span class="string">&#x27;9999-12-31 23:59:59&#x27;</span> <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;身份/用户失效时间&#x27;</span>,</span><br><span class="line">    credential_expire_time datetime     <span class="keyword">default</span> <span class="string">&#x27;9999-12-31 23:59:59&#x27;</span> <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;凭证/密码失效时间&#x27;</span>,</span><br><span class="line">    last_login_time        datetime                                   <span class="keyword">null</span> comment <span class="string">&#x27;最后登录时间&#x27;</span>,</span><br><span class="line">    status                 tinyint      <span class="keyword">default</span> <span class="number">1</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;有效状态(1-有效,0-失效)&#x27;</span>,</span><br><span class="line">    create_time            datetime     <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span>     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建时间&#x27;</span>,</span><br><span class="line">    create_user_id         <span class="type">int</span>          <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建人ID&#x27;</span>,</span><br><span class="line">    create_user_name       <span class="type">varchar</span>(<span class="number">30</span>)  <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建人名称&#x27;</span>,</span><br><span class="line">    update_time            datetime     <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span>     <span class="keyword">not</span> <span class="keyword">null</span> <span class="keyword">on</span> update <span class="built_in">CURRENT_TIMESTAMP</span> comment <span class="string">&#x27;修改时间&#x27;</span>,</span><br><span class="line">    update_user_id         <span class="type">int</span>          <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;修改人ID&#x27;</span>,</span><br><span class="line">    update_user_name       <span class="type">varchar</span>(<span class="number">30</span>)  <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                    <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;修改人名称&#x27;</span>,</span><br><span class="line">    is_deleted             tinyint      <span class="keyword">default</span> <span class="number">0</span>                     <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;删除标记 0未删除 1已删除&#x27;</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (`id`) <span class="keyword">USING</span> BTREE,</span><br><span class="line">  INDEX `idx_principal`(`principal`) <span class="keyword">USING</span> BTREE </span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB CHARSET<span class="operator">=</span>utf8mb4 <span class="keyword">COLLATE</span><span class="operator">=</span>utf8mb4_bin comment <span class="string">&#x27;用户账号信息表&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="一-阿里开发文档-建表规约"><a href="#一-阿里开发文档-建表规约" class="headerlink" title="(一) 阿里开发文档 建表规约"></a>(一) 阿里开发文档 建表规约</h3><ol>
+<li><strong>【强制】</strong>表达是与否概念的字段，必须使用 is_xxx 的方式命名，数据类型是 unsigned tinyint（1 表示是，0 表示否）。</li>
+</ol>
+<p>说明：任何字段如果为非负数，必须是 unsigned。</p>
+<p>注意：POJO 类中的任何布尔类型的变量，都不要加 is 前缀，所以，需要在<resultMap>设置从 is_xxx 到</p>
+<p>Xxx 的映射关系。数据库表示是与否的值，使用 tinyint 类型，坚持 is_xxx 的命名方式是为了明确其取值含</p>
+<p>义与取值范围。</p>
+<p>正例：表达逻辑删除的字段名 is_deleted，1 表示删除，0 表示未删除。</p>
+<ol start="2">
+<li><strong>【强制】</strong>表名、字段名必须使用小写字母或数字，禁止出现数字开头，禁止两个下划线中间只</li>
+</ol>
+<p>出现数字。数据库字段名的修改代价很大，因为无法进行预发布，所以字段名称需要慎重考虑。</p>
+<p>说明：MySQL 在 Windows 下不区分大小写，但在 Linux 下默认是区分大小写。因此，数据库名、表名、</p>
+<p>字段名，都不允许出现任何大写字母，避免节外生枝。</p>
+<p>​            正例：aliyun_admin，rdc_config，level3_name</p>
+<p>​            反例：AliyunAdmin，rdcConfig，level_3_name</p>
+<ol start="3">
+<li><strong>【强制】</strong>表名不使用复数名词。</li>
+</ol>
+<p>说明：表名应该仅仅表示表里面的实体内容，不应该表示实体数量，对应于 DO 类名也是单数形式，符合</p>
+<p>表达习惯。</p>
+<ol start="4">
+<li><p><strong>【强制】</strong>禁用保留字，如 desc、range、match、delayed 等，请参考 MySQL 官方保留字。</p>
+</li>
+<li><p><strong>【强制】</strong>主键索引名为 pk_字段名；唯一索引名为 uk_字段名；普通索引名则为 idx_字段名。</p>
+</li>
+</ol>
+<p>说明：pk_ 即 primary key；uk_ 即 unique key；idx_ 即 index 的简称。</p>
+<ol start="6">
+<li><strong>【强制】</strong>小数类型为 decimal，禁止使用 float 和 double。</li>
+</ol>
+<p>说明：在存储的时候，float 和 double 都存在精度损失的问题，很可能在比较值的时候，得到不正确的</p>
+<p>结果。如果存储的数据范围超过 decimal 的范围，建议将数据拆成整数和小数并分开存储。</p>
+<ol start="7">
+<li><p><strong>【强制】</strong>如果存储的字符串长度几乎相等，使用 char 定长字符串类型。</p>
+</li>
+<li><p><strong>【强制】</strong>varchar 是可变长字符串，不预先分配存储空间，长度不要超过 5000，如果存储长度</p>
+</li>
+</ol>
+<p>大于此值，定义字段类型为 text，独立出来一张表，用主键来对应，避免影响其它字段索引效</p>
+<p>率。</p>
+<ol start="9">
+<li><strong>【强制】</strong>表必备三字段：id, create_time, update_time。</li>
+</ol>
+<p>说明：其中 id 必为主键，类型为 bigint unsigned、单表时自增、步长为 1。create_time, update_time</p>
+<p>的类型均为 datetime 类型，前者现在时表示主动式创建，后者过去分词表示被动式更新。</p>
+<p>10.【推荐】表的命名最好是遵循“业务名称_表的作用”。</p>
+<p>正例：alipay_task / force_project / trade_config</p>
+<p>11.【推荐】库名与应用名称尽量一致。</p>
+<p>12.【推荐】如果修改字段含义或对字段表示的状态追加时，需要及时更新字段注释。</p>
+<p>13.【推荐】字段允许适当冗余，以提高查询性能，但必须考虑数据一致。冗余字段应遵循：</p>
+<p>​        1） 不是频繁修改的字段。</p>
+<p>​        2） 不是唯一索引的字段。</p>
+<pre><code>     3） 不是 varchar 超长字段，更不能是 text 字段。
+</code></pre>
+<p> 正例：各业务线经常冗余存储商品名称，避免查询时需要调用 IC 服务获取。</p>
+<p>14.【推荐】单表行数超过 500 万行或者单表容量超过 2GB，才推荐进行分库分表。</p>
+<p>说明：如果预计三年后的数据量根本达不到这个级别，请不要在创建表时就分库分表。</p>
+<p>15.【参考】合适的字符存储长度，不但节约数据库表空间、节约索引存储，更重要的是提升检索速度。</p>
+<p>正例：无符号值可以避免误存负数，且扩大了表示范围。</p>
+<p><img src="http://lzcoder.cn/image-20221220103833871.png" alt="image-20221220103833871"></p>
+<p>接着跟大家一起聊聊数据库建表的15个小技巧，同时做一个梳理和总结，希望能对大家有所帮助。</p>
 <img src="http://lzcoder.cn/image-20221220095117751.png" alt="image-20221220095117751" style="zoom:67%;" />
+
+
 
 <h2 id="1-名字"><a href="#1-名字" class="headerlink" title="1.名字"></a>1.名字</h2><p>建表的时候，给<code>表</code>、<code>字段</code>和<code>索引</code>起个好名字，真的太重要了。</p>
 <h3 id="1-1-见名知意"><a href="#1-1-见名知意" class="headerlink" title="1.1 见名知意"></a>1.1 见名知意</h3><p>名字就像<code>表</code>、<code>字段</code>和<code>索引</code>的一张脸，可以给人留下第一印象。</p>
