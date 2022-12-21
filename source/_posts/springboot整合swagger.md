@@ -1,5 +1,5 @@
 ---
-title: springboot整合swagger
+title: SpringBoot整合swagger
 abbrlink: 32019
 date: 2022-09-29 21:55:12
 tags:
@@ -187,10 +187,14 @@ public class SwaggerConfig {
 
 ```
 
-> @Configuration：用于定义配置类，可替换xml配置文件，被注解的类内部包含有一个或多个被@Bean注解的方法，这些方法将会被AnnotationConfigApplicationContext或AnnotationConfigWebApplicationContext类进行扫描，并用于构建bean定义，初始化Spring容器，简而言之就是在Spring启动时会将该类识别成一个配置类。
-> @EnableSwagger2：开启swagger，此处也需要使用。
->
-> 到此处即可完成使用自定义的swagger，若有其他需求修改该配置类即可，另外此处另外提到一个注解Profile，此处可以不使用，在实际开发中可能存在多个环境，测试环境，正式环境等，可能需要使用不同的配置，此时可以使用Profile注解。
-> @Profile("swagger")：指定组件在哪个环境的情况下才能被注册到容器中，不指定，任何环境下都能注册这个组件。
->
-> yml配置文件在开发时可能存在多个，因此可以指定具体哪一个环境可以开启该配置
+
+
+1. `@Configuration`：用于定义配置类，可替换xml配置文件，被注解的类内部包含有一个或多个被@Bean注解的方法，这些方法将会被AnnotationConfigApplicationContext或AnnotationConfigWebApplicationContext类进行扫描，并用于构建bean定义，初始化Spring容器，简而言之就是在Spring启动时会将该类识别成一个配置类。
+
+2. `@EnableSwagger2`：开启swagger，此处也需要使用。
+
+到此处即可完成使用自定义的swagger，若有其他需求修改该配置类即可，另外此处另外提到一个注解Profile，此处可以不使用，在实际开发中可能存在多个环境，测试环境，正式环境等，可能需要使用不同的配置，此时可以使用Profile注解。
+
+3. `@Profile("swagger")`：指定组件在哪个环境的情况下才能被注册到容器中，不指定，任何环境下都能注册这个组件。
+
+yml配置文件在开发时可能存在多个，因此可以指定具体哪一个环境可以开启该配置
