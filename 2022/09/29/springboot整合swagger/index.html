@@ -21,8 +21,8 @@
 
   <meta name="description" content="基于SpringBoot项目使用Swagger文档">
 <meta property="og:type" content="article">
-<meta property="og:title" content="springboot整合swagger">
-<meta property="og:url" content="http://example.com/2022/09/29/springboot%E6%95%B4%E5%90%88swagger/index.html">
+<meta property="og:title" content="SpringBoot整合swagger">
+<meta property="og:url" content="http://example.com/2022/09/29/SpringBoot%E6%95%B4%E5%90%88swagger/index.html">
 <meta property="og:site_name" content="程序小牛">
 <meta property="og:description" content="基于SpringBoot项目使用Swagger文档">
 <meta property="og:locale" content="zh_CN">
@@ -30,13 +30,13 @@
 <meta property="og:image" content="http://lzcoder.cn/image-20220929220705945.png">
 <meta property="og:image" content="http://lzcoder.cn/image-20220929224322619.png">
 <meta property="article:published_time" content="2022-09-29T13:55:12.000Z">
-<meta property="article:modified_time" content="2022-12-20T10:35:50.606Z">
+<meta property="article:modified_time" content="2022-12-21T01:21:00.526Z">
 <meta property="article:author" content="coder-Man">
 <meta property="article:tag" content="实操">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://lzcoder.cn/image-20220929224450396.png">
 
-<link rel="canonical" href="http://example.com/2022/09/29/springboot%E6%95%B4%E5%90%88swagger/">
+<link rel="canonical" href="http://example.com/2022/09/29/SpringBoot%E6%95%B4%E5%90%88swagger/">
 
 
 <script id="page-configurations">
@@ -49,7 +49,7 @@
   };
 </script>
 
-  <title>springboot整合swagger | 程序小牛</title>
+  <title>SpringBoot整合swagger | 程序小牛</title>
   
 
 
@@ -195,7 +195,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/29/springboot%E6%95%B4%E5%90%88swagger/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/29/SpringBoot%E6%95%B4%E5%90%88swagger/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/photo.jpg">
@@ -208,7 +208,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          springboot整合swagger
+          SpringBoot整合swagger
         </h1>
 
         <div class="post-meta">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022年12月20号 18:35:50" itemprop="dateModified" datetime="2022-12-20T18:35:50+08:00">2022年12月20号</time>
+                <time title="修改时间：2022年12月21号 09:21:00" itemprop="dateModified" datetime="2022-12-21T09:21:00+08:00">2022年12月21号</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -295,11 +295,19 @@
 <h1 id="第五步：自定义配置类"><a href="#第五步：自定义配置类" class="headerlink" title="第五步：自定义配置类"></a>第五步：自定义配置类</h1><p>场景：当在<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=swagger&spm=1001.2101.3001.7020">swagger</a>上进行接口测试时，想要新增token，swagger的默认配置是不行的（直接在启动类上面加@EnableSwagger2注解开启）</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.coder.lion.demo.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Profile;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.builders.ApiInfoBuilder;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.builders.ParameterBuilder;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.builders.RequestHandlerSelectors;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.schema.ModelRef;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.service.ApiInfo;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.service.Parameter;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.spi.DocumentationType;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.spring.web.plugins.Docket;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.swagger2.annotations.EnableSwagger2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> liuzheng</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2022年09月29日 22:47</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> swagger配置类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableSwagger2</span></span><br><span class="line"><span class="meta">@Profile(&quot;dev&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建API应用 apiInfo() 增加API相关信息</span></span><br><span class="line"><span class="comment">     * 通过select()函数返回一个ApiSelectorBuilder实例,用来控制哪些接口暴露给Swagger来展现，</span></span><br><span class="line"><span class="comment">     * 本例采用指定扫描的包路径来定义指定要建立API的目录。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">createRestApi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 选择那些路径和api会生成document</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).pathMapping(<span class="string">&quot;/&quot;</span>).select()</span><br><span class="line">                <span class="comment">// 对所有api进行监控</span></span><br><span class="line">                .apis(RequestHandlerSelectors.any())</span><br><span class="line">                .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class)).build()</span><br><span class="line">                <span class="comment">// 配置token</span></span><br><span class="line">                .globalOperationParameters(setHeaderToken());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 配置token</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> List&lt;Parameter&gt; <span class="title">setHeaderToken</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ParameterBuilder tokenPar = <span class="keyword">new</span> ParameterBuilder();</span><br><span class="line">        List&lt;Parameter&gt; pars = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        tokenPar.name(<span class="string">&quot;Authorization&quot;</span>).description(<span class="string">&quot;token&quot;</span>).modelRef(<span class="keyword">new</span> ModelRef(<span class="string">&quot;string&quot;</span>)).parameterType(<span class="string">&quot;header&quot;</span>)</span><br><span class="line">                .required(<span class="keyword">false</span>).build();</span><br><span class="line">        pars.add(tokenPar.build());</span><br><span class="line">        <span class="keyword">return</span> pars;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建该API的基本信息（这些基本信息会展现在文档页面中）</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apiInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiInfoBuilder().title(<span class="string">&quot;测试接口文档&quot;</span>).description(<span class="string">&quot;测试接口文档&quot;</span>).version(<span class="string">&quot;1.0&quot;</span>).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<blockquote>
-<p>@Configuration：用于定义配置类，可替换xml配置文件，被注解的类内部包含有一个或多个被@Bean注解的方法，这些方法将会被AnnotationConfigApplicationContext或AnnotationConfigWebApplicationContext类进行扫描，并用于构建bean定义，初始化Spring容器，简而言之就是在Spring启动时会将该类识别成一个配置类。<br>@EnableSwagger2：开启swagger，此处也需要使用。</p>
-<p>到此处即可完成使用自定义的swagger，若有其他需求修改该配置类即可，另外此处另外提到一个注解Profile，此处可以不使用，在实际开发中可能存在多个环境，测试环境，正式环境等，可能需要使用不同的配置，此时可以使用Profile注解。<br>@Profile(“swagger”)：指定组件在哪个环境的情况下才能被注册到容器中，不指定，任何环境下都能注册这个组件。</p>
+
+
+<ol>
+<li><p><code>@Configuration</code>：用于定义配置类，可替换xml配置文件，被注解的类内部包含有一个或多个被@Bean注解的方法，这些方法将会被AnnotationConfigApplicationContext或AnnotationConfigWebApplicationContext类进行扫描，并用于构建bean定义，初始化Spring容器，简而言之就是在Spring启动时会将该类识别成一个配置类。</p>
+</li>
+<li><p><code>@EnableSwagger2</code>：开启swagger，此处也需要使用。</p>
+</li>
+</ol>
+<p>到此处即可完成使用自定义的swagger，若有其他需求修改该配置类即可，另外此处另外提到一个注解Profile，此处可以不使用，在实际开发中可能存在多个环境，测试环境，正式环境等，可能需要使用不同的配置，此时可以使用Profile注解。</p>
+<ol start="3">
+<li><code>@Profile(&quot;swagger&quot;)</code>：指定组件在哪个环境的情况下才能被注册到容器中，不指定，任何环境下都能注册这个组件。</li>
+</ol>
 <p>yml配置文件在开发时可能存在多个，因此可以指定具体哪一个环境可以开启该配置</p>
-</blockquote>
 
     </div>
 
@@ -399,7 +407,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -429,7 +437,7 @@
     <div class="widget-wrap">
         <div id="myCanvasContainer" class="widget tagcloud">
             <canvas width="250" height="250" id="resCanvas" style="width=100%">
-                <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%87%E5%BF%98/" rel="tag">备忘</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%93%8D/" rel="tag">实操</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a><span class="tag-list-count">28</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag">脚本</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9F%E6%9F%A5/" rel="tag">速查</a><span class="tag-list-count">7</span></li></ul>
+                <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%87%E5%BF%98/" rel="tag">备忘</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%93%8D/" rel="tag">实操</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a><span class="tag-list-count">28</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag">脚本</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9F%E6%9F%A5/" rel="tag">速查</a><span class="tag-list-count">7</span></li></ul>
             </canvas>
         </div>
     </div>
@@ -467,13 +475,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">216k</span>
+    <span title="站点总字数">220k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">3:17</span>
+    <span title="站点阅读时长">3:20</span>
 </div>
 
         
