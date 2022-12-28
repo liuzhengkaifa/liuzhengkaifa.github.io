@@ -12,8 +12,6 @@ categories:
 
 <!-- more-->
 
-
-
 # 第一步：创建一个SpringBoot项目
 
 ![image-20220929224450396](http://lzcoder.cn/image-20220929224450396.png)
@@ -198,3 +196,11 @@ public class SwaggerConfig {
 3. `@Profile("swagger")`：指定组件在哪个环境的情况下才能被注册到容器中，不指定，任何环境下都能注册这个组件。
 
 yml配置文件在开发时可能存在多个，因此可以指定具体哪一个环境可以开启该配置
+
+
+
+参考使用该教程，可以使用Swagger3.0 
+
+[全新Swagger3.0教程，OAS3快速配置指南，实现API接口文档自动化！](https://blog.csdn.net/m0_59562547/article/details/118933734)
+
+![image-20221222173214092](http://lzcoder.cn/image-20221222173214092.png)
